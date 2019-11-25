@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 public class Personnage {
     private String Nom;
@@ -17,7 +16,7 @@ public class Personnage {
     public void showObjects() {
     }
 
-    public void use(Object obj, Object obj) {
+    public void use(Object obj, Object obj2) {
     }
 
     public void use(Object obj) {
