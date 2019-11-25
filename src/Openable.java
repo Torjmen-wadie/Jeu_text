@@ -1,6 +1,6 @@
 public interface Openable {
-    void Open();
+    void open();
 
-    void Close();
+    void close();
 
 }
