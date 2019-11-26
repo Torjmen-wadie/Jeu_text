@@ -38,4 +38,9 @@ public class GameTest {
         assertFalse(game.confirmCommande("prendre"));
 
     }
+
+    @Test
+    void help() {
+        game.help();
+    }
 }
