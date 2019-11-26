@@ -1,10 +1,10 @@
 import exceptions.ContainerCarryException;
 
 public class Object {
-    private String nom;
+    private String name;
 
-    public Object(String nom) {
-        this.nom = nom;
+    public Object(String name) {
+        this.name = name;
     }
 
     public Object take() throws ContainerCarryException {
@@ -12,7 +12,7 @@ public class Object {
     }
 
     public void look() {
-        System.out.println(nom);
+        System.out.println(name);
     }
 
 }

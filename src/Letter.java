@@ -1,7 +1,17 @@
-public class Letter extends Object implements Portable {
-    private String message;
+import exceptions.ContainerCarryException;
 
-    public Letter(String nom) {
-        super(nom);
+public class Letter extends Object implements Portable {
+    private String message ;
+    public Letter (String message,String name)
+    {
+        super(name);
+        this.message=message;
     }
+
+    @Override
+    public void look()
+    {
+        System.out.println(message);
+    }
+
 }
