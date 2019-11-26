@@ -1,10 +1,53 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import java.util.Scanner;
 
-@objid ("a483c0b0-749b-44b6-aa9c-7ed3f93976ec")
 public class Game {
-    @objid ("d5f6a121-da90-4100-aa20-61e802ca90c1")
-    private List<Commande> commande = new ArrayList<Commande> ();
+    //private List<Commande> commande = new ArrayList<Commande> ();
+    public void waitingForCommands(){
+        Scanner scanner = new Scanner(System.in);
 
+        String commande = scanner.nextLine();
+        String[] parts = commande.split(" ");
+
+        if (confirmCommande(parts[0])){
+            execCommande(commande);
+        }
+    }
+    // TODO: Creat this method
+    private void execCommande(String commande) {
+        String[] parts = commande.split(" ");
+        switch (Commande.valueOf(parts[0])){
+            case GO:
+                break;
+            case USE:
+                break;
+
+            case HELP:
+                break;
+
+            case LOOK:
+                break;
+
+            case QUIT:
+                break;
+
+            case TAKE:
+                break;
+        }
+    }
+
+    public boolean confirmCommande(String commande){
+
+        boolean flag = false;
+        for (Commande c : Commande.values()){
+
+            if (c.toString().equalsIgnoreCase(commande.trim())){
+                flag = true;
+            }
+
+        }
+        return flag;
+    }
 }

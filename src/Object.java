@@ -1,22 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package poo;
-import java.util.*;
-/**
- *
- * @author Wadie
- */
+import exceptions.ContainerCarryException;
+
 public class Object {
-    String name;
+    private String name;
 
     public Object(String name) {
         this.name = name;
     }
 
-    public Object take(){
+    public Object take() throws ContainerCarryException {
         return this;
     }
 

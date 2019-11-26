@@ -1,5 +1,32 @@
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import exceptions.ContainerCarryException;
 
-@objid ("d7a9b677-dfa6-48bf-886a-d8b063cbd2a9")
-public class Chest extends Container {
+public class Chest extends Container implements Openable {
+    private boolean opened;
+
+    public Chest(String nom, String nomInside) {
+        super(nom, nomInside);
+        opened = false;
+    }
+
+    @Override
+    public Object take() throws ContainerCarryException {
+        if (!opened){
+            throw new ContainerCarryException("Why am i thinking about carrying something this big and CLOSED???");
+        }
+
+        return super.take();
+    }
+
+
+    @Override
+    public void open() {
+        opened = true;
+        super.alreadySaw();
+        super.look();
+    }
+
+    @Override
+    public void close() {
+        opened = false;
+    }
 }

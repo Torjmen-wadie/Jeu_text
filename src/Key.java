@@ -1,30 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package poo;
+import exceptions.ContainerCarryException;
 
-/**
- *
- * @author Wadie
- */
-public class key extends Object{
-    private int code ;
+public class Key extends Object implements Portable{
+    private int code;
 
-    public key(String name ,int code) {
+    public Key(String name ,int code) {
         super(name);
         this.code=code;
     }
 
-    @Override 
-    public Object take()
-    {
-        return super.take();
-    }
     public void look()
     {
+        // TODO : the key contains a code to show to the user or
+        // the key contains a code to be compared with a chest
         System.out.println(code);
     }
-    
+
 }
