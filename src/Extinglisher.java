@@ -9,22 +9,23 @@ package poo;
  *
  * @author Wadie
  */
-public class key extends Object{
-    private int code ;
-
-    public key(String name ,int code) {
+public class Extinglisher extends Object {
+    private int lvlWater ;
+    public Extinglisher(String name,int lvlWater)
+    {
         super(name);
-        this.code=code;
+        this.lvlWater=lvlWater;
+        
     }
-
-    @Override 
+    
+    @Override
     public Object take()
     {
         return super.take();
     }
+    @Override
     public void look()
     {
-        System.out.println(code);
+        System.out.println(name);
     }
-    
 }

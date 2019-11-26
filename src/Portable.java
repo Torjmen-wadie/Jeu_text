@@ -1,5 +1,16 @@
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package poo;
 
-@objid ("0cdc8ba8-5b60-4c6c-a3c9-edf7a9005cc1")
+/**
+ *
+ * @author Wadie
+ */
 public interface Portable {
+     public Object take();
+     public void look();
+     public void use();
 }

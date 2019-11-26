@@ -1,8 +1,33 @@
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package poo;
 
-@objid ("e8529911-eb47-4a8d-98a0-b789a3a1d786")
-public class Letter extends Object implements Portable {
-    @objid ("027a3049-37d9-4988-95d6-f23c169a3f95")
-    private String message;
-
+/**
+ *
+ * @author Wadie
+ */
+public class Letter extends Object {
+        private String message ;
+        public Letter (String message,String name)
+        {
+            super(name);
+          
+            this.message=message;
+        }
+        
+       
+       @Override
+        public Object take()
+        {
+            return super.take();
+        }
+        @Override
+        public void look()
+        {
+            System.out.println(message);
+        }
+    
 }
