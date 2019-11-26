@@ -74,6 +74,7 @@ public class Game {
             case "KEY" :
             case "EXTINGUISHER":
             case "TELEPHONE":
+
                 break;
 
             default:
