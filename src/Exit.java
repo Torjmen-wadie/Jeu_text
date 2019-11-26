@@ -1,4 +1,4 @@
-
+import exceptions.PlaceException;
 
 public class Exit implements Openable {
     /* This class has permit from a exit to go through an another place */
@@ -7,7 +7,7 @@ public class Exit implements Openable {
     private Place to;
     
     
-    public Exit(Place to, Place from) {
+    public Exit(Place from, Place to) {
         this.open = false;
         this.to = to;
         this.from = from;
@@ -25,9 +25,15 @@ public class Exit implements Openable {
         return this.open;
     }
     
-    public Place nextPlace()
+    public Place nextPlace() throws PlaceException
     {
-    	return this.to;
+    	if (this.open) {
+    		return this.to;
+    	}
+    	else 
+    	{
+    		throw new PlaceException();
+    	}
     }
     
     public Place previousPlace()

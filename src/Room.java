@@ -16,7 +16,8 @@ public class Room extends Place {
     }
     
     @Override
-    public Exit select(String exit) throws ExitPlaceException{
+    public Exit select(String exit) throws ExitPlaceException
+    {
     	
     	if (this.getHave().containsKey(exit)) 
     	{

@@ -1,5 +1,3 @@
-
-
 public class Exitwithkey extends Exitwithlock{
     private final int KEY; 
     
@@ -9,17 +7,19 @@ public class Exitwithkey extends Exitwithlock{
         this.KEY = k.getId();
     }
     
-    @Override
-    public void unlock(){}
+    
     
     public void unlock(Key k)
     {
-        if (checkKey(k)) {
+        if (check(k)) {
             super.unlock();
         } 
     }
     
-    public boolean checkKey(Key k)
+    @Override
+    public void unlock(){}
+    
+    public boolean check(Key k)
     {
     	return this.KEY == k.getId();
     }

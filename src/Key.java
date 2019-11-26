@@ -1,8 +1,10 @@
 public class Key extends Object implements Portable {
-    private int Code;
+    private final int Code;
 
-    public Key(String nom) {
+    public Key(String nom,  int secret) {
         super(nom);
+        this.Code = secret;
+        
     }
     
     public int getId() {
