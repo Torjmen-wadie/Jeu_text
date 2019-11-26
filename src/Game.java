@@ -18,7 +18,7 @@ public class Game {
     // TODO: Creat this method
     private void execCommande(String commande) {
         String[] parts = commande.split(" ");
-        switch (Commande.valueOf(parts[0])){
+        switch (Commande.valueOf(parts[0].toUpperCase())){
             case GO:
                 break;
             case USE:

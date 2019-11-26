@@ -10,7 +10,7 @@ import exceptions.ContainerCarryException;
  *
  * @author Wadie
  */
-public class Book extends Object {
+public class Book extends Object implements Portable, Openable{
     private String text ; 
     
     public Book(String text,String name)
@@ -24,4 +24,20 @@ public class Book extends Object {
     {
         System.out.println(text);
     }
+
+    @Override
+    public void addToInventory() {
+
+    }
+
+    @Override
+    public void open() {
+
+    }
+
+    @Override
+    public void close() {
+
+    }
+
 }

@@ -1,6 +1,6 @@
 import exceptions.ContainerCarryException;
 
-public class Extinguisher extends Object implements Portable {
+public class Extinguisher extends Object implements Portable, Usable {
     private int lvlWater;
 
     public Extinguisher(String name,int lvlWater)
@@ -14,5 +14,15 @@ public class Extinguisher extends Object implements Portable {
     public void look()
     {
         System.out.println(lvlWater);
+    }
+
+    @Override
+    public void addToInventory() {
+
+    }
+
+    @Override
+    public void use() {
+
     }
 }
