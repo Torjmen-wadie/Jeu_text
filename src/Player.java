@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package poo;
+
 import java.util.*;
 /**
  *
@@ -44,6 +44,21 @@ public class Player {
        {
        objects.add(obj);
        } 
+       
+   }
+   public boolean useInventor(Portable obj)
+   {
+       boolean flag = false;
+       for(int i=0;i<objects.size();i++)
+       {
+       if (objects.get(i).getClass().toString().equalsIgnoreCase("Key")  || 
+               objects.get(i).getClass().toString().equalsIgnoreCase("Extinguisher") || 
+               objects.get(i).getClass().toString().equalsIgnoreCase("Telephone")){
+            return flag = true;
+       }
+           
+   }
+       return flag;
        
    }
    public void use(Portable obj)
