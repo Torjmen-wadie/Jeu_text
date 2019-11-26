@@ -37,7 +37,13 @@ public class Player {
        
    }
 
-   public boolean useInventor(Portable obj)
+   public void useObject(String obj){
+        objects.stream().
+                filter(portable -> portable.getClass().getSimpleName().equalsIgnoreCase(obj)).
+                forEach( portable -> ((Usable) portable).use() );
+   }
+
+   public boolean hasUsableObject()
    {
        boolean flag = false;
        for(int i=0;i<objects.size();i++)

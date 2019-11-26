@@ -58,7 +58,7 @@ public class Game {
             //Look at place
 
         }else{
-            //look at object
+            //look at object in place
 
         }
     }
@@ -70,17 +70,15 @@ public class Game {
 
     private void use(String commande) {
         String args[] = commande.split(" ");
-        switch (args[1].toUpperCase()){
-            case "KEY" :
-            case "EXTINGUISHER":
-            case "TELEPHONE":
-
-                break;
-
-            default:
-                System.out.println("I don't know how to use this...");
-                break;
-
+        if (player.hasUsableObject()){
+            switch (args[1].toUpperCase()){
+                case "KEY" :
+                case "EXTINGUISHER":
+                case "TELEPHONE":
+                    break;
+            }
+        }else{
+            System.out.println("I don't know how to use this...");
         }
     }
 
