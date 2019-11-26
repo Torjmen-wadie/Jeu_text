@@ -1,6 +1,6 @@
 import exceptions.ContainerCarryException;
 
-public class Key extends Object implements Portable, Usable{
+public class Key extends Object implements Portable{
     private int code;
 
     public Key(String name ,int code) {
@@ -12,16 +12,10 @@ public class Key extends Object implements Portable, Usable{
     {
         // TODO : the key contains a code to show to the user or
         // the key contains a code to be compared with a chest
-        System.out.println("It's a normal key ");
+        System.out.println(code);
     }
-
-    @Override
-    public void addToInventory() {
-
-    }
-
-    @Override
-    public void use() {
-
-    }
+public int getCode()
+{
+    return this.code;
+}
 }
