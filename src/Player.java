@@ -1,5 +1,15 @@
-import java.util.*;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
+
+import java.util.*;
+/**
+ *
+ * @author Wadie
+ */
 public class Player {
     private String nameP ;
     private List<Portable> objects ;
@@ -33,11 +43,10 @@ public class Player {
        if(objects.size() <MAX_OBJ)
        {
        objects.add(obj);
-       }
+       } 
        
    }
-
-   public boolean useInventor(Portable obj)
+   public boolean hasUsableObject(Portable obj)
    {
        boolean flag = false;
        for(int i=0;i<objects.size();i++)
@@ -52,7 +61,14 @@ public class Player {
        return flag;
        
    }
-   public void use(Usable obj)
+   public void hasThisobject( String obj)
+   {
+       
+       objects.stream().
+        filter(Portable->Portable.getClass().getSimpleName().equalsIgnoreCase(obj)).
+               forEach(Portable->((Portable)Portable).use() );
+   }
+   public void use(Portable obj)
    {
        obj.use();
    }
