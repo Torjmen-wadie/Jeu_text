@@ -10,6 +10,5 @@
  * @author Wadie
  */
 public interface Portable {
-   public void aaddInvotor();
-     public void use();
+    void addToInventory();
 }

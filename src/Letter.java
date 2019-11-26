@@ -14,4 +14,9 @@ public class Letter extends Object implements Portable {
         System.out.println(message);
     }
 
+    @Override
+    public void addToInventory() {
+
+    }
+
 }

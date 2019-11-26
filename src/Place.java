@@ -8,6 +8,6 @@ public class Place {
 
     private List<Exit> exits = new ArrayList<Exit> ();
 
-    public Personnage personnage;
+    public Player player;
 
 }
