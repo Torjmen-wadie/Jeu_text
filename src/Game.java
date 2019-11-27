@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Game {
     private Player player;
+    private Place place;
 
     public Game() {
         player = new Player("Player");
@@ -71,10 +72,14 @@ public class Game {
     private void use(String commande) {
         String args[] = commande.split(" ");
         if (player.hasUsableObject()){
+
+            List<Usable> usableObjects = player.getUsableObjects();
+
             switch (args[1].toUpperCase()){
                 case "KEY" :
                 case "EXTINGUISHER":
                 case "TELEPHONE":
+                    player.useObject(args[1], place);
                     break;
             }
         }else{

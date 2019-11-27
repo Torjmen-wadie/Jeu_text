@@ -47,7 +47,21 @@ public class Player {
        
    }
 
-   public void useObject(String obj){
+   public List<Usable> getUsableObjects(){
+        List<Usable> usables = new ArrayList<>();
+
+        objects.forEach(portable -> {
+            if (portable.getClass().getSimpleName().equalsIgnoreCase("Key")  ||
+                    portable.getClass().getSimpleName().equalsIgnoreCase("Extinguisher") ||
+                    portable.getClass().getSimpleName().equalsIgnoreCase("Telephone")){
+                usables.add( (Usable) portable);
+            }
+        });
+
+        return usables;
+   }
+
+   public void useObject(String obj, Place place){
         objects.stream().
                 filter(portable -> portable.getClass().getSimpleName().equalsIgnoreCase(obj)).
                 forEach( portable -> ((Usable) portable).use() );

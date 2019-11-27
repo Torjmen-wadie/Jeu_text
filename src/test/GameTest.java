@@ -40,6 +40,20 @@ public class GameTest {
     }
 
     @Test
+    void countUsableObjects(){
+        Player player = new Player("Player");
+
+        player.addInventor(new Letter("", ""));
+        player.addInventor(new Letter("", ""));
+        player.addInventor(new Extinguisher("", 0));
+        player.addInventor(new Extinguisher("", 0));
+        player.addInventor(new Key("", 0));
+
+        assertNotNull(player.getUsableObjects());
+        assertEquals(3, player.getUsableObjects().size());
+    }
+
+    @Test
     void help() {
         game.help();
     }
