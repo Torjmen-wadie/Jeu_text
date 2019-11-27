@@ -27,13 +27,7 @@ public class Exit implements Openable {
     
     public Place nextPlace() throws PlaceException
     {
-    	if (this.open) {
-    		return this.to;
-    	}
-    	else 
-    	{
-    		throw new PlaceException();
-    	}
+    	return this.to;	
     }
     
     public Place previousPlace()

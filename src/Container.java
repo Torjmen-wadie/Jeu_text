@@ -1,18 +1,18 @@
 import exceptions.ContainerCarryException;
 
-public class Container extends Object {
+public class Container extends Item {
     private boolean saw;
 
-    private Object inside;
+    private Item inside;
 
     public Container(String nom, String nomInside) {
         super(nom);
         saw = false;
-        inside = new Object(nomInside);
+        inside = new Item(nomInside);
     }
 
     @Override
-    public Object take() throws ContainerCarryException {
+    public Item take() throws ContainerCarryException {
 
         //if try to take a container object, throw ContainerCarryException
         if (!saw){

@@ -1,4 +1,4 @@
-public class Key extends Object implements Portable {
+public class Key extends Item implements Portable {
     private final int Code;
 
     public Key(String nom,  int secret) {

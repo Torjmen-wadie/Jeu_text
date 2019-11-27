@@ -1,14 +1,10 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import exceptions.ContainerCarryException;
 import exceptions.PlaceException;
 
 class ExitTest {
@@ -26,10 +22,10 @@ class ExitTest {
     @BeforeEach
     void setUp() {
     	// Initialization of objects for start
-    	start = new Room("Room", "Dark, where the urge to flee is becoming oppressive", null ,null);
+    	start = new Room("Room", "Dark, where the urge to flee is becoming oppressive",null);
     	
     	// Initialization of destination
-    	reach = new Floor("Corridor", "A long way to an unknown future", null ,null); 
+    	reach = new Room("Corridor", "A long way to an unknown future", null); 
     	
     	//Initialization of keys (for Exitwithkey)
     	k = new Key("Key",12345);
@@ -89,7 +85,6 @@ class ExitTest {
     void goingThroughWhenLock()
     {
     	assertThrows(PlaceException.class, () -> {
-    		lockexit.open();
     		lockexit.nextPlace();
     	});
     }

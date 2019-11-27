@@ -1,4 +1,4 @@
-public class Telephone extends Object implements Portable {
+public class Telephone extends Item implements Portable {
     private String status;
 
     public Telephone(String nom) {

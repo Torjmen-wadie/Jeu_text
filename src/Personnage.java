@@ -16,10 +16,10 @@ public class Personnage {
     public void showObjects() {
     }
 
-    public void use(Object obj, Object obj2) {
+    public void use(Item obj, Item obj2) {
     }
 
-    public void use(Object obj) {
+    public void use(Item obj) {
     }
 
 }

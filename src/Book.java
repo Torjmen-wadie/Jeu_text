@@ -1,4 +1,4 @@
-public class Book extends Object implements Portable {
+public class Book extends Item implements Portable {
     private String text;
 
     public Book(String nom) {

@@ -1,3 +1,5 @@
+import exceptions.PlaceException;
+
 public class Exitwithlock extends Exit{
     private boolean lock;
     
@@ -42,5 +44,16 @@ public class Exitwithlock extends Exit{
         }
     }
     
-    
+    @Override
+    public Place nextPlace() throws PlaceException
+    {
+    	if(!(this.islock())) 
+    	{
+    		return super.nextPlace();
+    	}
+    	else
+    	{
+    		throw new PlaceException();
+    	}
+    } 
 }
