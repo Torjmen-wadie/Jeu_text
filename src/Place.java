@@ -11,7 +11,7 @@ public abstract class Place {
 		this.name = n;
 		this.description = d;
     }
-    
+   
 
     public abstract String describePlace();
     public abstract String describeExit();
