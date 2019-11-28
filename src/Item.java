@@ -1,13 +1,13 @@
 import exceptions.ContainerCarryException;
 
-public class Object {
+public class Item {
     private String name;
 
-    public Object(String name) {
+    public Item(String name) {
         this.name = name;
     }
 
-    public Object take() throws ContainerCarryException {
+    public Item take() throws ContainerCarryException {
         return this;
     }
 

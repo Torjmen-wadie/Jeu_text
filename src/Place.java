@@ -1,13 +1,42 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Place {
-    private String Nom;
+import exceptions.ExitPlaceException;
 
-    private List<Object> object = new ArrayList<Object> ();
+public abstract class Place {
+	private final String name;
+	private final String description;
+	private  Map<String, Exit> MapExit;
+	 
+    public Place(String n, String d) {
+    	
+		this.MapExit =new HashMap< String,Exit>();
+		this.name = n;
+		this.description = d;
+    }
 
-    private List<Exit> exits = new ArrayList<Exit> ();
+    
+    
+    public abstract void addExit(Exit e);
+    public abstract Exit select(String exit) throws ExitPlaceException;
+    
+    public abstract String describePlace();
+    public abstract String describeExit();
+    
+    
+	public String getDescription() 
+	{
+		return this.description;
+	}
 
-    public Player player;
-
+	public String getName()
+	{
+		return this.name;
+	}
+	
+	public Map<String, Exit> getMapExit()
+	{
+		return this.MapExit;
+	}
+    
 }

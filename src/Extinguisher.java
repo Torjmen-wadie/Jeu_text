@@ -1,7 +1,8 @@
 import exceptions.ContainerCarryException;
 import exceptions.NotRightKey;
 
-public class Extinguisher extends Object implements Portable, Usable {
+public class Extinguisher extends Item implements Portable, Usable {
+
     private int lvlWater;
 
     public Extinguisher(String name,int lvlWater)
@@ -10,6 +11,7 @@ public class Extinguisher extends Object implements Portable, Usable {
         this.lvlWater=lvlWater;
 
     }
+
 
     @Override
     public void look()

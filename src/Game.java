@@ -101,7 +101,11 @@ public class Game {
         if(keys.size() > 0 && lockedChests.size()>0){
             for (Usable key : keys) {
                 for (LockedChest lockedChest : lockedChests) {
-                    key.use(lockedChest);
+                    try {
+                        key.use(lockedChest);
+                    } catch (NotRightKey notRightKey) {
+                        notRightKey.printStackTrace();
+                    }
                 }
             }
         }

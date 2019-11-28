@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ObjectTest {
-    Object object;
+    Item object;
     @BeforeEach
     void setUp() {
-        object = new Object("Test");
+        object = new Item("Test");
     }
 
 

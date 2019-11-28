@@ -1,6 +1,6 @@
 import exceptions.ContainerCarryException;
 
-public class Letter extends Object implements Portable {
+public class Letter extends Item implements Portable {
     private String message ;
     public Letter (String message,String name)
     {

@@ -3,7 +3,7 @@ import exceptions.NotRightKey;
 
 import java.util.ArrayList;
 
-public class Key extends Object implements Portable, Usable{
+public class Key extends Item implements Portable, Usable{
 
     private int code;
 

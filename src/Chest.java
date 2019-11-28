@@ -9,7 +9,7 @@ public class Chest extends Container implements Openable {
     }
 
     @Override
-    public Object take() throws ContainerCarryException {
+    public Item take() throws ContainerCarryException {
         if (!opened){
             throw new ContainerCarryException("Why am i thinking about carrying something this big and CLOSED???");
         }

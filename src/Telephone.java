@@ -1,6 +1,6 @@
 import exceptions.NotRightKey;
 
-public class Telephone extends Object  implements Portable, Usable{
+public class Telephone extends Item  implements Portable, Usable{
     private String statut ;
     public Telephone(String statut,String name)
     {
