@@ -13,7 +13,7 @@ public class Exitwithlock extends Exit{
       this.lock = false;
     }
     
-    public void lock()
+    private void lock()
     {
     	this.lock = true;
     }
