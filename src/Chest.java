@@ -20,6 +20,7 @@ public class Chest extends Container implements Openable {
 
     @Override
     public void open() {
+        System.out.println("The chest was opened");
         opened = true;
         super.alreadySaw();
         super.look();

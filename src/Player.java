@@ -62,9 +62,9 @@ public class Player {
    }
 
    public void useObject(String obj, Place place){
-        objects.stream().
+        /*objects.stream().
                 filter(portable -> portable.getClass().getSimpleName().equalsIgnoreCase(obj)).
-                forEach( portable -> ((Usable) portable).use() );
+                forEach( portable -> ((Usable) portable).use() );*/
    }
 
    public boolean hasUsableObject()
@@ -72,20 +72,20 @@ public class Player {
        boolean flag = false;
        for(int i=0;i<objects.size();i++)
        {
-       if (objects.get(i).getClass().toString().equalsIgnoreCase("Key")  || 
-               objects.get(i).getClass().toString().equalsIgnoreCase("Extinguisher") || 
-               objects.get(i).getClass().toString().equalsIgnoreCase("Telephone")){
-            return flag = true;
+           if (objects.get(i).getClass().toString().equalsIgnoreCase("Key")  ||
+                   objects.get(i).getClass().toString().equalsIgnoreCase("Extinguisher") ||
+                   objects.get(i).getClass().toString().equalsIgnoreCase("Telephone")){
+                return flag = true;
+           }
+
        }
-           
-   }
        return flag;
        
    }
 
    public void use(Usable obj)
    {
-       obj.use();
+       //obj.use();
    }
 
     

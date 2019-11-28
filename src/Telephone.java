@@ -1,3 +1,5 @@
+import exceptions.NotRightKey;
+
 public class Telephone extends Object  implements Portable, Usable{
     private String statut ;
     public Telephone(String statut,String name)
@@ -24,7 +26,7 @@ public class Telephone extends Object  implements Portable, Usable{
     }
 
     @Override
-    public void use() {
-
+    public void use(Object obj) throws NotRightKey {
+        //maybe use a system to tell the user what to do each time he uses the phone?
     }
 }

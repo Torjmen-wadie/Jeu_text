@@ -1,7 +1,10 @@
+import exceptions.NotRightKey;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Game {
     private Player player;
@@ -71,12 +74,12 @@ public class Game {
 
     private void use(String commande) {
         String args[] = commande.split(" ");
-        if (player.hasUsableObject()){
+        List<Usable> usableObjects = player.getUsableObjects();
 
-            List<Usable> usableObjects = player.getUsableObjects();
-
+        if (usableObjects.size() > 0){
             switch (args[1].toUpperCase()){
-                case "KEY" :
+                case "KEY" : useKey(usableObjects);
+                            break;
                 case "EXTINGUISHER":
                 case "TELEPHONE":
                     player.useObject(args[1], place);
@@ -84,6 +87,23 @@ public class Game {
             }
         }else{
             System.out.println("I don't know how to use this...");
+        }
+    }
+
+    private void useKey(List<Usable> usableObjects) {
+        //List<LockedChest> lockedChests = place.getLockedChest();
+        List<LockedChest> lockedChests = new ArrayList<>();
+
+        List<Usable> keys = usableObjects.stream()
+                                         .filter(usable -> usable.getClass().getSimpleName().equalsIgnoreCase("Key"))
+                                            .collect(Collectors.toList());
+
+        if(keys.size() > 0 && lockedChests.size()>0){
+            for (Usable key : keys) {
+                for (LockedChest lockedChest : lockedChests) {
+                    key.use(lockedChest);
+                }
+            }
         }
     }
 

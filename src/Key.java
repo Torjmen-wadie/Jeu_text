@@ -1,4 +1,5 @@
 import exceptions.ContainerCarryException;
+import exceptions.NotRightKey;
 
 import java.util.ArrayList;
 
@@ -27,8 +28,14 @@ public class Key extends Object implements Portable, Usable{
 
     }
 
-    @Override
-    public void use() {
 
+    @Override
+    public void use(Object obj) throws NotRightKey {
+        if (obj != null){
+            if(obj.getClass().getSimpleName().equalsIgnoreCase("LockedChest")){
+                // try to unlock with key
+                ((LockedChest) obj).open(code);
+            }
+        }
     }
 }
