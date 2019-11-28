@@ -38,6 +38,7 @@ public class Exitwithlock extends Exit{
         if (!(this.islock()))
         {
             super.close();
+            this.lock();
         }
     }
     
