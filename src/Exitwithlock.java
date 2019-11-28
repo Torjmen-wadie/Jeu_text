@@ -1,5 +1,5 @@
 import exceptions.PlaceException;
-
+//hello
 public class Exitwithlock extends Exit{
     private boolean lock;
     
