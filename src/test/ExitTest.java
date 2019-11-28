@@ -12,12 +12,15 @@ class ExitTest {
 	Exit exit;
 	Exitwithlock lockexit;
 	Exitwithkey keyexit;
-	
+	Exitwithobject objectexit;
 	
 	Key k;
 	Key falsek;
 	Place start;
 	Place reach;
+	
+	Item extinct;
+	
 	
     @BeforeEach
     void setUp() {
@@ -30,24 +33,29 @@ class ExitTest {
     	//Initialization of keys (for Exitwithkey)
     	k = new Key("Key",12345);
     	falsek = new Key("Key",54321); 
+    	extinct = new Extinguisher("Extinct");
+    	Item Default = new Extinguisher("Toto");
+    	
     
     	// Initialization of exit
-        exit = new Exit(start, reach);
-        lockexit = new Exitwithlock(start, reach);
-        keyexit = new Exitwithkey(start, reach, k);
+        exit = new Exit(start, reach, true, "Door");
+        lockexit = new Exitwithlock(start, reach, true, "Wooden door");
+        keyexit = new Exitwithkey(start, reach, false, "Iron Grid", k);
+        objectexit = new Exitwithobject(start, reach, false, "Wall of fire", Default);
+        
         
         
     }
 
     @Test
-    void changePlace() throws PlaceException 
+    void testchangePlace() throws PlaceException 
     {
     	exit.open();
     	assertEquals(exit.nextPlace(), reach);	
     }
 
     @Test
-    void openExit() {
+    void testopenExit() {
     	assertFalse(exit.isopen());
     	exit.close();
     	assertFalse(exit.isopen());
@@ -56,7 +64,7 @@ class ExitTest {
     }
 
     @Test
-    void unlockAndOpen() 
+    void testunlockAndOpen() 
     {
     	lockexit.unlock();
     	lockexit.open();
@@ -65,14 +73,14 @@ class ExitTest {
     }
     
     @Test
-    void defaultValueExitwithlock() 
+    void testdefaultValueExitwithlock() 
     {
     	assertFalse(lockexit.isopen());
     	assertTrue(lockexit.islock());
     }
     
     @Test
-    void penetratingWhenLock() 
+    void testpenetratingWhenLock() 
     {
     	lockexit.close();
     	assertTrue(lockexit.islock());
@@ -82,7 +90,7 @@ class ExitTest {
     }
     
     @Test
-    void goingThroughWhenLock()
+    void testgoingThroughWhenLock()
     {
     	assertThrows(PlaceException.class, () -> {
     		lockexit.nextPlace();
@@ -90,7 +98,7 @@ class ExitTest {
     }
     
     @Test
-    void unlockButNotOpen()
+    void testunlockButNotOpen()
     {
     	lockexit.unlock();
     	assertFalse(lockexit.isopen());
@@ -99,7 +107,7 @@ class ExitTest {
     
     
     @Test
-    void openWithGoodKey() 
+    void testopenWithGoodKey() 
     {
     	keyexit.unlock(k);
     	assertFalse(keyexit.islock());
@@ -109,7 +117,7 @@ class ExitTest {
     }
     
     @Test
-    void openWithFalseKey() 
+    void testopenWithFalseKey() 
     {
     	keyexit.unlock(falsek);
     	keyexit.open();
@@ -117,11 +125,27 @@ class ExitTest {
     }
     
     @Test
-    void tryToUnlockWithoutKey()
+    void testtryToUnlockWithoutKey()
     {
     	keyexit.unlock();
     	keyexit.open();
     	assertTrue(keyexit.islock());
     	assertFalse(keyexit.isopen());
     }
+    
+    @Test
+    void testOpenWithItem()
+    {
+    	objectexit.unlock(k);
+    	keyexit.open();
+    	assertFalse(keyexit.isopen());
+    	
+    	objectexit.unlock(extinct);
+    	assertFalse(objectexit.islock());
+    	objectexit.open();
+    	assertTrue(objectexit.isopen());
+
+    }
+    
+ 
 }

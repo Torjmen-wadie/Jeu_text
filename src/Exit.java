@@ -2,15 +2,22 @@ import exceptions.PlaceException;
 
 public class Exit implements Openable {
     /* This class has permit from a exit to go through an another place */
+	
     private boolean open;
+    private boolean swap;
+    
+    private String name;
     private Place from;
     private Place to;
     
     
-    public Exit(Place from, Place to) {
+    
+    public Exit(Place from, Place to, boolean swap, String name) {
         this.open = false;
-        this.to = to;
+        this.swap = swap;
+        this.name = name;
         this.from = from;
+        this.to = to;  
     }
     
     public void open() {
@@ -25,15 +32,28 @@ public class Exit implements Openable {
         return this.open;
     }
     
-    public Place nextPlace() throws PlaceException
-    {
-    	return this.to;	
+    public String getName() {
+    	return this.name;
     }
     
-    public Place previousPlace()
+    private void swap() 
     {
-    	return this.from;
+    	Place tmp = this.to;
+    	this.to = this.from;
+    	this.from = tmp;
     }
+    
+    public Place nextPlace() throws PlaceException
+    {
+    	Place nextplace = this.to;
+    	if (this.swap) 
+    	{
+    		this.swap();
+    		nextplace.addExit(this);
+    	}
+    	return nextplace;	
+    }
+    
     
     
     

@@ -3,8 +3,8 @@ import exceptions.PlaceException;
 public class Exitwithlock extends Exit{
     private boolean lock;
     
-    public Exitwithlock(Place to , Place from) {
-        super(from, to);
+    public Exitwithlock(Place to , Place from, boolean swap, String name) {
+        super(from, to, swap, name);
         this.lock = true;
     }
     
@@ -15,10 +15,7 @@ public class Exitwithlock extends Exit{
     
     public void lock()
     {
-        if (!(this.isopen()))
-        {
-            this.lock = true;
-        }
+    	this.lock = true;
     }
     
     public boolean islock()
@@ -29,7 +26,7 @@ public class Exitwithlock extends Exit{
     @Override
     public void open() 
     {
-        if (!(this.lock))
+        if (!(this.islock()))
         {
             super.open();
         }
@@ -38,7 +35,7 @@ public class Exitwithlock extends Exit{
     @Override
     public void close()
     {
-        if (!(this.lock))
+        if (!(this.islock()))
         {
             super.close();
         }

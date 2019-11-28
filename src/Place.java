@@ -1,36 +1,42 @@
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import exceptions.ExitPlaceException;
 
 public abstract class Place {
-	private String name;
-	private String description;
+	private final String name;
+	private final String description;
+	private  Map<String, Exit> MapExit;
 	 
     public Place(String n, String d) {
-		
+    	
+		this.MapExit =new HashMap< String,Exit>();
 		this.name = n;
 		this.description = d;
     }
-   
 
+    
+    
+    public abstract void addExit(Exit e);
+    public abstract Exit select(String exit) throws ExitPlaceException;
+    
     public abstract String describePlace();
     public abstract String describeExit();
-    public abstract Exit select(String exit) throws ExitPlaceException;
-
-	public String getDescription() {
+    
+    
+	public String getDescription() 
+	{
 		return this.description;
 	}
 
-	public String getName() {
+	public String getName() 
+	{
 		return this.name;
 	}
-
-
-	public abstract List<Portable> GetPortableItemRoom();
-	public abstract List<Openable>  GetOpenableItemRoom();
-
-
-	public abstract void addExit(String string, Exit exitstart);
 	
+	public Map<String, Exit> getMapExit()
+	{
+		return this.MapExit;
+	}
     
 }

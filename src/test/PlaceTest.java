@@ -14,10 +14,10 @@ import exceptions.PlaceException;
 public class PlaceTest {
 
 	
-	Place start;
-	Place nextroom;
-	Place nextroom2;
-	Place end;
+	Room start;
+	Room nextroom;
+	Room nextroom2;
+	Room end;
 	Key key;
 	Chest chest;
 	Exit exitstart;
@@ -56,27 +56,26 @@ public class PlaceTest {
     	
     	
     	// 3 : Initialization of exit
-    	exitstart = new Exit(start,nextroom);
-    	Exit exitnextroom = new Exit(nextroom,nextroom2);
-    	Exit exitnextroom2 = new Exit(nextroom2,end);
+    	exitstart = new Exit(start, nextroom, true, "Door");
+    	Exit exitnextroom = new Exit(nextroom,nextroom2, false, "Wooden Door");
+    	Exit exitnextroom2 = new Exit(nextroom2,end, false, "Grid");
     	
     	
     	// 4 : Add exit to place
-    	start.addExit("Door",exitstart);
-    	nextroom.addExit("Wood door", exitnextroom);
-    	nextroom2.addExit("Double door", exitnextroom2);
+    	start.addExit(exitstart);
+    	nextroom.addExit(exitnextroom);
+    	nextroom2.addExit(exitnextroom2);
     }
     
     @Test
     public void testDescription() {
     	String txt = start.describePlace();
-    	System.out.println(txt);
     	assertFalse(txt.isEmpty());
     	assertNotEquals("", txt);
     }
     
     @Test
-    public void NotEmptyRoom() {
+    public void testNotEmptyRoom() {
     	assertFalse(start.GetPortableItemRoom().isEmpty());
     	assertEquals(start.GetPortableItemRoom().get(0),key);
     	
@@ -85,7 +84,7 @@ public class PlaceTest {
     }
     
     @Test
-    public void SelectExit() throws ExitPlaceException {
+    public void testSelectExit() throws ExitPlaceException {
     	assertEquals(start.select("Door"),exitstart);
     	assertThrows(ExitPlaceException.class, () -> {
     		start.select("Grid");
@@ -94,8 +93,33 @@ public class PlaceTest {
     
     
     @Test
-    public void ChangePlace() throws ExitPlaceException, PlaceException
+    public void testChangePlace() throws ExitPlaceException, PlaceException
     {
     	assertEquals(nextroom,start.select("Door").nextPlace()); 
     }
+    
+    @Test
+    public void testTwoWay() throws PlaceException, ExitPlaceException 
+    {
+    	
+    	Place changePlace = start.select("Door").nextPlace();
+    	assertEquals(changePlace,nextroom);
+    	Place goback = changePlace.select("Door").nextPlace();
+    	assertEquals(goback, start);
+    	
+    	
+    }
+    
+    @Test
+    public void testOneWay() throws PlaceException, ExitPlaceException
+    {
+    	Place changePlace = nextroom2.select("Grid").nextPlace();
+    	assertEquals(changePlace,end);
+    	assertThrows(ExitPlaceException.class, () -> {
+    		changePlace.select("Grid");
+    	});
+    }
+    
+    
+    
 }

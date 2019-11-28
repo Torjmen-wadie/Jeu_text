@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -8,31 +7,32 @@ import exceptions.ExitPlaceException;
 
 public class Room extends Place {
     private List<Item> contains;
-    private  Map<String, Exit> have;
+    private Map<String, Exit> exits;
+    
    
     public Room(String name, String description, List<Item> contains) 
     {
         super(name, description);
-        this.have = new HashMap< String,Exit>();
+        this.exits = super.getMapExit();
         this.contains = contains;
+        
     }
     
     
     public Exit select(String exit) throws ExitPlaceException
-    {
-    	
-    	if (this.have.containsKey(exit)) 
+    { 
+    	if (this.exits.containsKey(exit)) 
     	{
-    		return this.have.get(exit);
+    		return this.exits.get(exit);
     	}
     	else {
     		throw new ExitPlaceException();
     	}
     }
     
-    public void addExit(String name, Exit e) 
+    public void addExit(Exit e) 
     {
-    	this.have.put(name, e);
+    	super.getMapExit().put(e.getName(), e);
     }
     
     public List<Portable> GetPortableItemRoom()
@@ -65,9 +65,9 @@ public class Room extends Place {
     
     public String describeExit() {
     	String str = "";
-    	if (!(this.have.isEmpty())) {
-    		str  = "This place have";
-    		for (String k :this.have.keySet()) {
+    	if (!(this.exits.isEmpty())) {
+    		str  = "This place have \n";
+    		for (String k :this.exits.keySet()) {
     			str += " - " + k +  "\n";
     		}
     	}
