@@ -51,6 +51,11 @@ public class Room extends Place {
     	.collect(Collectors.toList());
     }
     
+    public void addItem(Item item) 
+    {
+    	this.contains.add(item);
+    }
+    
     
     public String describePlace() {
     	String str = "";
