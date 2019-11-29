@@ -12,6 +12,7 @@ public class LockedChest extends Chest {
     @Override
     public void open() {
         //this fonction must have empty body
+        System.out.println("The chest is closed by Key");;
     }
 
     public void open(int code) throws NotRightKey {

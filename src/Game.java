@@ -12,6 +12,16 @@ public class Game {
 
     public Game() {
         player = new Player("Player");
+
+        // TODO: DELETE THE ITEMS CREATED BELOW
+        List<Item> items = new ArrayList<>();
+        items.add(new Chest("", ""));
+        items.add(new Chest("", ""));
+        items.add(new LockedChest("", "",0));
+        items.add(new LockedChest("", "",1));
+        items.add(new Letter("",""));
+
+        place = new Room("", "", items);
     }
 
     public void waitingForCommands(){
@@ -91,21 +101,25 @@ public class Game {
     }
 
     private void useKey(List<Usable> usableObjects) {
-        //List<LockedChest> lockedChests = place.getLockedChest();
-        List<LockedChest> lockedChests = new ArrayList<>();
+        List<Openable> lockedChests = ((Room)place).GetOpenableItemRoom()
+                                        .stream()
+                                        .filter( i -> i instanceof Chest)
+                                        .collect(Collectors.toList());
 
         List<Usable> keys = usableObjects.stream()
-                                         .filter(usable -> usable.getClass().getSimpleName().equalsIgnoreCase("Key"))
+                                         .filter(usable -> usable instanceof Key)
                                             .collect(Collectors.toList());
 
         if(keys.size() > 0 && lockedChests.size()>0){
             for (Usable key : keys) {
-                for (LockedChest lockedChest : lockedChests) {
+                for (Openable lockedChest : lockedChests) {
+
                     try {
                         key.use(lockedChest);
                     } catch (NotRightKey notRightKey) {
-                        notRightKey.printStackTrace();
+                        System.out.println(notRightKey.getMessage());
                     }
+
                 }
             }
         }

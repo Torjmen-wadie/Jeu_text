@@ -3,6 +3,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +37,8 @@ public class PlaceTest {
     	chest = new Chest("Desk", "desk");
     	List<Item> containstart = new ArrayList<Item>(); 
     	containstart.add(chest);
-    	containstart.add(key);
+		containstart.add(key);
+		containstart.add(new LockedChest("","", 12345));
     	
     	List<Item> containsnextroom = new ArrayList<Item>(); 
     	containsnextroom.add(new Vase("Vase", "vase"));
@@ -120,6 +122,15 @@ public class PlaceTest {
     	});
     }
     
-    
+    @Test
+	public void getChestsFromPlace(){
+		List<Openable > locked = start.GetOpenableItemRoom().stream()
+								.filter( i -> i instanceof Chest)
+								.collect(Collectors.toList());
+
+		assertNotNull(locked);
+		locked.forEach(System.out::println);
+		assertEquals(2, locked.size());
+	}
     
 }
