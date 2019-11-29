@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javafx.util.Pair;
 
 public class Mapgenerator {
 	/* 
@@ -39,12 +38,12 @@ public class Mapgenerator {
 	 * 
 	 */ 
 	
-	private Pair<String, Integer> [][] adjmatrix;
+	private Pair [][] adjmatrix;
 	private List<Place> node;
 	private List<Place> map;
 	private ArrayList<Integer> unique;
 	
-	public Mapgenerator(Pair<String, Integer> [][] matrix, List<Place> node) {
+	public Mapgenerator(Pair [][] matrix, List<Place> node) {
 		this.node = node;
 		this.adjmatrix = matrix;
 		this.unique = new ArrayList<Integer>();
@@ -74,17 +73,14 @@ public class Mapgenerator {
 				 *  A principle is if adjmatrix value i,j is symmetrical with j,i, then it's two-way exit
 				 *  Default : one way
 				 */
-				
 				boolean twowayExit = false; 
-				if (this.adjmatrix[i][j] == this.adjmatrix[j][i])
+				if (this.adjmatrix[i][j].getValue() == this.adjmatrix[j][i].getValue())
 				{
 					twowayExit = true;
-					this.adjmatrix[j][i] = new Pair <> ("", 0);
 				}
-				if (this.adjmatrix[j][i].getValue() == 0) 
-				{
-					this.map.set(i, InitExit(node.get(i),node.get(j),twowayExit, this.adjmatrix[i][j]));
-				}
+				
+				this.map.set(i, InitExit(node.get(i),node.get(j),twowayExit, this.adjmatrix[i][j]));
+				
 			}
 		}
 	}
@@ -101,7 +97,7 @@ public class Mapgenerator {
 		return rdmvalue;
 	}
 	
-	public Place InitExit(Place from, Place to , boolean twowayExit, Pair<String, Integer> link) 
+	public Place InitExit(Place from, Place to , boolean twowayExit, Pair link) 
 	{
 		switch (link.getValue()) 
 		{

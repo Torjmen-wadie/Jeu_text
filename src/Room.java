@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,6 +17,13 @@ public class Room extends Place {
         this.exits = super.getMapExit();
         this.contains = contains;
         
+    }
+    
+    public Room(String name, String description)
+    {
+    	super(name, description);
+        this.exits = super.getMapExit();
+        this.contains = new ArrayList<Item>();
     }
     
     
