@@ -24,10 +24,12 @@ public class Container extends Item {
 
     }
 
+    //TODO : mirar como es que hago para mostrar los elementos del interior
     @Override
     public void look() {
         if (!saw){
             super.look();
+            alreadySaw();
         }else{
             super.look();
             inside.look();

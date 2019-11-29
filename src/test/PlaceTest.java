@@ -38,7 +38,7 @@ public class PlaceTest {
     	List<Item> containstart = new ArrayList<Item>(); 
     	containstart.add(chest);
 		containstart.add(key);
-		containstart.add(new LockedChest("","", 12345));
+		containstart.add(new LockedChest("Chest locked","", 12345));
     	
     	List<Item> containsnextroom = new ArrayList<Item>(); 
     	containsnextroom.add(new Vase("Vase", "vase"));
@@ -74,8 +74,15 @@ public class PlaceTest {
     	String txt = start.describePlace();
     	assertFalse(txt.isEmpty());
     	assertNotEquals("", txt);
+		System.out.println(txt);
     }
-    
+
+	@Test
+	void lookObjectsInPlace(){
+		System.out.println(start.describePlace());
+		start.describeItem("Desk");
+	}
+
     @Test
     public void testNotEmptyRoom() {
     	assertFalse(start.GetPortableItemRoom().isEmpty());
@@ -84,7 +91,7 @@ public class PlaceTest {
     	assertFalse(start.GetOpenableItemRoom().isEmpty());
     	assertEquals(start.GetOpenableItemRoom().get(0),chest);
     }
-    
+
     @Test
     public void testSelectExit() throws ExitPlaceException {
     	assertEquals(start.select("Door"),exitstart);
@@ -111,6 +118,20 @@ public class PlaceTest {
     	
     	
     }
+
+    @Test
+	void deleteItem(){
+    	List<Portable> items = start.GetPortableItemRoom();
+    	int taille = items.size();
+
+    	Portable tmp = start.GetPortableItemRoom().get(0);
+		System.out.println(start.describePlace());;
+		start.deleteItem(tmp);
+		System.out.println(start.describePlace());;
+
+		assertNotEquals(taille, start.GetPortableItemRoom().size());
+		assertNotNull(tmp);
+	}
     
     @Test
     public void testOneWay() throws PlaceException, ExitPlaceException

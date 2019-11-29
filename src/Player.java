@@ -40,10 +40,12 @@ public class Player {
 
    public void addInventor(Portable obj)
    {
-       if(objects.size() <MAX_OBJ)
+       if(objects.size() < MAX_OBJ)
        {
        objects.add(obj);
-       } 
+       }else{
+           System.out.println("I can't take no more object");
+       }
        
    }
 

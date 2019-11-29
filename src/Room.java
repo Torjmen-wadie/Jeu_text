@@ -63,6 +63,18 @@ public class Room extends Place {
     {
     	this.contains.add(item);
     }
+
+    public void describeItem(String item){
+    	List<Item> items = this.contains.stream()
+								.filter(obj -> obj.equals(item))
+								.collect(Collectors.toList());
+
+    	if(items.size() > 0){
+			items.forEach(Item::look);
+		}else{
+			System.out.println("There's not item like that in this place");
+		}
+	}
     
     
     public String describePlace() {
@@ -86,5 +98,9 @@ public class Room extends Place {
     	}
     	return str;
     }
+
+	public void deleteItem(Portable tmp) {
+		contains.remove(tmp);
+	}
 }
     

@@ -7,8 +7,8 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Game {
-    private Player player;
-    private Place place;
+    public Player player;
+    public Room place;
 
     public Game() {
         player = new Player("Player");
@@ -19,7 +19,9 @@ public class Game {
         items.add(new Chest("", ""));
         items.add(new LockedChest("", "",0));
         items.add(new LockedChest("", "",1));
-        items.add(new Letter("",""));
+        items.add(new Letter("l1",""));
+        items.add(new Letter("l2",""));
+        items.add(new Letter("l3",""));
 
         place = new Room("", "", items);
     }
@@ -59,8 +61,28 @@ public class Game {
         }
     }
 
-    private void take(String commande) {
+    public void take(String commande) {
+        List<Portable > portablesInPlace = place.GetPortableItemRoom();
 
+        String[] args = commande.split(" ");
+        if(args.length == 1){
+            //Take all the items at place
+            if (portablesInPlace.size() > 0){
+                System.out.println("Taking all the objects");
+                for(int i = 0 ; i < portablesInPlace.size() -1; i++){
+
+                }
+                for (Portable tmp : portablesInPlace) {
+                    place.deleteItem(tmp);
+                    player.addInventor(tmp);
+                }
+            }else{
+                System.out.println("There aren't more objects that I can take");
+            }
+        }else{
+            //look at object in place
+            //place.describeItem(args[1]);
+        }
     }
 
     private void quit(String commande) {
@@ -68,12 +90,13 @@ public class Game {
     }
 
     private void look(String commande) {
-        if(commande.split(" ").length == 1){
+        String args[] = commande.split(" ");
+        if(args.length == 1){
             //Look at place
-
+            System.out.println(place.describePlace());
         }else{
             //look at object in place
-
+            place.describeItem(args[1]);
         }
     }
 

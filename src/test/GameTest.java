@@ -54,6 +54,18 @@ public class GameTest {
     }
 
     @Test
+    void takeAllObjects(){
+        int itemsInRoom = game.place.GetPortableItemRoom().size();
+        int itemsFromPlayer = game.player.getUsableObjects().size();
+        System.out.println("itemsFromPlayer " +  itemsFromPlayer);
+        System.out.println("itemsInRoom " +  itemsInRoom);
+        game.place.GetPortableItemRoom().forEach( x -> ((Item)x).look());
+        game.take("TAKE");
+        game.place.GetPortableItemRoom().forEach( x -> ((Item)x).look());
+        //assertNotEquals(itemsFromPlayer, game.player.getUsableObjects().size());
+    }
+
+    @Test
     void help() {
         game.help();
     }
