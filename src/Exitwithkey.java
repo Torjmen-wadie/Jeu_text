@@ -1,9 +1,9 @@
 public class Exitwithkey extends Exitwithlock{
     private final int KEY; 
     
-    public Exitwithkey(Place to, Place from, boolean swap, String name , Key k)
+    public Exitwithkey(Place to, Place from, String name , Key k)
     {
-        super(to, from, swap, name);
+        super(to, from, name);
         this.KEY = k.getCode();
     }
     

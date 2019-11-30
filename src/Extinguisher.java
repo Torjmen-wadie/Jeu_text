@@ -1,4 +1,3 @@
-import exceptions.ContainerCarryException;
 import exceptions.NotRightKey;
 
 public class Extinguisher extends Item implements Portable, Usable {

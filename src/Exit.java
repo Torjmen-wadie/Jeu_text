@@ -4,7 +4,6 @@ public class Exit implements Openable {
     /* This class has permit from a exit to go through an another place */
 	
     private boolean open;
-    private boolean swap;
     
     private String name;
     private Place from;
@@ -12,9 +11,8 @@ public class Exit implements Openable {
     
     
     
-    public Exit(Place from, Place to, boolean swap, String name) {
+    public Exit(Place from, Place to, String name) {
         this.open = false;
-        this.swap = swap;
         this.name = name;
         this.from = from;
         this.to = to;  
@@ -36,25 +34,21 @@ public class Exit implements Openable {
     	return this.name;
     }
     
-    private void swap() 
-    {
-    	Place tmp = this.to;
-    	this.to = this.from;
-    	this.from = tmp;
-    }
-    
     public Place nextPlace() throws PlaceException
     {
-    	Place nextplace = this.to;
-    	if (this.swap) 
-    	{
-    		this.swap();
-    		nextplace.addExit(this);
-    	}
-    	return nextplace;	
+    	this.open();
+    	return this.to;	
     }
     
-    
-    
-    
+    public Place previousPlace() throws PlaceException
+    {
+    	if (isopen()) 
+    	{
+    		return this.from;
+    	}
+    	else
+    	{
+    		throw new PlaceException();
+    	}
+    }
 }
