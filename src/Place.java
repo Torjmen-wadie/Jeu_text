@@ -53,16 +53,19 @@ public abstract class Place {
 /**
  * Descriptor of a Place    
  * @return
+ * 		String that describe the Place
  */
     public abstract String describePlace();
 /**
  * Descriptor of exit in a Place
  * @return
+ * 		String that describe the list of Exit in Place
  */
     public abstract String describeExit();
 /**
  * Getter of description  
  * @return
+ * 		Description of Place
  */
 	public String getDescription() 
 	{
@@ -71,6 +74,7 @@ public abstract class Place {
 /**
  * Getter of name
  * @return
+ * 		Name of place
  */
 	public String getName()
 	{
@@ -79,6 +83,7 @@ public abstract class Place {
 /**
  * Getter of Exit, Map related String representation with Exit object
  * @return
+ * 		Map related a String and a Exit
  */
 	public Map<String, Exit> getMapExit()
 	{
