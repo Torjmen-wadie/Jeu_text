@@ -53,11 +53,4 @@ class GeneratorTest {
 		resofkey.add("Grid");
 		assertEquals(m.getMap().get(0).getMapExit().keySet(),resofkey);
 	}
-	
-	
-	
-	
-	
-	
-
 }

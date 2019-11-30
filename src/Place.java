@@ -3,35 +3,33 @@ import java.util.Map;
 
 import exceptions.ExitPlaceException;
 /**
- * 
  * @author Julien Hayrault
  * 
  * Abstract class of place.
  * 
  * A place is modeling of playground. A place is characterized by :
  * 
- * @param n 
- * 		name of place (Example : Room, Forest)
- * @param d
- * 		description
- * 
  * A place contain also some Exit, which permit to go through a another place 
+ * 
  * @see Exit
- *
- *
  */
 public abstract class Place {
 	private final String name;
 	private final String description;
 	private  Map<String, Exit> MapExit;
-	 
+	/**
+	 * Constructor
+	 * @param n
+	 *     name of place (Example : Room, Forest)
+	 * @param d
+	 *     description
+	 */
     public Place(String n, String d) {
     	
 		this.MapExit =new HashMap< String,Exit>();
 		this.name = n;
 		this.description = d;
     }
-
   /**
    * Add a Exit to a Place 
    * 
