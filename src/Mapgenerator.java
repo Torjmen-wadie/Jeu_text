@@ -1,68 +1,82 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+/**
+ * 
+ * @author Julien Hayrault
+ * 
+ * <b> Generation of map game </b>
+ * 
+ * Based on the adjacency matrix for oriented graph principle's  
+ * 
+ * Example of matrix :
+ *-------------------------------------
+ * 			Room 1    Room 2    Room 3
+ * Room 1     0         1         2
+ * 
+ * Room 2     1         0         0
+ * 
+ * Room 3     0         0         0
+ *
+ * 
+ * Simply describe a graph:
+ *-------------------------------------
+ * 		Room 1  =======  Room 2
+ *  	  |
+ *		  |  
+ *		  |
+ *	    Room 3
+ * 
+ * <i>(A single line is one-way, two line is two-way)</i>
+ * ------------------------------------
+ * 
+ * Nodes are Place, initialized before.
+ * This class have method that return a Map contain initialized Place with their Exit
+ * 
+ * @see Place
+ * @see Exit
+ */
+
 
 public class Mapgenerator {
-	/* 
-	 * Generation of map game
-	 * Based on the adjacency matrix for oriented graph principle's  
-	 * Example of matrix :
-	 *---------------------------------------------------------- 
-	 * 			Room 1    Room 2    Room 3
-	 * Room 1	  0         1         2
-	 * 
-	 * Room 2     1         0         0
-	 * 
-	 * Room 3     0         0         0
-	 * 
-	 * 
-	 * Simply describe a graph:
-	 * 
-	 * Room 1  =======  Room 2
-	 *  |
-	 *  |  
-	 *  |
-	 * Room 3
-	 * ------------------------------------------------------------ 
-	 *  A single line is one-way, two line is two-way 
-	 *  
-	 * 
-	 * Label for a arete :
-	 * - 1 : A simple exit
-	 * - 2 : A exit with lock
-	 * - 3 : A exit unlock with an object
-	 * - TODO : add another labels
-	 * 
-	 * Nodes are Place, initialized before
-	 * Map contain initialized Place with their exit
-	 * 
-	 */ 
-	
+
 	private Pair [][] adjmatrix;
 	private List<Place> nodes;
 	private List<Place> map;
 	private ArrayList<Integer> unique;
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param matrix
+	 *     Two-dimensional matrix that represent the map of game
+	 *     These arrays contain Pair, a Pair contain a String and a value.
+	 *     String is a name of Exit, value is type of Exit.
+	 * @param node
+	 * 	   A list that contain the label of node, represented by a Place
+	 * @see Pair
+	 * 
+	 */
+	
 	public Mapgenerator(Pair [][] matrix, List<Place> node) {
 		this.nodes = node;
 		this.adjmatrix = matrix;
 		this.unique = new ArrayList<Integer>();
-		/*
-		 * Generate a list of unique 5 numbers key
-		 */
 		for (int id = 10000; id<=99999; id++) 
 		{
-			this.unique.add(id);
+			this.unique.add(id); //Generate a list of unique 5 numbers key
 		}
 		this.map  = node;
 		
 	}
-	
+	/**
+	 * Converted matrix in relationship between Exit and Place. 
+	 */
 	public void create() 
 	{
 		/* 
 		 * Process of the two-dimensional matrix : O(n^2).
-		 * Maybe if consider that a matrix is symetrical, we can reduce time of execution
+		 * Maybe if consider that a matrix is symmetrical, we can reduce time of execution
 		 */
 		int fixed_size = this.nodes.size();
 		for (int i = 0; i < fixed_size; i++)
@@ -73,7 +87,12 @@ public class Mapgenerator {
 			}
 		}
 	}
-	
+	/**
+	 * Out a unique random id between 10000 and 99999.
+	 * 
+	 * @return
+	 * 		Unique random id.
+	 */
 	private int randomizeUnique() 
 	{
 		int rdmvalue = 0;
@@ -85,7 +104,24 @@ public class Mapgenerator {
 		}
 		return rdmvalue;
 	}
-	
+	/**
+	 * Initialize a Exit and add this Exit to a Place.
+	 * 
+	 * Label for a edge :
+	 * - 1 : A simple Exit
+	 * - 2 : A Exit with lock
+	 * - 3 : A fire (need Extinguisher to cross)
+	 * - TODO : add another labels
+	 * 
+	 * @param from
+	 * 		The original Place from where we start.
+	 * @param to
+	 * 		The Place where we are going.
+	 * @param link
+	 * 		The name and the type of Exit who will be created.
+	 * @return
+	 * 		The Place, initialized with Exit
+	 */
 	private Place initExit(Place from, Place to , Pair link) 
 	{
 		switch (link.getValue()) 
@@ -99,18 +135,19 @@ public class Mapgenerator {
 			Room r = (Room) from;
 			r.addItem(passkey);
 			break;
-		case 3: //Add to a room a firewall, unlock with a Extinguisher
+		case 3: //Add to a room a fire wall, unlock with a Extinguisher
 			from.addExit(new Firewall(from, to));
 			break;
 		}
 		return from;
 	}
-	
+/**
+ * Getter of game map
+ * @return
+ * 		The list of Place, linked between us
+ */
 	public List<Place> getMap() 
 	{	
 		return this.map;
 	}
-	
-	
-
 }
