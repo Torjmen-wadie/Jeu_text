@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.List;
 /**
  * 
- * @author Julien Hayrault
+ * 
  * 
  * <b> Generation of map game </b>
  * 
@@ -33,8 +33,7 @@ import java.util.List;
  * Nodes are Place, initialized before.
  * This class have method that return a Map contain initialized Place with their Exit
  * 
- * @see Place
- * @see Exit
+ * @author Julien Hayrault
  */
 
 
@@ -46,7 +45,7 @@ public class Mapgenerator {
 	private ArrayList<Integer> unique;
 	
 	/**
-	 * Constructor
+	 * <b>Constructor</b>
 	 * 
 	 * @param matrix
 	 *     Two-dimensional matrix that represent the map of game
@@ -54,8 +53,10 @@ public class Mapgenerator {
 	 *     String is a name of Exit, value is type of Exit.
 	 * @param node
 	 * 	   A list that contain the label of node, represented by a Place
-	 * @see Pair
 	 * 
+	 * @see Pair
+	 * @see Place
+	 * @see Exit
 	 */
 	
 	public Mapgenerator(Pair [][] matrix, List<Place> node) {

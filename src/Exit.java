@@ -1,7 +1,7 @@
 import exceptions.PlaceException;
 
 /**
- * @author Julien Hayrault
+ * 
  * 
  * Class of Exit
  *
@@ -11,8 +11,9 @@ import exceptions.PlaceException;
  * 
  * A Exit can be open and close. 
  * 
- * @see Place
- * @see Openable
+ * @author Julien Hayrault
+ * 
+ * 
  */
 
 public class Exit implements Openable {
@@ -33,6 +34,9 @@ public class Exit implements Openable {
      *      The Place where we arrive.
      * @param name
      *      The name of a Exit (Example : Door).
+     *      
+     * @see Place
+     * @see Openable
      */
     public Exit(Place from, Place to, String name) {
         this.open = false;
