@@ -1,4 +1,3 @@
-import exceptions.ContainerCarryException;
 import exceptions.NotRightKey;
 
 public class Extinguisher extends Item implements Portable, Usable {
@@ -9,7 +8,6 @@ public class Extinguisher extends Item implements Portable, Usable {
     {
         super(name);
         this.lvlWater=lvlWater;
-
     }
 
 

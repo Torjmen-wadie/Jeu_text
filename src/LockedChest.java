@@ -27,7 +27,7 @@ public class LockedChest extends Chest {
         }
 
         unlocked = true;
-        System.out.println("I finally opened it");
+        System.out.println("I finally opened it with my key");
         open();
     }
 }

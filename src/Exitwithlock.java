@@ -2,8 +2,8 @@ import exceptions.PlaceException;
 public class Exitwithlock extends Exit{
     private boolean lock;
     
-    public Exitwithlock(Place to , Place from, boolean swap, String name) {
-        super(from, to, swap, name);
+    public Exitwithlock(Place to , Place from, String name) {
+        super(from, to, name);
         this.lock = true;
     }
     
@@ -53,4 +53,17 @@ public class Exitwithlock extends Exit{
     		throw new PlaceException();
     	}
     } 
+    
+    @Override
+    public Place previousPlace() throws PlaceException
+    {
+    	if(!(this.islock()))
+    	{
+    		return super.nextPlace();
+    	}
+    	else
+    	{
+    		throw new PlaceException();
+    	}
+    }
 }

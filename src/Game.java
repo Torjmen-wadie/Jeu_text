@@ -81,7 +81,7 @@ public class Game {
         if (pos != -1){
             tmp.get(pos).open();
         }else{
-            System.out.println("There aren't a object like that to open");
+            System.out.println("I think is not the right key");
         }
 
     }
@@ -160,7 +160,6 @@ public class Game {
                             break;
                 case "EXTINGUISHER":
                 case "TELEPHONE":
-                    player.useObject(args[1], place);
                     break;
             }
         }else{
@@ -179,6 +178,8 @@ public class Game {
                                          .filter(usable -> usable instanceof Key)
                                             .collect(Collectors.toList());
 
+        System.out.println("I'm gonna use each key that i have with everything...\n" +
+                "maybe something will work with it\n");
         if(keys.size() > 0 && chests.size()>0){
             for (Usable key : keys) {
                 for (Openable chest : chests) {
@@ -186,7 +187,7 @@ public class Game {
                     try {
                         key.use(chest);
                     } catch (NotRightKey notRightKey) {
-                        System.out.println(notRightKey.getMessage());
+                        System.out.println("\t" + notRightKey.getMessage());
                     }
 
                 }
