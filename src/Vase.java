@@ -1,6 +1,8 @@
+import java.util.List;
+
 public class Vase extends Container {
 
-    public Vase(String nom, String nomInside) {
-        super(nom, nomInside);
+    public Vase(String nom, List<Item> items) {
+        super(nom, items);
     }
 }

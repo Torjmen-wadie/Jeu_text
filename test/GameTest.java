@@ -46,11 +46,11 @@ public class GameTest {
     void countUsableObjects(){
         Player player = new Player("Player");
 
-        player.addInventor(new Letter("", ""));
-        player.addInventor(new Letter("", ""));
-        player.addInventor(new Extinguisher("", 0));
-        player.addInventor(new Extinguisher("", 0));
-        player.addInventor(new Key("", 0));
+        player.addInventor(new Letter("", "1"));
+        player.addInventor(new Letter("", "2"));
+        player.addInventor(new Extinguisher("3", 0));
+        player.addInventor(new Extinguisher("4", 0));
+        player.addInventor(new Key("5", 0));
 
         assertNotNull(player.getUsableObjects());
         assertEquals(3, player.getUsableObjects().size());
@@ -71,6 +71,21 @@ public class GameTest {
     }
 
     @Test
+    void lookAtItem(){
+        game.look("look letter1");
+    }
+
+    @Test
+    void openChest(){
+        game.look("look chest1");
+        game.open("open chest1");
+        game.look("look chest1");
+        System.out.println("\n\n");
+        game.open("open locked1");
+        game.look("look locked1");
+    }
+
+    @Test
     void takeUsableItemThatNotExist(){
         assertFalse(game.containsObject("jewerly_chest"));
     }
@@ -88,5 +103,10 @@ public class GameTest {
     @Test
     void help() {
         game.help();
+    }
+
+    @Test
+    void useKey() {
+        game.useKey(game.getPlayer().getUsableObjects());
     }
 }

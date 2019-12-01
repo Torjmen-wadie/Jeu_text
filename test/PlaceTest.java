@@ -34,14 +34,14 @@ public class PlaceTest {
     	
     	// 1 : Initialization of objects
     	key = new Key("Key", 12345);
-    	chest = new Chest("Desk", "desk");
+    	chest = new Chest("Desk", new ArrayList<Item>());
     	List<Item> containstart = new ArrayList<Item>(); 
     	containstart.add(chest);
 		containstart.add(key);
-		containstart.add(new LockedChest("Chest locked","", 12345));
+		containstart.add(new LockedChest("Chest locked",new ArrayList<Item>(), 12345));
     	
     	List<Item> containsnextroom = new ArrayList<Item>(); 
-    	containsnextroom.add(new Vase("Vase", "vase"));
+    	containsnextroom.add(new Vase("Vase", new ArrayList<Item>()));
     	containsnextroom.add(new Key("Key", 54321));
     	
     	//Empty list

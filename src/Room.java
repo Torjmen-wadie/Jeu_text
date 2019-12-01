@@ -80,7 +80,7 @@ public class Room extends Place {
     public String describePlace() {
     	String str = "";
     	if (!(this.contains.isEmpty())) {
-    		str = "In this " + super.getName() + " they are : \n";
+    		str = "In this " + super.getName() + " there are : \n";
         	for(Item c : this.contains) {
         		str += " - " + c.toString() + " \n";
         	}
