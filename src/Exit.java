@@ -38,7 +38,9 @@ public class Exit implements Openable {
      * @see Place
      * @see Openable
      */
-    public Exit(Place from, Place to, String name) {
+//-------------------------------------------------------------------------	
+    public Exit(Place from, Place to, String name) 
+    {
         this.open = false;
         this.name = name;
         this.from = from;
@@ -47,13 +49,17 @@ public class Exit implements Openable {
     /**
      * A Exit is visited (Exit is open)
      */
-    public void open() {
+//-------------------------------------------------------------------------	
+    public void open() 
+    {
         this.open = true;
     }
     /**
      * Close a Exit
      */
-    public void close() {
+//-------------------------------------------------------------------------	
+    public void close() 
+    {
         this.open = false;
     }
     /**
@@ -61,6 +67,7 @@ public class Exit implements Openable {
      * 
      * @return
      */
+//-------------------------------------------------------------------------	
     public boolean isopen() {
         return this.open;
     }
@@ -69,7 +76,7 @@ public class Exit implements Openable {
      * 
      * @return
      */
-    
+//-------------------------------------------------------------------------	    
     public String getName() {
     	return this.name;
     }
@@ -78,6 +85,7 @@ public class Exit implements Openable {
      * @return
      * @throws PlaceException
      */
+//-------------------------------------------------------------------------	
     public Place nextPlace() throws PlaceException
     {
     	this.open();
@@ -88,6 +96,7 @@ public class Exit implements Openable {
      * @return
      * @throws PlaceException
      */
+//-------------------------------------------------------------------------	
     public Place previousPlace() throws PlaceException
     {
     	if (isopen()) 

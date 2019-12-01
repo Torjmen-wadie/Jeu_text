@@ -8,7 +8,6 @@ public class Extinguisher extends Item implements Portable, Usable {
     {
         super(name);
         this.lvlWater=lvlWater;
-
     }
 
 

@@ -27,7 +27,7 @@ import java.util.List;
  *		  |
  *	    Room 3
  * 
- * <i>(A single line is one-way, two line is two-way)</i>
+ * <i>A single line is one-way, two line is two-way Exit</i>
  * ------------------------------------
  * 
  * Nodes are Place, initialized before.
@@ -58,12 +58,13 @@ public class Mapgenerator {
 	 * @see Place
 	 * @see Exit
 	 */
-	
-	public Mapgenerator(Pair [][] matrix, List<Place> node) {
+//-------------------------------------------------------------------------	
+	public Mapgenerator(Pair [][] matrix, List<Place> node) 
+	{
 		this.nodes = node;
 		this.adjmatrix = matrix;
 		this.unique = new ArrayList<Integer>();
-		for (int id = 10000; id<=99999; id++) 
+		for (int id = 1000; id<=9999; id++) 
 		{
 			this.unique.add(id); //Generate a list of unique 5 numbers key
 		}
@@ -73,6 +74,7 @@ public class Mapgenerator {
 	/**
 	 * Converted matrix in relationship between Exit and Place. 
 	 */
+//-------------------------------------------------------------------------	
 	public void create() 
 	{
 		/* 
@@ -94,6 +96,7 @@ public class Mapgenerator {
 	 * @return
 	 * 		Unique random id.
 	 */
+//-------------------------------------------------------------------------	
 	private int randomizeUnique() 
 	{
 		int rdmvalue = 0;
@@ -123,6 +126,7 @@ public class Mapgenerator {
 	 * @return
 	 * 		The Place, initialized with Exit
 	 */
+//-------------------------------------------------------------------------	
 	private Place initExit(Place from, Place to , Pair link) 
 	{
 		switch (link.getValue()) 
@@ -147,6 +151,7 @@ public class Mapgenerator {
  * @return
  * 		The list of Place, linked between us
  */
+//-------------------------------------------------------------------------	
 	public List<Place> getMap() 
 	{	
 		return this.map;

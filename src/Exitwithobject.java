@@ -9,6 +9,7 @@ public class Exitwithobject extends Exitwithlock{
 		this.UNLOCK_OBJECT = unlocker;
     }
 	
+	
 	public void unlock(Item item)
     {
         if (item.getClass().equals(UNLOCK_OBJECT.getClass())){

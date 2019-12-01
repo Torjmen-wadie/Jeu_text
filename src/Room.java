@@ -64,6 +64,14 @@ public class Room extends Place {
     	this.contains.add(item);
     }
     
+    public void removeItem(Item item)
+    {
+    	
+    }
+    
+   //TODO : Delete item in room
+    
+    
     
     public String describePlace() {
     	String str = "";

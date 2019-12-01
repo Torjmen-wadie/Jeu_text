@@ -7,5 +7,8 @@ public class Firewall extends Exitwithobject
 	public Firewall(Place to, Place from) {
 		super(to, from, DEFAULT_NAME, UNLOCK_OBJECT);
 	}
-
+	
+	
+	
+	//TODO : Override Unlock : unlock if the level of Extinguisher is < 0
 }
