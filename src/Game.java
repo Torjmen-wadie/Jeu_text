@@ -38,7 +38,7 @@ public class Game {
         if (confirmCommande(parts[0])){
             execCommande(commande);
         }else{
-            System.out.println("I don't know what i'm doing... \n Maybe I'll try with another action");
+            System.out.println(Message.gameErrorWait);
         }
     }
     // TODO: Creat this method
@@ -81,7 +81,7 @@ public class Game {
         if (pos != -1){
             tmp.get(pos).open();
         }else{
-            System.out.println("There aren't a object like that to open");
+            System.out.println(Message.gameErrorOpen);
         }
 
     }
@@ -92,15 +92,15 @@ public class Game {
         if(args.length == 1){
             //Take all the items at place
             if (place.GetPortableItemRoom().size() > 0){
-                System.out.println("Taking all the objects");
+                System.out.println(Message.gameTake);
                 while (!place.GetPortableItemRoom().isEmpty()){
                     Portable tmp = place.GetPortableItemRoom().get(0);
                     place.deleteItem(tmp);
                     player.addInventor(tmp);
                 }
-                System.out.println("All the objects have been taken");
+                System.out.println(Message.gameTakeAll);
             }else{
-                System.out.println("There aren't more objects that I can take");
+                System.out.println(Message.gameErrorTake);
             }
         }else{
             //Take a specific item at place
@@ -111,7 +111,7 @@ public class Game {
                 place.deleteItem(tmp);
                 player.addInventor(tmp);
             }else{
-                System.out.println("There's no such item to take");
+                System.out.println(Message.gameTakeNul);
             }
 
 
@@ -146,7 +146,7 @@ public class Game {
     }
 
     public void help() {
-        System.out.println("Commandes disponibles :");
+        System.out.println(Message.gameHelp);
         Arrays.asList(Commande.values()).forEach(System.out::println);
     }
 
@@ -164,7 +164,7 @@ public class Game {
                     break;
             }
         }else{
-            System.out.println("I don't know how to use this...");
+            System.out.println(Message.gameErrorHelp);
         }
     }
 
@@ -194,12 +194,12 @@ public class Game {
         }else{
 
             if (keys.size() == 0){
-                System.out.println("I don't have a key to use");
+                System.out.println(Message.gameNoKey);
             }
 
 
             if (chests.size() == 0){
-                System.out.println("There aren't chests to use the key");
+                System.out.println(Message.gameChestKey);
             }
 
         }

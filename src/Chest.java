@@ -15,13 +15,13 @@ public class Chest extends Container implements Openable {
         if (opened){
             super.look();
         }else{
-            System.out.println("It's a Chest...");
+            System.out.println(Message.descChest);
         }
     }
 
     @Override
     public void open() {
-        System.out.println("The Chest was opened");
+        System.out.println(Message.descChestOpen);
         opened = true;
         super.look();
     }

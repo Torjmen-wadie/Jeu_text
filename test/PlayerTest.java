@@ -150,7 +150,7 @@ Player player ;
         assertEquals(3,player.getUsableObjects().size());
 
     }
-    
+
 
 
 }

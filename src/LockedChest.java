@@ -17,7 +17,7 @@ public class LockedChest extends Chest {
         if (unlocked){
             super.open();
         }else{
-            System.out.println("The chest is closed by Key");;
+            System.out.println(Message.chestErrorOpen);;
         }
     }
 
@@ -27,7 +27,7 @@ public class LockedChest extends Chest {
         }
 
         unlocked = true;
-        System.out.println("I finally opened it");
+        System.out.println(Message.chestUnlock);
         open();
     }
 }
