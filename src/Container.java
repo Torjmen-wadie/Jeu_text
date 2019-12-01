@@ -1,16 +1,16 @@
 import exceptions.ContainerCarryException;
 
-import java.util.List;
+import java.util.*;
 
 public class Container extends Item {
     private boolean saw;
 
-    private Item inside;
+    private List <Item> items ;
 
-    public Container(String nom, String nomInside) {
+    public Container(String nom, List<Item> items) {
         super(nom);
         saw = false;
-        inside = new Item(nomInside);
+       this.items = items;
     }
 
     @Override
