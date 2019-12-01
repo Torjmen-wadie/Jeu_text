@@ -12,12 +12,6 @@ public class Key extends Item implements Portable, Usable{
         this.code=code;
     }
 
-    public void look()
-    {
-        // TODO : the key contains a code to show to the user or
-        // the key contains a code to be compared with a chest
-        System.out.println(code);
-    }
     public int getCode()
     {
         return this.code;
@@ -35,6 +29,8 @@ public class Key extends Item implements Portable, Usable{
             if(obj.getClass().getSimpleName().equalsIgnoreCase("LockedChest")){
                 // try to unlock with key
                 ((LockedChest) obj).open(code);
+            }else if(obj.getClass().getSimpleName().equalsIgnoreCase("Chest")){
+                ((Chest) obj).open();
             }
         }
     }

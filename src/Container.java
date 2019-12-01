@@ -1,5 +1,7 @@
 import exceptions.ContainerCarryException;
 
+import java.util.List;
+
 public class Container extends Item {
     private boolean saw;
 
@@ -35,6 +37,10 @@ public class Container extends Item {
             inside.look();
         }
 
+    }
+
+    public List<Item> getItems(){
+        return null;
     }
 
     public void alreadySaw(){

@@ -1,4 +1,6 @@
+import exceptions.ExitPlaceException;
 import exceptions.NotRightKey;
+import exceptions.PlaceException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -143,8 +145,9 @@ public class Game {
         }
     }
 
+    // TODO : implements the use of doors with a key
     private void useKey(List<Usable> usableObjects) {
-        List<Openable> lockedChests = ((Room)place).GetOpenableItemRoom()
+        List<Openable> chests = ((Room)place).GetOpenableItemRoom()
                                         .stream()
                                         .filter( i -> i instanceof Chest)
                                         .collect(Collectors.toList());
@@ -153,23 +156,31 @@ public class Game {
                                          .filter(usable -> usable instanceof Key)
                                             .collect(Collectors.toList());
 
-        if(keys.size() > 0 && lockedChests.size()>0){
+        if(keys.size() > 0 && chests.size()>0){
             for (Usable key : keys) {
-                for (Openable lockedChest : lockedChests) {
+                for (Openable chest : chests) {
 
                     try {
-                        key.use(lockedChest);
+                        key.use(chest);
                     } catch (NotRightKey notRightKey) {
                         System.out.println(notRightKey.getMessage());
                     }
 
                 }
             }
+        }else{
+            System.out.println("There aren't chests to use the key");
         }
     }
 
     private void go(String commande) {
-
+        String[] args = commande.split(" ");
+        try {
+            Exit tmp = place.select(args[1]);
+            place = (Room) tmp.nextPlace();
+        } catch (ExitPlaceException | PlaceException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public boolean confirmCommande(String commande){
