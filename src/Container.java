@@ -21,7 +21,7 @@ public class Container extends Item {
             throw new ContainerCarryException();
         }
 
-        return inside.take();
+        return null;//inside.take();
 
     }
 

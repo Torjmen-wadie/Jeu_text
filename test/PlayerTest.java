@@ -133,5 +133,24 @@ Player player ;
   player.toString();
 
     }
+    @Test
+    void deleteUsableObject()
+    {
+        String obj="key";
+        Portable obj1 =new Key("key",1234);
+        Portable obj2 =new Letter("you must go","JavaDoc");
+        Portable obj3 =new Extinguisher("Extinglisher1",12);
+        Portable obj4 =new Telephone("call me","alex");
+        Portable obj5 =new Book("turn off","how to be happy");
+        player.addInventor(obj1);
+        player.addInventor(obj2);
+        player.addInventor(obj3);
+        player.addInventor(obj4);
+        player.addInventor(obj5);
+        player.deleteUsableObject(obj);
+        assertEquals(4,player.getUsableObjects().size();
+
+    }
+
 
 }

@@ -120,6 +120,18 @@ public class Player {
    {
        //obj.use();
    }
+   public Portable deleteUsableObject(String obj)
+   {
+       Portable tmp = null;
+       for(int i=0;i<objects.size()-1;i++) {
+           if (objects.get(i).equals(obj)) {
+               tmp = objects.get(i);
+               objects.remove(obj);
+           }
+       }
+       return tmp;
+
+   }
 
     
     public void look()  {
