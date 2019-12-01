@@ -4,5 +4,6 @@ public enum Commande {
     LOOK,
     QUIT,
     TAKE,
-    USE;
+    USE,
+    OPEN;
 }

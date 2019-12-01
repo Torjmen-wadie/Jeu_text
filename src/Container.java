@@ -23,7 +23,7 @@ public class Container extends Item {
         if (items != null && items.size() > 0){
             System.out.println("This "+ this.toString() + " contains");
             for (Item item : items) {
-                System.out.println(item);
+                System.out.println("\t- "+item);
             }
         }else{
             System.out.println("There aren't objects inside");

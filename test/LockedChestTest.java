@@ -17,15 +17,11 @@ class LockedChestTest {
 
     @Test
     void openWithWrongCode() {
-        assertThrows(NotRightKey.class, ()->lockedChest.open(30));
+        assertThrows(NotRightKey.class, ()->lockedChest.unlock(30));
     }
 
     @Test
     void openWithRightCode() {
-        try {
-            lockedChest.open(20);
-        } catch (NotRightKey notRightKey) {
-            notRightKey.printStackTrace();
-        }
+        assertDoesNotThrow(() -> lockedChest.unlock(20));
     }
 }

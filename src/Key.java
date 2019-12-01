@@ -1,7 +1,4 @@
-import exceptions.ContainerCarryException;
 import exceptions.NotRightKey;
-
-import java.util.ArrayList;
 
 public class Key extends Item implements Portable, Usable{
 
@@ -28,7 +25,7 @@ public class Key extends Item implements Portable, Usable{
         if (obj != null){
             if(obj.getClass().getSimpleName().equalsIgnoreCase("LockedChest")){
                 // try to unlock with key
-                ((LockedChest) obj).open(code);
+                ((LockedChest) obj).unlock(code);
             }else if(obj.getClass().getSimpleName().equalsIgnoreCase("Chest")){
                 ((Chest) obj).open();
             }

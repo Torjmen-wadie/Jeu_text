@@ -14,13 +14,14 @@ public class Game {
 
     public Game() {
         player = new Player("Player");
+        player.addInventor(new Key("KEY", 0));
 
         // TODO: DELETE THE ITEMS CREATED BELOW
         List<Item> items = new ArrayList<>();
         items.add(new Chest("chest1", new ArrayList<Item>()));
         items.add(new Chest("chest2", new ArrayList<Item>()));
-        items.add(new LockedChest("chest3", new ArrayList<Item>(),0));
-        items.add(new LockedChest("chest4", new ArrayList<Item>(),1));
+        items.add(new LockedChest("locked1", new ArrayList<Item>(),0));
+        items.add(new LockedChest("locked2", new ArrayList<Item>(),1));
         items.add(new Letter("l1","letter1"));
         items.add(new Letter("l2","letter2"));
         items.add(new Letter("l3","letter3"));
@@ -60,7 +61,29 @@ public class Game {
 
             case TAKE:take(commande);
                 break;
+
+            case OPEN:open(commande);
+                break;
         }
+    }
+
+    public void open(String commande) {
+        String[] args = commande.split(" ");
+        int pos = -1;
+        List<Openable> tmp = place.GetOpenableItemRoom();
+        for (int i = 0; i < tmp.size(); i++) {
+            if(tmp.get(i).toString().equals(args[1])){
+                pos = i;
+            }
+        }
+
+        // if there's a object with the name args[1]. open it
+        if (pos != -1){
+            tmp.get(pos).open();
+        }else{
+            System.out.println("There aren't a object like that to open");
+        }
+
     }
 
     public void take(String commande) {
@@ -111,7 +134,7 @@ public class Game {
 
     }
 
-    private void look(String commande) {
+    public void look(String commande) {
         String args[] = commande.split(" ");
         if(args.length == 1){
             //Look at place
@@ -146,8 +169,8 @@ public class Game {
     }
 
     // TODO : implements the use of doors with a key
-    private void useKey(List<Usable> usableObjects) {
-        List<Openable> chests = ((Room)place).GetOpenableItemRoom()
+    public void useKey(List<Usable> usableObjects) {
+        List<Openable> chests = place.GetOpenableItemRoom()
                                         .stream()
                                         .filter( i -> i instanceof Chest)
                                         .collect(Collectors.toList());
@@ -169,7 +192,16 @@ public class Game {
                 }
             }
         }else{
-            System.out.println("There aren't chests to use the key");
+
+            if (keys.size() == 0){
+                System.out.println("I don't have a key to use");
+            }
+
+
+            if (chests.size() == 0){
+                System.out.println("There aren't chests to use the key");
+            }
+
         }
     }
 

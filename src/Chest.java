@@ -11,20 +11,18 @@ public class Chest extends Container implements Openable {
     }
 
     @Override
-    public Item take() throws ContainerCarryException {
-        if (!opened){
-            throw new ContainerCarryException("Why am i thinking about carrying something this big and CLOSED???");
+    public void look() {
+        if (opened){
+            super.look();
+        }else{
+            System.out.println("It's a Chest...");
         }
-
-        return super.take();
     }
-
 
     @Override
     public void open() {
-        System.out.println("The chest was opened");
+        System.out.println("The Chest was opened");
         opened = true;
-        //super.alreadySaw();
         super.look();
     }
 

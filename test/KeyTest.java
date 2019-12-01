@@ -13,7 +13,7 @@ class KeyTest {
         LockedChest lockedChest = new LockedChest("",new ArrayList<Item>(), 0);
 
         //we have the right key when there aren't exceptions
-        assertDoesNotThrow(() -> lockedChest.open(key.getCode()));
+        assertDoesNotThrow(() -> lockedChest.unlock(key.getCode()));
     }
 
     @Test
@@ -22,7 +22,7 @@ class KeyTest {
         LockedChest lockedChest = new LockedChest("",new ArrayList<Item>(), 0);
 
         //we have the wrong key when there are exceptions
-        assertThrows(NotRightKey.class, () -> lockedChest.open(key.getCode()));
+        assertThrows(NotRightKey.class, () -> lockedChest.unlock(key.getCode()));
     }
 
 
