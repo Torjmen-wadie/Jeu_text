@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,20 +17,32 @@ public class PlaceTest {
 	
 	Room start;
 	Room nextroom;
-	Room nextroom2;
 	Room end;
+	
 	Key key;
 	Chest chest;
-	Exit exitstart;
+	
+	List<Place> unlink_map; // A unlink map is a set of Place, without any exit
+	List<Place> map; // A map is a linked set of Place
+	
+	
+	/* 
+	 * Initialization of exit
+	 * Chained world where every place are linked by only one exit (for a test)
+	 * 
+	 * Graph :
+	 * Start === Nextroom --- End
+	*/
+	
+	Pair [][] mapMatrix = 
+		{
+			{new Pair("",0), new Pair("Door",1), new Pair("",0)},
+			{new Pair("Door",1), new Pair("",0), new Pair("Wooden Door",1)},
+			{new Pair("",0), new Pair("",0), new Pair("",0)}
+		};
 	
     @BeforeEach
     public void setUp() {
-    	/* 
-    	 * Initialization of exit
-    	 * Chained world where every place are linked by only one exit
-    	*/
-    	
-    	
     	
     	// 1 : Initialization of objects
     	key = new Key("Key", 12345);
@@ -45,28 +57,24 @@ public class PlaceTest {
     	containsnextroom.add(new Key("Key", 54321));
     	
     	//Empty list
-    	List<Item> containsnextroom2 = new ArrayList<Item>();
     	List<Item> containsexit = new ArrayList<Item>();
     	//----------------------------------------
     	
+    	
     	// 2 : Initialization of place
-    	start = new Room("Start Room", "a description",containstart);
-    	nextroom = new Room("Next Room", "a description",containsnextroom);
-    	nextroom2 = new Room("Next Room", "a description",containsnextroom2);
-    	end = new Room("Room 1", "a description 1", containsexit);
+    	start = new Room("Start", "Begin of chain",containstart);
+    	nextroom = new Room("Next Room", "Middle of chain",containsnextroom);
+    	end = new Room("End", "On way end", containsexit);
+    	
+    	this.unlink_map = new ArrayList<Place>();
+    	this.unlink_map.addAll(Arrays.asList(start,nextroom,end));
     	//----------------------------------------
-    	
-    	
-    	// 3 : Initialization of exit
-    	exitstart = new Exit(start, nextroom, true, "Door");
-    	Exit exitnextroom = new Exit(nextroom,nextroom2, false, "Wooden Door");
-    	Exit exitnextroom2 = new Exit(nextroom2,end, false, "Grid");
-    	
-    	
-    	// 4 : Add exit to place
-    	start.addExit(exitstart);
-    	nextroom.addExit(exitnextroom);
-    	nextroom2.addExit(exitnextroom2);
+    
+    	Mapgenerator m = new Mapgenerator(this.mapMatrix, this.unlink_map);
+		m.create();
+		this.map = m.getMap();
+		
+		this.map.get(2).describeExit();
     }
     
     @Test
@@ -93,32 +101,34 @@ public class PlaceTest {
     }
 
     @Test
-    public void testSelectExit() throws ExitPlaceException {
-    	assertEquals(start.select("Door"),exitstart);
-    	assertThrows(ExitPlaceException.class, () -> {
-    		start.select("Grid");
-    	});
-    }
-    
-    
-    @Test
     public void testChangePlace() throws ExitPlaceException, PlaceException
     {
-    	assertEquals(nextroom,start.select("Door").nextPlace()); 
+    	assertEquals(start.select("Door").nextPlace(),nextroom); 
     }
     
+    @Test
+    public void testSelectExit() throws ExitPlaceException, PlaceException 
+    {
+    	Exit selected = this.map.get(0).select("Door");
+    	assertEquals(selected.nextPlace(),nextroom);
+    	assertEquals(selected.previousPlace(),start);
+    	assertEquals(selected.getName(), "Door");
+    	assertThrows(ExitPlaceException.class, () -> {
+    		this.map.get(0).select("Grid");
+    	});
+    }
+
     @Test
     public void testTwoWay() throws PlaceException, ExitPlaceException 
     {
     	
-    	Place changePlace = start.select("Door").nextPlace();
+    	Place changePlace = this.map.get(0).select("Door").nextPlace();
     	assertEquals(changePlace,nextroom);
     	Place goback = changePlace.select("Door").nextPlace();
     	assertEquals(goback, start);
     	
     	
     }
-
     @Test
 	void deleteItem(){
     	List<Portable> items = start.GetPortableItemRoom();
@@ -133,17 +143,18 @@ public class PlaceTest {
 		assertNotNull(tmp);
 		((Item)tmp).look();
 	}
+
     
     @Test
     public void testOneWay() throws PlaceException, ExitPlaceException
     {
-    	Place changePlace = nextroom2.select("Grid").nextPlace();
+    	Place changePlace = this.map.get(1).select("Wooden Door").nextPlace();
     	assertEquals(changePlace,end);
     	assertThrows(ExitPlaceException.class, () -> {
-    		changePlace.select("Grid");
+    		changePlace.select("Wooden Door");
     	});
     }
-    
+
     @Test
 	public void getChestsFromPlace(){
 		List<Openable > locked = start.GetOpenableItemRoom().stream()
@@ -154,5 +165,5 @@ public class PlaceTest {
 		locked.forEach(System.out::println);
 		assertEquals(2, locked.size());
 	}
-    
+
 }

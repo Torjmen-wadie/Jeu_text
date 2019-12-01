@@ -76,6 +76,14 @@ public class Room extends Place {
 		}
 	}
     
+    public void removeItem(Item item)
+    {
+    	
+    }
+    
+   //TODO : Delete item in room
+    
+    
     
     public String describePlace() {
     	String str = "";
