@@ -1,9 +1,5 @@
 import exceptions.ContainerCarryException;
 
-/**
- *
- * @author Wadie
- */
 public class Book extends Item implements Portable, Openable{
     private String text ; 
     
