@@ -7,21 +7,21 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Game {
-    public Player player;
-    public Room place;
+    private Player player;
+    private Room place;
 
     public Game() {
         player = new Player("Player");
 
         // TODO: DELETE THE ITEMS CREATED BELOW
         List<Item> items = new ArrayList<>();
-        items.add(new Chest("", ""));
-        items.add(new Chest("", ""));
-        items.add(new LockedChest("", "",0));
-        items.add(new LockedChest("", "",1));
-        items.add(new Letter("l1",""));
-        items.add(new Letter("l2",""));
-        items.add(new Letter("l3",""));
+        items.add(new Chest("chest1", ""));
+        items.add(new Chest("chest2", ""));
+        items.add(new LockedChest("chest3", "",0));
+        items.add(new LockedChest("chest4", "",1));
+        items.add(new Letter("l1","letter1"));
+        items.add(new Letter("l2","letter2"));
+        items.add(new Letter("l3","letter3"));
 
         place = new Room("", "", items);
     }
@@ -62,27 +62,47 @@ public class Game {
     }
 
     public void take(String commande) {
-        List<Portable > portablesInPlace = place.GetPortableItemRoom();
 
         String[] args = commande.split(" ");
         if(args.length == 1){
             //Take all the items at place
-            if (portablesInPlace.size() > 0){
+            if (place.GetPortableItemRoom().size() > 0){
                 System.out.println("Taking all the objects");
-                for(int i = 0 ; i < portablesInPlace.size() -1; i++){
-
-                }
-                for (Portable tmp : portablesInPlace) {
+                while (!place.GetPortableItemRoom().isEmpty()){
+                    Portable tmp = place.GetPortableItemRoom().get(0);
                     place.deleteItem(tmp);
                     player.addInventor(tmp);
                 }
+                System.out.println("All the objects have been taken");
             }else{
                 System.out.println("There aren't more objects that I can take");
             }
         }else{
-            //look at object in place
-            //place.describeItem(args[1]);
+            //Take a specific item at place
+            // TODO : CAMBIAR COMO SE VA A TOMAR EL ITEM QUE ESTÁ DENTRO DE UN CONTAINER
+            // CREO QUE VOY A ENVIAR EL ITEM A PLACE Y QUE YA NO PERTENEZCA A CONTAINER
+            if(containsObject(args[1])){
+                Portable tmp = place.GetPortableItemRoom().stream().filter( x-> x.equals(args[1])).collect(Collectors.toList()).get(0);
+                place.deleteItem(tmp);
+                player.addInventor(tmp);
+            }else{
+                System.out.println("There's no such item to take");
+            }
+
+
         }
+    }
+
+    public boolean containsObject(String arg) {
+        boolean flag = false;
+
+        for (Portable p : place.GetPortableItemRoom()){
+            if(p.equals(arg)) {
+                flag = true;
+            }
+        }
+
+        return flag;
     }
 
     private void quit(String commande) {
@@ -163,5 +183,13 @@ public class Game {
 
         }
         return flag;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Room getPlace() {
+        return place;
     }
 }

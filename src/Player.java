@@ -38,6 +38,9 @@ public class Player {
                 '}';
     }
 
+    public List<Portable> getObjects(){
+        return this.objects;
+    }
    public void addInventor(Portable obj)
    {
        if(objects.size() < MAX_OBJ)

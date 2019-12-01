@@ -2,6 +2,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
@@ -55,14 +58,31 @@ public class GameTest {
 
     @Test
     void takeAllObjects(){
-        int itemsInRoom = game.place.GetPortableItemRoom().size();
-        int itemsFromPlayer = game.player.getUsableObjects().size();
-        System.out.println("itemsFromPlayer " +  itemsFromPlayer);
-        System.out.println("itemsInRoom " +  itemsInRoom);
-        game.place.GetPortableItemRoom().forEach( x -> ((Item)x).look());
+        System.out.println(game.getPlace().describePlace());
+        int itemsPortablesFromPlayer = game.getPlayer().getObjects().size();
+        System.out.println("itemsPortablesFromPlayer " +  itemsPortablesFromPlayer);
+        int itemsPortablesInRoom = game.getPlace().GetPortableItemRoom().size();
+        System.out.println("itemsPortablesInRoom " +  itemsPortablesInRoom);
         game.take("TAKE");
-        game.place.GetPortableItemRoom().forEach( x -> ((Item)x).look());
-        //assertNotEquals(itemsFromPlayer, game.player.getUsableObjects().size());
+        System.out.println("Now carrying " + game.getPlayer().getObjects().size());
+        assertNotEquals(0, game.getPlayer().getObjects().size());
+        assertEquals(itemsPortablesInRoom, game.getPlayer().getObjects().size());
+        assertNotEquals(itemsPortablesFromPlayer, game.getPlayer().getObjects().size());
+    }
+
+    @Test
+    void takeUsableItemThatNotExist(){
+        assertFalse(game.containsObject("jewerly_chest"));
+    }
+
+    @Test
+    void takeUsableItemThatExist(){
+        assertTrue(game.containsObject("letter1"));
+    }
+
+    @Test
+    void takeSpecificItemInPlace(){
+        game.take("TAKE letter1");
     }
 
     @Test

@@ -66,13 +66,13 @@ public class Room extends Place {
 
     public void describeItem(String item){
     	List<Item> items = this.contains.stream()
-								.filter(obj -> obj.equals(item))
+								.filter(obj -> obj.toString().equals(item))
 								.collect(Collectors.toList());
 
     	if(items.size() > 0){
 			items.forEach(Item::look);
 		}else{
-			System.out.println("There's not item like that in this place");
+			System.out.println("There's not such item like that in this place");
 		}
 	}
     

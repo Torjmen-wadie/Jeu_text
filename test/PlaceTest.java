@@ -123,7 +123,7 @@ public class PlaceTest {
 	void deleteItem(){
     	List<Portable> items = start.GetPortableItemRoom();
     	int taille = items.size();
-
+		System.out.println("Portables items = " + taille);
     	Portable tmp = start.GetPortableItemRoom().get(0);
 		System.out.println(start.describePlace());;
 		start.deleteItem(tmp);
@@ -131,6 +131,7 @@ public class PlaceTest {
 
 		assertNotEquals(taille, start.GetPortableItemRoom().size());
 		assertNotNull(tmp);
+		((Item)tmp).look();
 	}
     
     @Test
