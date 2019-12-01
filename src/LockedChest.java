@@ -1,13 +1,14 @@
 import exceptions.NotRightKey;
 
+import java.util.List;
+
 public class LockedChest extends Chest {
     int code;
 
-    public LockedChest(String nom, String nomInside, int code) {
-        super(nom, nomInside);
+    public LockedChest(String nom, List<Item> items, int code) {
+        super(nom, items);
         this.code = code;
     }
-
 
     @Override
     public void open() {

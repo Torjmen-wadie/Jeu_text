@@ -2,40 +2,38 @@ import exceptions.ContainerCarryException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ContainerTest {
 
     Container container;
+    List<Item> insideItems;
     @BeforeEach
     void setUp() {
-        container = new Container("Container",  "Key");
+        insideItems = new ArrayList<>();
+        insideItems.add(new Letter("asdasdads", "love letter"));
+        insideItems.add(new Letter("assdasd", "Magasin letter"));
+        container = new Container("Container", insideItems);
     }
 
     @Test
-    void takeWithOutLookingInside() {
+    void take() {
         assertThrows(ContainerCarryException.class, () -> container.take());
     }
 
     @Test
-    void takeLookingInside() {
-        try {
-            container.alreadySaw();
-            assertNotNull(container.take());
-            container.take().look();
-        } catch (ContainerCarryException e) {
-            System.out.println(e.getMessage());
-        }
+    void getInsideObjects(){
+        List<Item> items = container.getItems();
+        assertNotNull(items);
+        assertNotEquals(0, items.size());
     }
 
     @Test
-    void hasntLookInside() {
+    void showInsideObjects() {
         container.look();
     }
 
-    @Test
-    void hasLookInside(){
-        container.alreadySaw();
-        container.look();
-    }
 }

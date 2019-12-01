@@ -2,6 +2,8 @@ import exceptions.ContainerCarryException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ChestTest {
@@ -9,7 +11,7 @@ class ChestTest {
     Chest chest;
     @BeforeEach
     void setUp() {
-        chest = new Chest("Chest", "Telephone");
+        chest = new Chest("Chest", new ArrayList<Item>());
     }
 
     @Test

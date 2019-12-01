@@ -3,47 +3,37 @@ import exceptions.ContainerCarryException;
 import java.util.*;
 
 public class Container extends Item {
-    private boolean saw;
 
     private List <Item> items ;
 
     public Container(String nom, List<Item> items) {
         super(nom);
-        saw = false;
        this.items = items;
     }
 
     @Override
     public Item take() throws ContainerCarryException {
-
         //if try to take a container object, throw ContainerCarryException
-        if (!saw){
-            //System.out.println("That looks too hard to carry.");
-            throw new ContainerCarryException();
-        }
-
-        return inside.take();
-
+        throw new ContainerCarryException();
     }
 
     //TODO : mirar como es que hago para mostrar los elementos del interior
     @Override
     public void look() {
-        if (!saw){
-            super.look();
-            alreadySaw();
+        if (items != null && items.size() > 0){
+            System.out.println("This "+ this.toString() + " contains");
+            for (Item item : items) {
+                System.out.println(item);
+            }
         }else{
-            super.look();
-            inside.look();
+            System.out.println("There aren't objects inside");
         }
-
     }
 
     public List<Item> getItems(){
-        return null;
+        List<Item> tmp = this.items;
+        this.items = null;
+        return tmp;
     }
 
-    public void alreadySaw(){
-        saw = true;
-    }
 }

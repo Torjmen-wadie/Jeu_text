@@ -1,11 +1,13 @@
 import exceptions.ContainerCarryException;
 
+import java.util.List;
+
 public class Chest extends Container implements Openable {
     private boolean opened;
 
-    public Chest(String nom, String nomInside) {
-        super(nom, nomInside);
-        opened = false;
+    public Chest(String nom, List<Item> items) {
+        super(nom, items);
+        this.opened = false;
     }
 
     @Override
@@ -22,7 +24,7 @@ public class Chest extends Container implements Openable {
     public void open() {
         System.out.println("The chest was opened");
         opened = true;
-        super.alreadySaw();
+        //super.alreadySaw();
         super.look();
     }
 

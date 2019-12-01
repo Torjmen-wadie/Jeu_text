@@ -17,10 +17,10 @@ public class Game {
 
         // TODO: DELETE THE ITEMS CREATED BELOW
         List<Item> items = new ArrayList<>();
-        items.add(new Chest("chest1", ""));
-        items.add(new Chest("chest2", ""));
-        items.add(new LockedChest("chest3", "",0));
-        items.add(new LockedChest("chest4", "",1));
+        items.add(new Chest("chest1", new ArrayList<Item>()));
+        items.add(new Chest("chest2", new ArrayList<Item>()));
+        items.add(new LockedChest("chest3", new ArrayList<Item>(),0));
+        items.add(new LockedChest("chest4", new ArrayList<Item>(),1));
         items.add(new Letter("l1","letter1"));
         items.add(new Letter("l2","letter2"));
         items.add(new Letter("l3","letter3"));
