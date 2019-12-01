@@ -2,6 +2,10 @@ import exceptions.NotRightKey;
 
 public class Extinguisher extends Item implements Portable, Usable {
 
+    public int getLvlWater() {
+        return lvlWater;
+    }
+
     private int lvlWater;
 
     public Extinguisher(String name,int lvlWater)
