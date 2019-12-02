@@ -95,6 +95,10 @@ public class Objective
 	public String toString() 
 	{
 		String str = "\n------------Objective-------------\n\n";
+		if (isWin()) 
+		{
+			str += "\tYOU HAVE WON !!! \n";
+		}
 		for (Task t : this.todo) 
 		{
 			str += " - " + t.description + "\n";
@@ -103,6 +107,7 @@ public class Objective
 		for (Task t : this.fulfill) {
 			str += " [X] " + t.description + "\n";
 		}
+		
 		return str;
 	}
 	
@@ -122,6 +127,9 @@ public class Objective
 		System.out.println(o.toString());
 		System.out.print("\n\n\n");
 		o.isAccomplished(next);
+		System.out.println(o.toString());
+		end.addExit(test);
+		o.isAccomplished(end);
 		System.out.println(o.toString());
 		
 	}
