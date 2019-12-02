@@ -30,10 +30,7 @@ public class Game extends Thread {
 
     //    Thread t =new Thread();
     public static volatile boolean runinig;
-=======
     public static boolean runGame = true;
-
->>>>>>> b417db87aa3402f0bb83a7ad70efcac567eb5ea2
     public Game() {
         player = new Player("Player");
         player.addInventor(new Key("KEY", 0));
