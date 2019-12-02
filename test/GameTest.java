@@ -66,7 +66,7 @@ public class GameTest {
         game.take("TAKE");
         System.out.println("Now carrying " + game.getPlayer().getObjects().size());
         assertNotEquals(0, game.getPlayer().getObjects().size());
-        assertEquals(itemsPortablesInRoom, game.getPlayer().getObjects().size());
+        assertEquals(itemsPortablesInRoom + itemsPortablesFromPlayer, game.getPlayer().getObjects().size());
         assertNotEquals(itemsPortablesFromPlayer, game.getPlayer().getObjects().size());
     }
 
@@ -109,4 +109,15 @@ public class GameTest {
     void useKey() {
         game.useKey(game.getPlayer().getUsableObjects());
     }
+
+    @Test
+    void throwObject(){
+        int initSize = game.getPlayer().getObjects().size();
+        int initSize2 = game.getPlace().GetPortableItemRoom().size();
+
+        game.eject("THROW KEY");
+        assertNotEquals(initSize,game.getPlayer().getObjects().size() );
+        assertNotEquals(initSize2 , game.getPlace().GetPortableItemRoom().size());
+    }
+
 }

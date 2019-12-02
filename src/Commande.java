@@ -5,5 +5,6 @@ public enum Commande {
     QUIT,
     TAKE,
     USE,
-    OPEN;
+    OPEN,
+    THROW
 }
