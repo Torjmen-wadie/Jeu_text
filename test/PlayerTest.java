@@ -147,7 +147,7 @@ Player player ;
         player.addInventor(obj4);
 
         player.deleteUsableObject(obj);
-        assertEquals(3,player.getUsableObjects().size());
+        assertEquals(3,player.getObjects().size());
 
     }
 
