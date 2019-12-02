@@ -69,9 +69,15 @@ public class Game {
         }
     }
 
-    private void eject(String commande) {
+    public void eject(String commande) {
         String[] args = commande.split(" ");
-        player.deleteUsableObject(args[1]);
+
+        if (args.length > 1){
+            Portable tmp = player.deleteUsableObject(args[1]);
+            place.addItem((Item) tmp);
+        }else {
+            System.out.println("What am i supposed to throw?");
+        }
     }
 
     public void open(String commande) {

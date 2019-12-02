@@ -111,7 +111,13 @@ public class GameTest {
     }
 
     @Test
-    void useExtinguisher(){
-        game.useExtinguiser(null);
+    void throwObject(){
+        int initSize = game.getPlayer().getObjects().size();
+        int initSize2 = game.getPlace().GetPortableItemRoom().size();
+
+        game.eject("THROW KEY");
+        assertNotEquals(initSize,game.getPlayer().getObjects().size() );
+        assertNotEquals(initSize2 , game.getPlace().GetPortableItemRoom().size());
     }
+
 }
