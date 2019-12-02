@@ -1,4 +1,5 @@
 public class Message {
+    public static final String gameThread="The Game Start";
     public static final String descChestLook = "It's a Chest...";
     public static final String descChestOpen = "The Chest was opened";
     public static final String contaErrorLook = "There aren't objects inside";

@@ -148,7 +148,11 @@ Player player ;
 
         player.deleteUsableObject(obj);
         assertEquals(3,player.getObjects().size());
+<<<<<<< HEAD
+
+=======
         assertFalse(player.getObjects().contains(obj1));
+>>>>>>> b417db87aa3402f0bb83a7ad70efcac567eb5ea2
     }
 
 

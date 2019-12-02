@@ -1,19 +1,37 @@
+import com.sun.deploy.security.SelectableSecurityManager;
+import com.sun.xml.internal.bind.v2.runtime.Coordinator;
 import exceptions.ExitPlaceException;
 import exceptions.NotRightKey;
 import exceptions.PlaceException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class Game {
+public class Game extends Thread {
     private Player player;
     private Room place;
     public static boolean runGame = true;
     Scanner scanner;
 
+
+    private Key keyL ;
+    private Key keyLou ;
+    private Key keyBa;
+    private Key keyKit;
+    private Key keyPou;
+    private Key keyGa ;
+
+    private Key keyBal;
+    private Book book;
+    private Letter letter;
+    private Extinguisher extinguisher;
+    private Desk desk ;
+    private Couch couch;
+    private Extinguisher extin1;
+    private Extinguisher extin2;
+
+    //    Thread t =new Thread();
+    public static volatile boolean runinig;
     public Game() {
         scanner = new Scanner(System.in);
 
@@ -36,6 +54,80 @@ public class Game {
         place = new Room("", "", items);
         place.addExit(new Exitwithkey(place, place, "exit", k ));
     }
+    public void intilisation()
+    {
+
+        List<Place> hotel = new ArrayList<>();
+        keyL=new Key("keyLounge",23456);
+        keyLou =new Key("keyRoom",12345);
+        keyBa =new Key("KeyBathroom",78451);
+        keyPou=new Key("keyPountry",54712);
+        keyKit=new Key("keyKitchen",27841);
+        keyGa=new Key("keyGame",54661);
+        book=new Book("you must find the Key in the Lounge ...","Java");
+        letter=new Letter("you must use the extiglisher in the door with fire ...","from your teacher");
+        extin1 = new Extinguisher("ExtinguisherCor",30);
+        extin2=new Extinguisher("ExtinguisherDrain",30);
+
+        List<Item> deskObj=new ArrayList<>();
+        deskObj.add(book);
+        desk=new Desk("Desk",deskObj);
+        List<Item>objePlace =new ArrayList<>();
+        objePlace.add(keyL);
+        objePlace.add(keyLou);
+        objePlace.add(keyBa);
+        objePlace.add(keyPou);
+        objePlace.add(keyKit);
+        objePlace.add(keyGa);
+        objePlace.add(book);
+        objePlace.add(letter);
+        objePlace.add(extin1);
+        objePlace.add(extin2);
+        Room room =new Room("Room","This is your room which contain a couch",objePlace);
+        Room bath=new Room("Bathroom","This is the bathroom which contain a key...",objePlace);
+        Room Drain =new Room("Drain","In the Drain you must find the Extinghuisher...",objePlace);
+        Room baler= new Room("BalerRoom","the Baler Room contain an Extinguisher",objePlace);
+        Room resto=new Room("Restorant","there is nothing here you must go out",null);
+        Room cori=new Room("Coridor","here you have a key and an extinguisher ...",objePlace);
+        Room lounge=new Room("Lounge Room","you have two key here ... ",objePlace);
+        Room libr =new Room("Liibrary","you must find the key in the desk...",objePlace);
+        Room game=new Room("Game Room","you must find the key in this place...",objePlace);
+        Room bal=new Room("Balhroom","there is a key here",objePlace);
+        Room kitc=new Room("Kitchen","there is key in some where here",objePlace);
+        Room pou=new Room("Pontry","there is key",objePlace);
+        Room cold= new Room("Cold Room","there is nothing",null);
+        Room bar =new Room("Bar","go out ...",null);
+        Room rece=new Room("Reception","you must go out right now",null);
+        hotel.add(room);
+        hotel.add(bath);
+        hotel.add(Drain);
+        hotel.add(resto);
+        hotel.add(cori);
+        hotel.add(baler);
+        hotel.add(lounge);
+        hotel.add(libr);
+        hotel.add(game);
+        hotel.add(bal);
+        hotel.add(kitc);
+        hotel.add(pou);
+        hotel.add(cold);
+        hotel.add(bar);
+        hotel.add(rece);
+
+    }
+
+    //surcharger la méthode run() de classe thread
+    public  void  startGame()
+   {
+       this.runinig=true;
+       while (runinig)
+       System.out.println("the Game is started");
+   }
+        public void stopGame(){
+            this.runinig =false;
+            System.out.println("the Game is end");
+        }
+
 
     public void init(){
         while (runGame){
@@ -390,4 +482,5 @@ public class Game {
     public Room getPlace() {
         return place;
     }
+
 }
