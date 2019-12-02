@@ -2,7 +2,7 @@ import exceptions.PlaceException;
 public class Exitwithlock extends Exit{
     private boolean lock;
     
-    public Exitwithlock(Place to , Place from, String name) {
+    public Exitwithlock(Place from , Place to, String name) {
         super(from, to, name);
         this.lock = true;
     }

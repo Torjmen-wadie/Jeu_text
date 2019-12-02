@@ -23,6 +23,7 @@ public class PlaceTest {
 	
 	List<Place> unlink_map; // A unlink map is a set of Place, without any exit
 	List<Place> map; // A map is a linked set of Place
+	List<Place> map2;
 	
 	
 	/* 
@@ -40,6 +41,13 @@ public class PlaceTest {
 			{new Pair("",0), new Pair("",0), new Pair("",0)}
 		};
 	
+	Pair [][] mapMatrix2 = 
+		{
+				{new Pair("",0), new Pair("Door",1), new Pair("",0)},
+				{new Pair("Door",1), new Pair("", 0), new Pair("Lock Door",2)},
+				{new Pair("Grid", 1), new Pair("Lock Door", 2), new Pair("", 0)}
+		};
+	
     @BeforeEach
     public void setUp() {
     	
@@ -52,7 +60,6 @@ public class PlaceTest {
     	
     	List<Item> containsnextroom = new ArrayList<Item>(); 
     	containsnextroom.add(new Vase("Vase", "vase"));
-    	containsnextroom.add(new Key("Key", 54321));
     	
     	//Empty list
     	List<Item> containsexit = new ArrayList<Item>();
@@ -72,7 +79,9 @@ public class PlaceTest {
 		m.create();
 		this.map = m.getMap();
 		
-		this.map.get(2).describeExit();
+		Mapgenerator m2 = new Mapgenerator(this.mapMatrix2, this.unlink_map);
+		m2.create();
+		this.map2 = m2.getMap(); 
     }
     
     @Test
@@ -112,12 +121,22 @@ public class PlaceTest {
     @Test
     public void testTwoWay() throws PlaceException, ExitPlaceException 
     {
-    	
     	Place changePlace = this.map.get(0).select("Door").nextPlace();
     	assertEquals(changePlace,nextroom);
     	Place goback = changePlace.select("Door").nextPlace();
     	assertEquals(goback, start);
-    	
+    }
+    
+    @Test
+    public void testTwoWayUnlock() throws PlaceException, ExitPlaceException
+    {
+    	Room r = (Room) this.map2.get(1);
+    	Exitwithkey lockexit = (Exitwithkey) this.map2.get(1).select("Lock Door");
+    	assertTrue(lockexit.islock());
+    	r.GetPortableItemRoom().forEach(i -> lockexit.unlock((Key) i));
+    	assertFalse(lockexit.islock());
+    	Place changePlace = lockexit.nextPlace();
+    	assertEquals(changePlace,end);
     	
     }
      

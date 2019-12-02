@@ -3,9 +3,9 @@
 public class Exitwithobject extends Exitwithlock{
 	private final Item UNLOCK_OBJECT;
 	
-	public Exitwithobject(Place to, Place from, String name, Item unlocker)
+	public Exitwithobject(Place from, Place to, String name, Item unlocker)
     {
-		super(to, from, name);
+		super(from, to, name);
 		this.UNLOCK_OBJECT = unlocker;
     }
 	

@@ -41,6 +41,9 @@ class GeneratorTest {
 		assertEquals(m.getMap().get(0).getName(), "Room 1");
 		assertEquals(m.getMap().get(1).getName(), "Room 2");
 		assertEquals(m.getMap().get(2).getName(), "Room 3");
+		System.out.println(m.getMap().get(0).getName() + " : " +  m.getMap().get(0).describeExit());
+		System.out.println(m.getMap().get(1).getName() + " : " + m.getMap().get(1).describeExit());
+		System.out.println(m.getMap().get(2).getName() + " : " +  m.getMap().get(2).describeExit());
 	}
 	
 	@Test

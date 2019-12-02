@@ -17,5 +17,15 @@ public class Pair {
 	{
 		return this.value;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		Pair p = (Pair) o;
+		if (!(o instanceof Pair))
+		{
+			return false;
+		}
+		return this.name == p.getKey() && this.value == p.getValue();
+	}
 
 }
