@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class Game {
     private Player player;
     private Room place;
+    public static boolean runGame = true;
 
     public Game() {
         player = new Player("Player");
@@ -27,6 +28,12 @@ public class Game {
         items.add(new Letter("l3","letter3"));
 
         place = new Room("", "", items);
+    }
+
+    public void init(){
+        while (runGame){
+            System.out.println("asddsa");
+        }
     }
 
     public void waitingForCommands(){
