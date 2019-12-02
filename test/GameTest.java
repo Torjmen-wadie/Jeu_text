@@ -109,4 +109,9 @@ public class GameTest {
     void useKey() {
         game.useKey(game.getPlayer().getUsableObjects());
     }
+
+    @Test
+    void useExtinguisher(){
+        game.useExtinguiser(null);
+    }
 }

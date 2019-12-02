@@ -125,9 +125,9 @@ public class Player {
    {
        Portable tmp = null;
        for(int i=0;i<objects.size()-1;i++) {
-           if (objects.get(i).equals(obj)) {
+           if (objects.get(i).toString().equals(obj)) {
                tmp = objects.get(i);
-               objects.remove(obj);
+               objects.remove(tmp);
            }
        }
        return tmp;

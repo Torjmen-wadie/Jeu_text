@@ -29,6 +29,6 @@ public class Extinguisher extends Item implements Portable, Usable {
 
     @Override
     public void use(Object obj) throws NotRightKey {
-
+        lvlWater--;
     }
 }

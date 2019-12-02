@@ -64,7 +64,14 @@ public class Game {
 
             case OPEN:open(commande);
                 break;
+            case THROW:eject(commande);
+                break;
         }
+    }
+
+    private void eject(String commande) {
+        String[] args = commande.split(" ");
+        player.deleteUsableObject(args[1]);
     }
 
     public void open(String commande) {
@@ -135,7 +142,7 @@ public class Game {
     }
 
     public void look(String commande) {
-        String args[] = commande.split(" ");
+        String[] args = commande.split(" ");
         if(args.length == 1){
             //Look at place
             System.out.println(place.describePlace());
@@ -169,10 +176,46 @@ public class Game {
         }
     }
 
-    private void useExtinguiser(List<Usable> usableObjects) {
+    // TODO : CHECK THIS METHOD
+    public void useExtinguiser(List<Usable> usableObjects) {
         List<Usable> extinguisers = usableObjects.stream()
                                                     .filter(i -> i instanceof Extinguisher)
                                                     .collect(Collectors.toList());
+        List<Firewall> firewalls = place.getMapExit().values().stream()
+                                                                .filter(i -> i instanceof Firewall)
+                                                                .map(i -> (Firewall) i)
+                                                                .collect(Collectors.toList());
+
+        if (firewalls.size() > 0 && extinguisers.size() > 0){
+            for (Firewall firewall : firewalls) {
+                for (Usable extinguiser : extinguisers) {
+                    firewall.unlock((Item) extinguiser);
+                    try {
+                        extinguiser.use(null);
+                    } catch (NotRightKey ignored) {
+                        //ignored catch because there's no possible way to raise this exception here
+                    }
+                }
+            }
+
+        }else{
+            if (extinguisers.size() > 0){
+
+                for (Usable extinguiser : extinguisers) {
+                    try {
+                        extinguiser.use(null);
+                    } catch (NotRightKey ignored) {
+                        //ignored catch because there's no possible way to raise this exception here
+                    }
+                }
+
+                System.out.println("I'm just wasting the extinguisher...");
+            }
+
+            if (firewalls.size() > 0){
+                System.out.println("I don't have a extinguisher to use...");
+            }
+        }
 
     }
 
