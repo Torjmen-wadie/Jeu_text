@@ -1,4 +1,6 @@
+import exceptions.ExitPlaceException;
 import exceptions.NotRightKey;
+import exceptions.PlaceException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,10 +10,23 @@ import java.util.stream.Collectors;
 
 public class Game {
     private Player player;
-    private Place place;
+    private Room place;
 
     public Game() {
         player = new Player("Player");
+        player.addInventor(new Key("KEY", 0));
+
+        // TODO: DELETE THE ITEMS CREATED BELOW
+        List<Item> items = new ArrayList<>();
+        items.add(new Chest("chest1", new ArrayList<Item>()));
+        items.add(new Chest("chest2", new ArrayList<Item>()));
+        items.add(new LockedChest("locked1", new ArrayList<Item>(),0));
+        items.add(new LockedChest("locked2", new ArrayList<Item>(),1));
+        items.add(new Letter("l1","letter1"));
+        items.add(new Letter("l2","letter2"));
+        items.add(new Letter("l3","letter3"));
+
+        place = new Room("", "", items);
     }
 
     public void waitingForCommands(){
@@ -23,7 +38,7 @@ public class Game {
         if (confirmCommande(parts[0])){
             execCommande(commande);
         }else{
-            System.out.println("I don't know what i'm doing... \n Maybe I'll try with another action");
+            System.out.println(Message.gameErrorWait);
         }
     }
     // TODO: Creat this method
@@ -46,29 +61,94 @@ public class Game {
 
             case TAKE:take(commande);
                 break;
+
+            case OPEN:open(commande);
+                break;
         }
     }
 
-    private void take(String commande) {
+    public void open(String commande) {
+        String[] args = commande.split(" ");
+        int pos = -1;
+        List<Openable> tmp = place.GetOpenableItemRoom();
+        for (int i = 0; i < tmp.size(); i++) {
+            if(tmp.get(i).toString().equals(args[1])){
+                pos = i;
+            }
+        }
 
+        // if there's a object with the name args[1]. open it
+        if (pos != -1){
+            tmp.get(pos).open();
+        }else{
+            System.out.println(Message.gameErrorOpen);
+
+
+        }
+
+    }
+
+    public void take(String commande) {
+
+        String[] args = commande.split(" ");
+        if(args.length == 1){
+            //Take all the items at place
+            if (place.GetPortableItemRoom().size() > 0){
+                System.out.println(Message.gameTake);
+                while (!place.GetPortableItemRoom().isEmpty()){
+                    Portable tmp = place.GetPortableItemRoom().get(0);
+                    place.deleteItem(tmp);
+                    player.addInventor(tmp);
+                }
+                System.out.println(Message.gameTakeAll);
+            }else{
+                System.out.println(Message.gameErrorTake);
+            }
+        }else{
+            //Take a specific item at place
+            // TODO : CAMBIAR COMO SE VA A TOMAR EL ITEM QUE ESTÁ DENTRO DE UN CONTAINER
+            // CREO QUE VOY A ENVIAR EL ITEM A PLACE Y QUE YA NO PERTENEZCA A CONTAINER
+            if(containsObject(args[1])){
+                Portable tmp = place.GetPortableItemRoom().stream().filter( x-> x.equals(args[1])).collect(Collectors.toList()).get(0);
+                place.deleteItem(tmp);
+                player.addInventor(tmp);
+            }else{
+                System.out.println(Message.gameTakeNul);
+            }
+
+
+        }
+    }
+
+    public boolean containsObject(String arg) {
+        boolean flag = false;
+
+        for (Portable p : place.GetPortableItemRoom()){
+            if(p.equals(arg)) {
+                flag = true;
+            }
+        }
+
+        return flag;
     }
 
     private void quit(String commande) {
 
     }
 
-    private void look(String commande) {
-        if(commande.split(" ").length == 1){
+    public void look(String commande) {
+        String args[] = commande.split(" ");
+        if(args.length == 1){
             //Look at place
-
+            System.out.println(place.describePlace());
         }else{
             //look at object in place
-
+            place.describeItem(args[1]);
         }
     }
 
     public void help() {
-        System.out.println("Commandes disponibles :");
+        System.out.println(Message.gameHelp);
         Arrays.asList(Commande.values()).forEach(System.out::println);
     }
 
@@ -82,37 +162,60 @@ public class Game {
                             break;
                 case "EXTINGUISHER":
                 case "TELEPHONE":
-                    player.useObject(args[1], place);
                     break;
             }
         }else{
-            System.out.println("I don't know how to use this...");
+            System.out.println(Message.gameErrorHelp);
         }
     }
 
-    private void useKey(List<Usable> usableObjects) {
-        //List<LockedChest> lockedChests = place.getLockedChest();
-        List<LockedChest> lockedChests = new ArrayList<>();
+    // TODO : implements the use of doors with a key
+    public void useKey(List<Usable> usableObjects) {
+        List<Openable> chests = place.GetOpenableItemRoom()
+                                        .stream()
+                                        .filter( i -> i instanceof Chest)
+                                        .collect(Collectors.toList());
 
         List<Usable> keys = usableObjects.stream()
-                                         .filter(usable -> usable.getClass().getSimpleName().equalsIgnoreCase("Key"))
+                                         .filter(usable -> usable instanceof Key)
                                             .collect(Collectors.toList());
 
-        if(keys.size() > 0 && lockedChests.size()>0){
+        System.out.println("I'm gonna use each key that i have with everything...\n" +
+                "maybe something will work with it\n");
+        if(keys.size() > 0 && chests.size()>0){
             for (Usable key : keys) {
-                for (LockedChest lockedChest : lockedChests) {
+                for (Openable chest : chests) {
+
                     try {
-                        key.use(lockedChest);
+                        key.use(chest);
                     } catch (NotRightKey notRightKey) {
-                        notRightKey.printStackTrace();
+                        System.out.println("\t" + notRightKey.getMessage());
                     }
+
                 }
             }
+        }else{
+
+            if (keys.size() == 0){
+                System.out.println(Message.gameNoKey);
+            }
+
+
+            if (chests.size() == 0){
+                System.out.println(Message.gameChestKey);
+            }
+
         }
     }
 
     private void go(String commande) {
-
+        String[] args = commande.split(" ");
+        try {
+            Exit tmp = place.select(args[1]);
+            place = (Room) tmp.nextPlace();
+        } catch (ExitPlaceException | PlaceException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public boolean confirmCommande(String commande){
@@ -126,5 +229,13 @@ public class Game {
 
         }
         return flag;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Room getPlace() {
+        return place;
     }
 }

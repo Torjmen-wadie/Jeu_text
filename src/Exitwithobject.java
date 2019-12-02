@@ -12,7 +12,7 @@ public class Exitwithobject extends Exitwithlock{
 	
 	public void unlock(Item item)
     {
-        if (item.getClass().equals(UNLOCK_OBJECT.getClass())){
+        if (item.getClass().getSimpleName().equals(UNLOCK_OBJECT.getClass().getSimpleName())){
         	super.unlock();
         }
     }

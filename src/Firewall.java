@@ -11,4 +11,12 @@ public class Firewall extends Exitwithobject
 	
 	
 	//TODO : Override Unlock : unlock if the level of Extinguisher is < 0
+	@Override
+	public void unlock(Item item) {
+		if(((Extinguisher)item).getLvlWater() > 0){
+			super.unlock(item);
+		}else{
+			System.out.println("The extinguiser is empty");
+		}
+	}
 }

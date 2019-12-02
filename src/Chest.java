@@ -1,28 +1,28 @@
 import exceptions.ContainerCarryException;
 
+import java.util.List;
+
 public class Chest extends Container implements Openable {
     private boolean opened;
 
-    public Chest(String nom, String nomInside) {
-        super(nom, nomInside);
-        opened = false;
+    public Chest(String nom, List<Item> items) {
+        super(nom, items);
+        this.opened = false;
     }
 
     @Override
-    public Item take() throws ContainerCarryException {
-        if (!opened){
-            throw new ContainerCarryException("Why am i thinking about carrying something this big and CLOSED???");
+    public void look() {
+        if (opened){
+            super.look();
+        }else{
+            System.out.println(Message.descChest);
         }
-
-        return super.take();
     }
-
 
     @Override
     public void open() {
-        System.out.println("The chest was opened");
+        System.out.println(Message.descChestOpen);
         opened = true;
-        super.alreadySaw();
         super.look();
     }
 

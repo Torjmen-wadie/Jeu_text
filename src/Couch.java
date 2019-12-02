@@ -1,6 +1,8 @@
+import java.util.List;
+
 public class Couch extends Container {
 
-    public Couch(String nom, String nomInside) {
-        super(nom, nomInside);
+    public Couch(String nom, List<Item> items) {
+        super(nom, items);
     }
 }

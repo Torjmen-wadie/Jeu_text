@@ -63,6 +63,18 @@ public class Room extends Place {
     {
     	this.contains.add(item);
     }
+
+    public void describeItem(String item){
+    	List<Item> items = this.contains.stream()
+								.filter(obj -> obj.toString().equals(item))
+								.collect(Collectors.toList());
+
+    	if(items.size() > 0){
+			items.forEach(Item::look);
+		}else{
+			System.out.println(Message.roomDescItem);
+		}
+	}
     
     public void removeItem(Item item)
     {
@@ -76,7 +88,7 @@ public class Room extends Place {
     public String describePlace() {
     	String str = "";
     	if (!(this.contains.isEmpty())) {
-    		str = "In this " + super.getName() + " they are : \n";
+    		str = "In this " + super.getName() + " there are : \n";
         	for(Item c : this.contains) {
         		str += " - " + c.toString() + " \n";
         	}
@@ -94,5 +106,9 @@ public class Room extends Place {
     	}
     	return str;
     }
+
+	public void deleteItem(Portable tmp) {
+		contains.remove(tmp);
+	}
 }
     
