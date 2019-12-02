@@ -1,5 +1,3 @@
-import com.sun.deploy.security.SelectableSecurityManager;
-import com.sun.xml.internal.bind.v2.runtime.Coordinator;
 import exceptions.ExitPlaceException;
 import exceptions.NotRightKey;
 import exceptions.PlaceException;
