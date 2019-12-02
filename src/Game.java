@@ -12,10 +12,16 @@ public class Game {
     private Player player;
     private Room place;
     public static boolean runGame = true;
+    Scanner scanner;
 
     public Game() {
+        scanner = new Scanner(System.in);
+
+
         player = new Player("Player");
-        player.addInventor(new Key("KEY", 0));
+        Key k =new Key("KEY", 0);
+        player.addInventor(k);
+        player.addInventor(new Key("" , 1));
 
         // TODO: DELETE THE ITEMS CREATED BELOW
         List<Item> items = new ArrayList<>();
@@ -28,16 +34,16 @@ public class Game {
         items.add(new Letter("l3","letter3"));
 
         place = new Room("", "", items);
+        place.addExit(new Exitwithkey(place, place, "exit", k ));
     }
 
     public void init(){
         while (runGame){
-            System.out.println("asddsa");
+            waitingForCommands();
         }
     }
 
     public void waitingForCommands(){
-        Scanner scanner = new Scanner(System.in);
 
         String commande = scanner.nextLine();
         String[] parts = commande.split(" ");
@@ -48,7 +54,7 @@ public class Game {
             System.out.println(Message.gameErrorWait);
         }
     }
-    // TODO: Creat this method
+
     private void execCommande(String commande) {
         String[] parts = commande.split(" ");
         switch (Commande.valueOf(parts[0].toUpperCase())){
@@ -89,23 +95,32 @@ public class Game {
 
     public void open(String commande) {
         String[] args = commande.split(" ");
-        int pos = -1;
-        List<Openable> tmp = place.GetOpenableItemRoom();
-        for (int i = 0; i < tmp.size(); i++) {
-            if(tmp.get(i).toString().equals(args[1])){
-                pos = i;
+
+        if (args.length > 1 ){
+            int pos = -1;
+            List<Openable> tmp = place.GetOpenableItemRoom();
+
+            //added the doors to open
+            tmp.addAll(place.getDoors());
+
+            for (int i = 0; i < tmp.size(); i++) {
+                if(tmp.get(i).toString().equals(args[1])){
+                    pos = i;
+                }
             }
+
+            // if there's a object with the name args[1]. open it
+            if (pos != -1){
+                tmp.get(pos).open();
+            }else{
+                System.out.println(Message.gameErrorWait);
+
+
+            }
+
+        }else {
+            System.out.println(Message.gameErrorWait);
         }
-
-        // if there's a object with the name args[1]. open it
-        if (pos != -1){
-            tmp.get(pos).open();
-        }else{
-            System.out.println(Message.gameErrorOpen);
-
-
-        }
-
     }
 
     public void take(String commande) {
@@ -172,20 +187,29 @@ public class Game {
 
     private void use(String commande) {
         String args[] = commande.split(" ");
-        List<Usable> usableObjects = player.getUsableObjects();
 
-        if (usableObjects.size() > 0){
-            switch (args[1].toUpperCase()){
-                case "KEY" : useKey(usableObjects);
-                            break;
-                case "EXTINGUISHER":
-                    useExtinguiser(usableObjects);
-                    break;
-                case "TELEPHONE":
-                    break;
+        if (args.length > 1){
+
+
+            List<Usable> usableObjects = player.getUsableObjects();
+
+            if (usableObjects.size() > 0){
+                switch (args[1].toUpperCase()){
+                    case "KEY" :
+                        useChestWithKey(usableObjects);
+                        useDoor(usableObjects);
+                        break;
+                    case "EXTINGUISHER":
+                        useExtinguiser(usableObjects);
+                        break;
+                    case "TELEPHONE":
+                        break;
+                }
+            }else{
+                System.out.println(Message.gameErrorHelp);
             }
         }else{
-            System.out.println(Message.gameErrorHelp);
+            System.out.println(Message.gameUseError);
         }
     }
 
@@ -233,7 +257,9 @@ public class Game {
     }
 
     // TODO : implements the use of doors with a key
-    public void useKey(List<Usable> usableObjects) {
+    public void useChestWithKey(List<Usable> usableObjects) {
+
+
         List<Openable> chests = place.GetOpenableItemRoom()
                                         .stream()
                                         .filter( i -> i instanceof Chest)
@@ -245,12 +271,31 @@ public class Game {
 
         System.out.println("I'm gonna use each key that i have with everything...\n" +
                 "maybe something will work with it\n");
+
+        Key tmp = null;
+        boolean flag = false;
+
         if(keys.size() > 0 && chests.size()>0){
             for (Usable key : keys) {
                 for (Openable chest : chests) {
 
                     try {
+                        System.out.println("I'm trying to open this " + chest.toString());
                         key.use(chest);
+
+                        // if is a lockedChest, keep the key to delete after use
+                        if (chest.getClass().getSimpleName().equalsIgnoreCase("LockedChest")){
+                            if (((LockedChest)chest).isUnlocked()){
+                                tmp = (Key) key;
+                                flag = true;
+                            }
+                        }
+
+                        //if chest is open, don't try the other keys
+                        if(((Chest) chest).isOpened()){
+                            break;
+                        }
+
                     } catch (NotRightKey notRightKey) {
                         System.out.println("\t" + notRightKey.getMessage());
                     }
@@ -269,6 +314,50 @@ public class Game {
             }
 
         }
+
+
+        deleteRightKey(tmp, flag);
+    }
+
+    // Delete the rigth key from player's items
+    private void deleteRightKey(Key tmp, boolean wasUsed) {
+        if (tmp != null && wasUsed){
+            player.deleteUsableObject(tmp.toString());
+        }else{
+            if (wasUsed){
+                System.out.println(Message.gameErrorOpen);
+            }
+        }
+    }
+
+    public void useDoor(List<Usable> usableObjects) {
+        List<Key> keys = usableObjects.stream()
+                .filter(usable -> usable instanceof Key)
+                .map(k -> (Key) k)
+                .collect(Collectors.toList());
+
+        List<Exitwithkey> exits = place.getDoors().stream()
+                                            .filter(e  -> e instanceof Exitwithkey)
+                                            .map( e -> (Exitwithkey) e )
+                                            .collect(Collectors.toList());
+
+        System.out.println("I'm gonna try to open this thing with all my keys...");
+        Key tmp = null;
+        boolean flag = false;
+        for (Exitwithkey exit : exits) {
+            for (Key key : keys) {
+                if (exit.islock()){
+                    exit.unlock( key);
+                    if (!exit.islock()){
+                        tmp = key;
+                        flag = true;
+                    }
+                }
+            }
+        }
+
+        deleteRightKey(tmp, flag);
+
     }
 
     private void go(String commande) {

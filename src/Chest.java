@@ -30,4 +30,8 @@ public class Chest extends Container implements Openable {
     public void close() {
         opened = false;
     }
+
+    public boolean isOpened(){
+        return opened;
+    }
 }

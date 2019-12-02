@@ -2,9 +2,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
@@ -86,12 +83,17 @@ public class GameTest {
     }
 
     @Test
+    void openDoor(){
+        game.open("open exit");
+    }
+
+    @Test
     void takeUsableItemThatNotExist(){
         assertFalse(game.containsObject("jewerly_chest"));
     }
 
     @Test
-    void takeUsableItemThatExist(){
+    void existenceOfItem(){
         assertTrue(game.containsObject("letter1"));
     }
 
@@ -107,7 +109,7 @@ public class GameTest {
 
     @Test
     void useKey() {
-        game.useKey(game.getPlayer().getUsableObjects());
+        game.useChestWithKey(game.getPlayer().getUsableObjects());
     }
 
     @Test
@@ -120,4 +122,8 @@ public class GameTest {
         assertNotEquals(initSize2 , game.getPlace().GetPortableItemRoom().size());
     }
 
+    @Test
+    void useKeyWithLockedDoor(){
+        game.useDoor(game.getPlayer().getUsableObjects());
+    }
 }

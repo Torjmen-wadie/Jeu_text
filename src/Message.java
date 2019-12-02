@@ -2,6 +2,7 @@ public class Message {
     public static final String descChestLook = "It's a Chest...";
     public static final String descChestOpen = "The Chest was opened";
     public static final String contaErrorLook = "There aren't objects inside";
+    public static final String gameUseError = "Which object am i going to use?";
     public static final String gameErrorWait = "I don't know what i'm doing... \n Maybe I'll try with another action";
     public static final String gameErrorOpen = "I think is not the right key";
     public static final String gameTake = "Taking all the objects";
