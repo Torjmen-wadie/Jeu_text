@@ -15,8 +15,14 @@ public class Firewall extends Exitwithobject
 	public void unlock(Item item) {
 		if(((Extinguisher)item).getLvlWater() > 0){
 			super.unlock(item);
-		}else{
+		}
+		else
+		{
 			System.out.println("The extinguiser is empty");
 		}
 	}
+	
+	
+	
+	
 }

@@ -53,13 +53,13 @@ public class PlaceTest {
     	
     	// 1 : Initialization of objects
     	key = new Key("Key", 12345);
-    	chest = new Chest("Desk", "desk");
+    	chest = new Chest("Desk", null);
     	List<Item> containstart = new ArrayList<Item>(); 
     	containstart.add(chest);
     	containstart.add(key);
     	
     	List<Item> containsnextroom = new ArrayList<Item>(); 
-    	containsnextroom.add(new Vase("Vase", "vase"));
+    	containsnextroom.add(new Vase("Vase",null));
     	
     	//Empty list
     	List<Item> containsexit = new ArrayList<Item>();
