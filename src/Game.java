@@ -104,10 +104,8 @@ public class Game {
             }
         }else{
             //Take a specific item at place
-            // TODO : CAMBIAR COMO SE VA A TOMAR EL ITEM QUE ESTÁ DENTRO DE UN CONTAINER
-            // CREO QUE VOY A ENVIAR EL ITEM A PLACE Y QUE YA NO PERTENEZCA A CONTAINER
             if(containsObject(args[1])){
-                Portable tmp = place.GetPortableItemRoom().stream().filter( x-> x.equals(args[1])).collect(Collectors.toList()).get(0);
+                Portable tmp = place.GetPortableItemRoom().stream().filter( x-> x.toString().equals(args[1])).collect(Collectors.toList()).get(0);
                 place.deleteItem(tmp);
                 player.addInventor(tmp);
             }else{
@@ -122,7 +120,7 @@ public class Game {
         boolean flag = false;
 
         for (Portable p : place.GetPortableItemRoom()){
-            if(p.equals(arg)) {
+            if(p.toString().equals(arg)) {
                 flag = true;
             }
         }
@@ -159,12 +157,21 @@ public class Game {
                 case "KEY" : useKey(usableObjects);
                             break;
                 case "EXTINGUISHER":
+                    useExtinguiser(usableObjects);
+                    break;
                 case "TELEPHONE":
                     break;
             }
         }else{
             System.out.println("I don't know how to use this...");
         }
+    }
+
+    private void useExtinguiser(List<Usable> usableObjects) {
+        List<Usable> extinguisers = usableObjects.stream()
+                                                    .filter(i -> i instanceof Extinguisher)
+                                                    .collect(Collectors.toList());
+
     }
 
     // TODO : implements the use of doors with a key

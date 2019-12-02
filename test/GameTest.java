@@ -66,7 +66,7 @@ public class GameTest {
         game.take("TAKE");
         System.out.println("Now carrying " + game.getPlayer().getObjects().size());
         assertNotEquals(0, game.getPlayer().getObjects().size());
-        assertEquals(itemsPortablesInRoom, game.getPlayer().getObjects().size());
+        assertEquals(itemsPortablesInRoom + itemsPortablesFromPlayer, game.getPlayer().getObjects().size());
         assertNotEquals(itemsPortablesFromPlayer, game.getPlayer().getObjects().size());
     }
 
