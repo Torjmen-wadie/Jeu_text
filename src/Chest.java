@@ -15,7 +15,7 @@ public class Chest extends Container implements Openable {
         if (opened){
             super.look();
         }else{
-            System.out.println(Message.descChest);
+            System.out.println(Message.descChestLook);
         }
     }
 
