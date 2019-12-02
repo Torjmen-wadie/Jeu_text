@@ -72,7 +72,7 @@ public class Room extends Place {
     	if(items.size() > 0){
 			items.forEach(Item::look);
 		}else{
-			System.out.println("There's not such item like that in this place");
+			System.out.println(Message.roomDescItem);
 		}
 	}
     

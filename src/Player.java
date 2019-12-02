@@ -38,7 +38,8 @@ public class Player {
     public List<Portable> getObjects(){
         return this.objects;
     }
-   public void addInventor(Portable obj)
+
+    public void addInventor(Portable obj)
    {
        if((objects.size() < MAX_OBJ) && (!objects.contains(obj)) && (obj!=null))
        {
@@ -46,15 +47,15 @@ public class Player {
        }
        else if (objects.contains(obj))
        {
-           System.out.println("you have the same object ! You can't take");
+           System.out.println(Message.playerErrorAdd);
        }
        else if (obj==null)
        {
-           System.out.println("what do you ! you can't ");
+           System.out.println(Message.playerAddNull);
        }
        else
            {
-           System.out.println("I can't take no more object");
+           System.out.println(Message.playerAddSat);
            }
 
        

@@ -26,7 +26,7 @@ public class Container extends Item {
                 System.out.println("\t- "+item);
             }
         }else{
-            System.out.println("There aren't objects inside");
+            System.out.println(Message.contaErrorLook);
         }
     }
 

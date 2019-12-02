@@ -1,6 +1,6 @@
 
 
-public class Exitwithobject extends Exitwithlock{
+public class *Exitwithobject extends Exitwithlock{
 	private final Item UNLOCK_OBJECT;
 	
 	public Exitwithobject(Place to, Place from, String name, Item unlocker)
