@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 public class Game extends Thread {
     private Player player;
     private Room place;
-<<<<<<< HEAD
+
     private Key keyL ;
     private Key keyLou ;
-    private Key keyCo;
     private Key keyBa;
+    private Key keyKit;
     private Key keyPou;
     private Key keyGa ;
-    private Key keyKit;
+
     private Key keyBal;
     private Book book;
     private Letter letter;
@@ -26,7 +26,6 @@ public class Game extends Thread {
     private Couch couch;
     private Extinguisher extin1;
     private Extinguisher extin2;
-    private Extinguisher extin3;
 
     //    Thread t =new Thread();
     public static volatile boolean runinig;
@@ -57,13 +56,11 @@ public class Game extends Thread {
         keyPou=new Key("keyPountry",54712);
         keyKit=new Key("keyKitchen",27841);
         keyGa=new Key("keyGame",54661);
-        keyBal=new Key("keyBalhroom",84215);
-        keyCo=new Key("keyCoridor",24679);
         book=new Book("you must find the Key in the Lounge ...","Java");
         letter=new Letter("you must use the extiglisher in the door with fire ...","from your teacher");
         extin1 = new Extinguisher("ExtinguisherCor",30);
         extin2=new Extinguisher("ExtinguisherDrain",30);
-        extin3=new Extinguisher("ExtinguisherBaler",30);
+
         List<Item> deskObj=new ArrayList<>();
         deskObj.add(book);
         desk=new Desk("Desk",deskObj);
@@ -74,13 +71,10 @@ public class Game extends Thread {
         objePlace.add(keyPou);
         objePlace.add(keyKit);
         objePlace.add(keyGa);
-        objePlace.add(keyBal);
-        objePlace.add(keyCo);
         objePlace.add(book);
         objePlace.add(letter);
         objePlace.add(extin1);
         objePlace.add(extin2);
-        objePlace.add(extin3);
         Room room =new Room("Room","This is your room which contain a couch",objePlace);
         Room bath=new Room("Bathroom","This is the bathroom which contain a key...",objePlace);
         Room Drain =new Room("Drain","In the Drain you must find the Extinghuisher...",objePlace);
