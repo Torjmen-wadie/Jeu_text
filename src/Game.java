@@ -2,19 +2,42 @@ import exceptions.ExitPlaceException;
 import exceptions.NotRightKey;
 import exceptions.PlaceException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class Game {
+public class Game extends Thread {
     private Player player;
     private Room place;
+    public static boolean runGame = true;
+    Scanner scanner;
 
+
+    private Key keyL ;
+    private Key keyLou ;
+    private Key keyBa;
+    private Key keyKit;
+    private Key keyPou;
+    private Key keyGa ;
+
+    private Key keyBal;
+    private Book book;
+    private Letter letter;
+    private Extinguisher extinguisher;
+    private Desk desk ;
+    private Couch couch;
+    private Extinguisher extin1;
+    private Extinguisher extin2;
+
+    //    Thread t =new Thread();
+    public static volatile boolean runinig;
     public Game() {
+        scanner = new Scanner(System.in);
+
+
         player = new Player("Player");
-        player.addInventor(new Key("KEY", 0));
+        Key k =new Key("KEY", 0);
+        player.addInventor(k);
+        player.addInventor(new Key("" , 1));
 
         // TODO: DELETE THE ITEMS CREATED BELOW
         List<Item> items = new ArrayList<>();
@@ -27,10 +50,90 @@ public class Game {
         items.add(new Letter("l3","letter3"));
 
         place = new Room("", "", items);
+        place.addExit(new Exitwithkey(place, place, "exit", k ));
+    }
+    public void intilisation()
+    {
+
+        List<Place> hotel = new ArrayList<>();
+        keyL=new Key("keyLounge",23456);
+        keyLou =new Key("keyRoom",12345);
+        keyBa =new Key("KeyBathroom",78451);
+        keyPou=new Key("keyPountry",54712);
+        keyKit=new Key("keyKitchen",27841);
+        keyGa=new Key("keyGame",54661);
+        book=new Book("you must find the Key in the Lounge ...","Java");
+        letter=new Letter("you must use the extiglisher in the door with fire ...","from your teacher");
+        extin1 = new Extinguisher("ExtinguisherCor",30);
+        extin2=new Extinguisher("ExtinguisherDrain",30);
+
+        List<Item> deskObj=new ArrayList<>();
+        deskObj.add(book);
+        desk=new Desk("Desk",deskObj);
+        List<Item>objePlace =new ArrayList<>();
+        objePlace.add(keyL);
+        objePlace.add(keyLou);
+        objePlace.add(keyBa);
+        objePlace.add(keyPou);
+        objePlace.add(keyKit);
+        objePlace.add(keyGa);
+        objePlace.add(book);
+        objePlace.add(letter);
+        objePlace.add(extin1);
+        objePlace.add(extin2);
+        Room room =new Room("Room","This is your room which contain a couch",objePlace);
+        Room bath=new Room("Bathroom","This is the bathroom which contain a key...",objePlace);
+        Room Drain =new Room("Drain","In the Drain you must find the Extinghuisher...",objePlace);
+        Room baler= new Room("BalerRoom","the Baler Room contain an Extinguisher",objePlace);
+        Room resto=new Room("Restorant","there is nothing here you must go out",null);
+        Room cori=new Room("Coridor","here you have a key and an extinguisher ...",objePlace);
+        Room lounge=new Room("Lounge Room","you have two key here ... ",objePlace);
+        Room libr =new Room("Liibrary","you must find the key in the desk...",objePlace);
+        Room game=new Room("Game Room","you must find the key in this place...",objePlace);
+        Room bal=new Room("Balhroom","there is a key here",objePlace);
+        Room kitc=new Room("Kitchen","there is key in some where here",objePlace);
+        Room pou=new Room("Pontry","there is key",objePlace);
+        Room cold= new Room("Cold Room","there is nothing",null);
+        Room bar =new Room("Bar","go out ...",null);
+        Room rece=new Room("Reception","you must go out right now",null);
+        hotel.add(room);
+        hotel.add(bath);
+        hotel.add(Drain);
+        hotel.add(resto);
+        hotel.add(cori);
+        hotel.add(baler);
+        hotel.add(lounge);
+        hotel.add(libr);
+        hotel.add(game);
+        hotel.add(bal);
+        hotel.add(kitc);
+        hotel.add(pou);
+        hotel.add(cold);
+        hotel.add(bar);
+        hotel.add(rece);
+
+    }
+
+    //surcharger la méthode run() de classe thread
+    public  void  startGame()
+   {
+       this.runinig=true;
+       while (runinig)
+       System.out.println("the Game is started");
+   }
+        public void stopGame(){
+            this.runinig =false;
+            System.out.println("the Game is end");
+        }
+
+
+    public void init(){
+        while (runGame){
+            waitingForCommands();
+        }
     }
 
     public void waitingForCommands(){
-        Scanner scanner = new Scanner(System.in);
 
         String commande = scanner.nextLine();
         String[] parts = commande.split(" ");
@@ -41,7 +144,7 @@ public class Game {
             System.out.println(Message.gameErrorWait);
         }
     }
-    // TODO: Creat this method
+
     private void execCommande(String commande) {
         String[] parts = commande.split(" ");
         switch (Commande.valueOf(parts[0].toUpperCase())){
@@ -64,28 +167,50 @@ public class Game {
 
             case OPEN:open(commande);
                 break;
+            case THROW:eject(commande);
+                break;
+        }
+    }
+
+    public void eject(String commande) {
+        String[] args = commande.split(" ");
+
+        if (args.length > 1){
+            Portable tmp = player.deleteUsableObject(args[1]);
+            place.addItem((Item) tmp);
+        }else {
+            System.out.println("What am i supposed to throw?");
         }
     }
 
     public void open(String commande) {
         String[] args = commande.split(" ");
-        int pos = -1;
-        List<Openable> tmp = place.GetOpenableItemRoom();
-        for (int i = 0; i < tmp.size(); i++) {
-            if(tmp.get(i).toString().equals(args[1])){
-                pos = i;
+
+        if (args.length > 1 ){
+            int pos = -1;
+            List<Openable> tmp = place.GetOpenableItemRoom();
+
+            //added the doors to open
+            tmp.addAll(place.getDoors());
+
+            for (int i = 0; i < tmp.size(); i++) {
+                if(tmp.get(i).toString().equals(args[1])){
+                    pos = i;
+                }
             }
+
+            // if there's a object with the name args[1]. open it
+            if (pos != -1){
+                tmp.get(pos).open();
+            }else{
+                System.out.println(Message.gameErrorWait);
+
+
+            }
+
+        }else {
+            System.out.println(Message.gameErrorWait);
         }
-
-        // if there's a object with the name args[1]. open it
-        if (pos != -1){
-            tmp.get(pos).open();
-        }else{
-            System.out.println(Message.gameErrorOpen);
-
-
-        }
-
     }
 
     public void take(String commande) {
@@ -106,10 +231,8 @@ public class Game {
             }
         }else{
             //Take a specific item at place
-            // TODO : CAMBIAR COMO SE VA A TOMAR EL ITEM QUE ESTÁ DENTRO DE UN CONTAINER
-            // CREO QUE VOY A ENVIAR EL ITEM A PLACE Y QUE YA NO PERTENEZCA A CONTAINER
             if(containsObject(args[1])){
-                Portable tmp = place.GetPortableItemRoom().stream().filter( x-> x.equals(args[1])).collect(Collectors.toList()).get(0);
+                Portable tmp = place.GetPortableItemRoom().stream().filter( x-> x.toString().equals(args[1])).collect(Collectors.toList()).get(0);
                 place.deleteItem(tmp);
                 player.addInventor(tmp);
             }else{
@@ -124,7 +247,7 @@ public class Game {
         boolean flag = false;
 
         for (Portable p : place.GetPortableItemRoom()){
-            if(p.equals(arg)) {
+            if(p.toString().equals(arg)) {
                 flag = true;
             }
         }
@@ -137,7 +260,7 @@ public class Game {
     }
 
     public void look(String commande) {
-        String args[] = commande.split(" ");
+        String[] args = commande.split(" ");
         if(args.length == 1){
             //Look at place
             System.out.println(place.describePlace());
@@ -154,23 +277,79 @@ public class Game {
 
     private void use(String commande) {
         String args[] = commande.split(" ");
-        List<Usable> usableObjects = player.getUsableObjects();
 
-        if (usableObjects.size() > 0){
-            switch (args[1].toUpperCase()){
-                case "KEY" : useKey(usableObjects);
-                            break;
-                case "EXTINGUISHER":
-                case "TELEPHONE":
-                    break;
+        if (args.length > 1){
+
+
+            List<Usable> usableObjects = player.getUsableObjects();
+
+            if (usableObjects.size() > 0){
+                switch (args[1].toUpperCase()){
+                    case "KEY" :
+                        useChestWithKey(usableObjects);
+                        useDoor(usableObjects);
+                        break;
+                    case "EXTINGUISHER":
+                        useExtinguiser(usableObjects);
+                        break;
+                    case "TELEPHONE":
+                        break;
+                }
+            }else{
+                System.out.println(Message.gameErrorHelp);
             }
         }else{
-            System.out.println(Message.gameErrorHelp);
+            System.out.println(Message.gameUseError);
         }
     }
 
+    // TODO : CHECK THIS METHOD
+    public void useExtinguiser(List<Usable> usableObjects) {
+        List<Usable> extinguisers = usableObjects.stream()
+                                                    .filter(i -> i instanceof Extinguisher)
+                                                    .collect(Collectors.toList());
+        List<Firewall> firewalls = place.getMapExit().values().stream()
+                                                                .filter(i -> i instanceof Firewall)
+                                                                .map(i -> (Firewall) i)
+                                                                .collect(Collectors.toList());
+
+        if (firewalls.size() > 0 && extinguisers.size() > 0){
+            for (Firewall firewall : firewalls) {
+                for (Usable extinguiser : extinguisers) {
+                    firewall.unlock((Item) extinguiser);
+                    try {
+                        extinguiser.use(null);
+                    } catch (NotRightKey ignored) {
+                        //ignored catch because there's no possible way to raise this exception here
+                    }
+                }
+            }
+
+        }else{
+            if (extinguisers.size() > 0){
+
+                for (Usable extinguiser : extinguisers) {
+                    try {
+                        extinguiser.use(null);
+                    } catch (NotRightKey ignored) {
+                        //ignored catch because there's no possible way to raise this exception here
+                    }
+                }
+
+                System.out.println("I'm just wasting the extinguisher...");
+            }
+
+            if (firewalls.size() > 0){
+                System.out.println("I don't have a extinguisher to use...");
+            }
+        }
+
+    }
+
     // TODO : implements the use of doors with a key
-    public void useKey(List<Usable> usableObjects) {
+    public void useChestWithKey(List<Usable> usableObjects) {
+
+
         List<Openable> chests = place.GetOpenableItemRoom()
                                         .stream()
                                         .filter( i -> i instanceof Chest)
@@ -182,12 +361,31 @@ public class Game {
 
         System.out.println("I'm gonna use each key that i have with everything...\n" +
                 "maybe something will work with it\n");
+
+        Key tmp = null;
+        boolean flag = false;
+
         if(keys.size() > 0 && chests.size()>0){
             for (Usable key : keys) {
                 for (Openable chest : chests) {
 
                     try {
+                        System.out.println("I'm trying to open this " + chest.toString());
                         key.use(chest);
+
+                        // if is a lockedChest, keep the key to delete after use
+                        if (chest.getClass().getSimpleName().equalsIgnoreCase("LockedChest")){
+                            if (((LockedChest)chest).isUnlocked()){
+                                tmp = (Key) key;
+                                flag = true;
+                            }
+                        }
+
+                        //if chest is open, don't try the other keys
+                        if(((Chest) chest).isOpened()){
+                            break;
+                        }
+
                     } catch (NotRightKey notRightKey) {
                         System.out.println("\t" + notRightKey.getMessage());
                     }
@@ -206,6 +404,50 @@ public class Game {
             }
 
         }
+
+
+        deleteRightKey(tmp, flag);
+    }
+
+    // Delete the rigth key from player's items
+    private void deleteRightKey(Key tmp, boolean wasUsed) {
+        if (tmp != null && wasUsed){
+            player.deleteUsableObject(tmp.toString());
+        }else{
+            if (wasUsed){
+                System.out.println(Message.gameErrorOpen);
+            }
+        }
+    }
+
+    public void useDoor(List<Usable> usableObjects) {
+        List<Key> keys = usableObjects.stream()
+                .filter(usable -> usable instanceof Key)
+                .map(k -> (Key) k)
+                .collect(Collectors.toList());
+
+        List<Exitwithkey> exits = place.getDoors().stream()
+                                            .filter(e  -> e instanceof Exitwithkey)
+                                            .map( e -> (Exitwithkey) e )
+                                            .collect(Collectors.toList());
+
+        System.out.println("I'm gonna try to open this thing with all my keys...");
+        Key tmp = null;
+        boolean flag = false;
+        for (Exitwithkey exit : exits) {
+            for (Key key : keys) {
+                if (exit.islock()){
+                    exit.unlock( key);
+                    if (!exit.islock()){
+                        tmp = key;
+                        flag = true;
+                    }
+                }
+            }
+        }
+
+        deleteRightKey(tmp, flag);
+
     }
 
     private void go(String commande) {
@@ -238,4 +480,5 @@ public class Game {
     public Room getPlace() {
         return place;
     }
+
 }

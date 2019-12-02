@@ -12,7 +12,9 @@ public class Exitwithkey extends Exitwithlock{
     {
         if (check(k)) {
             super.unlock();
-        } 
+        }else{
+            System.out.println("It's not the right Key");
+        }
     }
     
     @Override

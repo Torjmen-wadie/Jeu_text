@@ -8,8 +8,9 @@ public class Exitwithlock extends Exit{
     }
     
     public void unlock()
-    {  
-      this.lock = false;
+    {
+        System.out.println("The door have been unlocked");
+        this.lock = false;
     }
     
     private void lock()
@@ -28,6 +29,8 @@ public class Exitwithlock extends Exit{
         if (!(this.islock()))
         {
             super.open();
+        }else{
+            System.out.println("It's locked");
         }
     }
     

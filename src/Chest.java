@@ -15,7 +15,11 @@ public class Chest extends Container implements Openable {
         if (opened){
             super.look();
         }else{
+<<<<<<< HEAD
             //System.out.println(Message.descChest);
+=======
+            System.out.println(Message.descChestLook);
+>>>>>>> refs/remotes/origin/master
         }
     }
 
@@ -29,5 +33,9 @@ public class Chest extends Container implements Openable {
     @Override
     public void close() {
         opened = false;
+    }
+
+    public boolean isOpened(){
+        return opened;
     }
 }

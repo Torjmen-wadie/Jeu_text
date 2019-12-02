@@ -110,5 +110,9 @@ public class Room extends Place {
 	public void deleteItem(Portable tmp) {
 		contains.remove(tmp);
 	}
+
+	public List<Exit> getDoors(){
+		return new ArrayList<>(this.getMapExit().values());
+	}
 }
     
