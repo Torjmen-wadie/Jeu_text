@@ -59,6 +59,7 @@ public class Room extends Place {
     	.collect(Collectors.toList());
     }
     
+    
     public void addItem(Item item) 
     {
     	this.contains.add(item);
@@ -75,15 +76,6 @@ public class Room extends Place {
 			System.out.println(Message.roomDescItem);
 		}
 	}
-    
-    public void removeItem(Item item)
-    {
-    	
-    }
-    
-   //TODO : Delete item in room
-    
-    
     
     public String describePlace() {
     	String str = "";
@@ -108,9 +100,15 @@ public class Room extends Place {
     }
 
 	public void deleteItem(Portable tmp) {
-		contains.remove(tmp);
+		Item i = (Item) tmp;
+		contains.remove(i);
 	}
 
+	public void putItem(Item tmp, Container contain)
+	{
+		contain.addItem(tmp);
+	}
+	
 	public List<Exit> getDoors(){
 		return new ArrayList<>(this.getMapExit().values());
 	}

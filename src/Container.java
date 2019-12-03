@@ -35,5 +35,9 @@ public class Container extends Item {
         this.items = null;
         return tmp;
     }
+    
+    public void addItem(Item i) {
+    	items.add(i);
+    }
 
 }

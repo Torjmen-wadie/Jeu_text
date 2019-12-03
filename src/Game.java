@@ -8,25 +8,46 @@ import java.util.stream.Collectors;
 public class Game extends Thread {
     private Player player;
     private Room place;
+    private List<Place> world;
     public static boolean runGame = true;
     Scanner scanner;
+    
+    private final static Pair [][] MAP = 
+		{
+			{new Pair("",0),new Pair("Door",1),new Pair("",0),new Pair("Wood Door",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			
+			{new Pair("Door",1), new Pair("",0), new Pair("Swing Door",2), new Pair("",0), new Pair("",0),new Pair("",0), new Pair("",0), new Pair("Metal Door",2), new Pair("",0), new Pair("",0),new Pair("",0), new Pair("",0) , new Pair("",0) , new Pair("",0) , new Pair("",0)},
+			
+			{new Pair("",0),new Pair("Swing Door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Threshold",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Trap Door",1),new Pair("",0),new Pair("",0),new Pair("Window Door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Hole",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Hole",1),new Pair("",0),new Pair("Fire Door",3),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Fire Door",3),new Pair("",0),new Pair("Double Door",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			
+			{new Pair("",0),new Pair("Metal Door",2),new Pair("",0),new Pair("Window door",2),new Pair("",0),new Pair("",0),new Pair("Double door",1),new Pair("",0),new Pair("Wood door",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			
+			{new Pair("",0),new Pair("",0),new Pair("Threshold",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Wood door",1),new Pair("",0),new Pair("Secret door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Reinforced door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Secret door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Curtain",1)},
+			
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Fire door",3),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Metal door",2),new Pair("",0),new Pair("",0),new Pair("",0)},
+			
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Metal door",2),new Pair("",0),new Pair("Openning",1),new Pair("",0),new Pair("",0)},
+			
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Hole",1),new Pair("",0),new Pair("Fire door",3),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+		
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)}
+	
+		};
 
 
-    private Key keyL ;
-    private Key keyLou ;
-    private Key keyBa;
-    private Key keyKit;
-    private Key keyPou;
-    private Key keyGa ;
-
-    private Key keyBal;
-    private Book book;
-    private Letter letter;
-    private Extinguisher extinguisher;
-    private Desk desk ;
-    private Couch couch;
-    private Extinguisher extin1;
-    private Extinguisher extin2;
+    
 
     //    Thread t =new Thread();
     public static volatile boolean runinig;
@@ -55,62 +76,161 @@ public class Game extends Thread {
     public void intilisation()
     {
 
-        List<Place> hotel = new ArrayList<>();
-        keyL=new Key("keyLounge",23456);
-        keyLou =new Key("keyRoom",12345);
-        keyBa =new Key("KeyBathroom",78451);
-        keyPou=new Key("keyPountry",54712);
-        keyKit=new Key("keyKitchen",27841);
-        keyGa=new Key("keyGame",54661);
-        book=new Book("you must find the Key in the Lounge ...","Java");
-        letter=new Letter("you must use the extiglisher in the door with fire ...","from your teacher");
-        extin1 = new Extinguisher("ExtinguisherCor",30);
-        extin2=new Extinguisher("ExtinguisherDrain",30);
-
-        List<Item> deskObj=new ArrayList<>();
-        deskObj.add(book);
-        desk=new Desk("Desk",deskObj);
-        List<Item>objePlace =new ArrayList<>();
-        objePlace.add(keyL);
-        objePlace.add(keyLou);
-        objePlace.add(keyBa);
-        objePlace.add(keyPou);
-        objePlace.add(keyKit);
-        objePlace.add(keyGa);
-        objePlace.add(book);
-        objePlace.add(letter);
-        objePlace.add(extin1);
-        objePlace.add(extin2);
-        Room room =new Room("Room","This is your room which contain a couch",objePlace);
-        Room bath=new Room("Bathroom","This is the bathroom which contain a key...",objePlace);
-        Room Drain =new Room("Drain","In the Drain you must find the Extinghuisher...",objePlace);
-        Room baler= new Room("BalerRoom","the Baler Room contain an Extinguisher",objePlace);
-        Room resto=new Room("Restorant","there is nothing here you must go out",null);
-        Room cori=new Room("Coridor","here you have a key and an extinguisher ...",objePlace);
-        Room lounge=new Room("Lounge Room","you have two key here ... ",objePlace);
-        Room libr =new Room("Liibrary","you must find the key in the desk...",objePlace);
-        Room game=new Room("Game Room","you must find the key in this place...",objePlace);
-        Room bal=new Room("Balhroom","there is a key here",objePlace);
-        Room kitc=new Room("Kitchen","there is key in some where here",objePlace);
-        Room pou=new Room("Pontry","there is key",objePlace);
-        Room cold= new Room("Cold Room","there is nothing",null);
-        Room bar =new Room("Bar","go out ...",null);
-        Room rece=new Room("Reception","you must go out right now",null);
-        hotel.add(room);
-        hotel.add(bath);
-        hotel.add(Drain);
-        hotel.add(resto);
-        hotel.add(cori);
-        hotel.add(baler);
-        hotel.add(lounge);
-        hotel.add(libr);
-        hotel.add(game);
-        hotel.add(bal);
-        hotel.add(kitc);
-        hotel.add(pou);
-        hotel.add(cold);
-        hotel.add(bar);
-        hotel.add(rece);
+        List<Place> unlink_place = new ArrayList<>();
+        
+        
+        //----------------- 1 - Initialization Item-------------------------
+        
+        // ----------Room--------------
+        Couch couch_room = new Couch("Bed",new ArrayList<Item>());
+        // ----------Lounge--------------
+        Vase vase_lounge = new Vase("Chinese vase", new ArrayList<Item>());
+        	//TODO : Put key for Corridor in vase
+        	// TODO : put key for metal door
+        // ----------Library--------------
+        Book library_book =new Book("you can find a key in the Game Room ...","Java");
+        List<Item> desk_contain = new ArrayList<Item>();
+        desk_contain.add(library_book);
+        Desk desk_library = new Desk("Bookcase",desk_contain);
+    	// ----------Game Room--------------
+        	// AUTO-GENERATE : Key
+        // ----------Bath Room--------------
+        	// AUTO-GENERATE : Key
+        // ----------Boiler Room--------------
+        Extinguisher extinct_boileroom  = new Extinguisher("Extinguisher", 30);
+        Letter letter=new Letter("you must use the extiglisher in the door with fire ...","from your teacher");
+        // ----------Corridor--------------
+        Extinguisher extinct_corridor = new Extinguisher("Extinguisher", 30);
+        // ----------Kitchen--------------
+        Chest chest_kitchen = new Chest("Chest",new ArrayList<Item>());
+        	//TODO : Put key Pantry here
+        // ----------Pantry--------------
+        	//TODO : Put key Bar here
+        
+        //----------------- 2 - Initialization Place-------------------------
+       
+        // ---------- 0 Room --------------
+        List<Item> room_contain = new ArrayList<Item>();
+        room_contain.add(couch_room);
+        Room room =new Room("Room","This is your room which contain a couch",room_contain);
+        unlink_place.add(room);
+        
+        // ---------- 1 Lounge Room --------------
+        List<Item> lounge_contain = new ArrayList<Item>();
+        	
+        Room lounge=new Room("Lounge Room","you have two key here ... ",lounge_contain);
+        unlink_place.add(lounge);
+        
+        // ---------- 2 Library --------------
+        List<Item> libr_contain = new ArrayList<Item>();
+        libr_contain.add(desk_library);
+        Room libr =new Room("Library","you must find the key in the desk...",libr_contain);
+        unlink_place.add(libr);     
+        
+        // ---------- 3 Bathroom --------------
+        List<Item> bath_contain = new ArrayList<Item>();
+        Room bath=new Room("Bathroom","This is the bathroom which contain a key...",bath_contain);
+        unlink_place.add(bath);
+        
+        // ---------- 4 Drain --------------
+        List<Item> drain_contain = new ArrayList<Item>();
+        Room drain =new Room("Drain","In the Drain you must find the Extinghuisher...",drain_contain);
+        unlink_place.add(drain);
+        
+        // ---------- 5 Boiler Room --------------
+        List<Item> boiler_contain = new ArrayList<Item>();
+        boiler_contain.add(extinct_boileroom);
+        boiler_contain.add(letter);
+        Room boiler= new Room("Boiler Room","the Baler Room contain an Extinguisher",boiler_contain);
+        unlink_place.add(boiler);
+        
+	    // ---------- 6 Restaurant --------------
+        List<Item> resto_contain = new ArrayList<Item>();
+        Room resto=new Room("Restaurant","there is nothing here you must go out",resto_contain);
+        unlink_place.add(resto);
+        
+        // ---------- 7 Corridor --------------
+        List<Item> cori_contain = new ArrayList<Item>();
+        cori_contain.add(extinct_corridor);
+        Room cori=new Room("Corridor","here you have a key and an extinguisher ...",cori_contain);
+        unlink_place.add(cori);
+        
+        // ---------- 8 Game Room --------------
+        List<Item> game_contain = new ArrayList<Item>();
+        Room game=new Room("Game Room","you must find the key in this place...",game_contain);
+        unlink_place.add(game);
+        
+        // ---------- 9 Bar --------------
+        List<Item> bar_contain = new ArrayList<Item>();
+        Room bar =new Room("Bar","go out ...",bar_contain);
+        unlink_place.add(bar);
+        
+        // ---------- 10 Kitchen --------------
+        List<Item> kit_contain = new ArrayList<Item>();
+        Room kit=new Room("Kitchen","there is key in some where here",kit_contain);
+        unlink_place.add(kit);
+        
+        // ---------- 11 Pantry --------------
+        List<Item> pan_contain = new ArrayList<Item>();
+        Room pan=new Room("Pantry","there is key",pan_contain);
+        unlink_place.add(pan);
+        
+        // ---------- 12 Cold Room --------------
+        List<Item> cold_contain = new ArrayList<Item>();
+        Room cold= new Room("Cold Room","there is nothing",cold_contain);
+        unlink_place.add(cold);
+        
+        // ---------- 13 Ballroom --------------
+        List<Item> bal_contain = new ArrayList<Item>();
+        Room bal=new Room("Ballroom","there is a key here",bal_contain);
+        unlink_place.add(bal);
+        
+        // ---------- 14 Reception --------------
+        List<Item> rece_contain = new ArrayList<Item>();
+        Room rece=new Room("Reception","you must go out right now",rece_contain);
+        unlink_place.add(rece);
+        
+        
+        Mapgenerator map = new Mapgenerator(MAP, unlink_place);
+        map.create();
+        this.world = map.getMap();
+        
+        
+        //------------------Lounge : Move Key into vase-----------------------
+        
+        Room lounge_select = (Room) this.world.get(1);
+        List<Key> loungekey = lounge_select.GetPortableItemRoom().stream()
+        .filter(i -> i instanceof Key)
+        .map(i -> (Key) i)
+    	.collect(Collectors.toList());
+        loungekey.forEach(k -> lounge_select.deleteItem(k));
+        loungekey.forEach(k -> vase_lounge.addItem(k));
+        lounge_select.addItem(vase_lounge);
+       
+        
+      //------------------Game Room : Move Key into Pantry-----------------------
+        
+        Room game_select = (Room) this.world.get(8);
+        List<Key> gamekey = game_select.GetPortableItemRoom().stream()
+        .filter(i -> i instanceof Key)
+        .map(i -> (Key) i)
+        .collect(Collectors.toList());
+        
+        gamekey.forEach(k -> game_select.deleteItem(k));
+        
+        Room pantry_select = (Room) this.world.get(11);
+        gamekey.forEach(k -> pantry_select.addItem(k));
+        
+        //------------------------Kitchen : Move Key into Chest---------------------
+        Room kitchen_select = (Room) this.world.get(10);
+        List<Key> kitchenkey = kitchen_select.GetPortableItemRoom().stream()
+        .filter(i -> i instanceof Key)
+        .map(i -> (Key) i)
+        .collect(Collectors.toList());
+        
+        kitchenkey.forEach(k -> kitchen_select.deleteItem(k));
+        kitchenkey.forEach(k -> chest_kitchen.addItem(k));
+        kitchen_select.addItem(chest_kitchen);
 
     }
 

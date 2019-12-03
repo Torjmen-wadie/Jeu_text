@@ -1,5 +1,3 @@
-import exceptions.ContainerCarryException;
-
 import java.util.List;
 
 public class Chest extends Container implements Openable {
@@ -15,11 +13,8 @@ public class Chest extends Container implements Openable {
         if (opened){
             super.look();
         }else{
-<<<<<<< HEAD
-            //System.out.println(Message.descChest);
-=======
+
             System.out.println(Message.descChestLook);
->>>>>>> refs/remotes/origin/master
         }
     }
 
