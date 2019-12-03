@@ -29,7 +29,7 @@ public class Room extends Place {
     
     public Exit select(String exit) throws ExitPlaceException
     { 
-    	if (this.exits.containsKey(exit)) 
+    	if (this.exits.containsKey(exit.toUpperCase())) 
     	{
     		return this.exits.get(exit);
     	}
@@ -40,7 +40,7 @@ public class Room extends Place {
     
     public void addExit(Exit e) 
     {
-    	super.getMapExit().put(e.getName(), e);
+    	super.getMapExit().put(e.getName().toUpperCase(), e);
     }
     
     public List<Portable> GetPortableItemRoom()
@@ -67,7 +67,7 @@ public class Room extends Place {
 
     public void describeItem(String item){
     	List<Item> items = this.contains.stream()
-								.filter(obj -> obj.toString().equals(item))
+								.filter(obj -> obj.toString().equals(item.toUpperCase()))
 								.collect(Collectors.toList());
 
     	if(items.size() > 0){
