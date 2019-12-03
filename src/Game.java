@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 public class Game extends Thread {
     private Player player;
     private Room place;
+    private Objective objective;
     private List<Place> gamemap;
     public static boolean runGame = true;
     Scanner scanner;
@@ -32,16 +33,16 @@ public class Game extends Thread {
 			
 			{new Pair("",0),new Pair("",0),new Pair("Threshold",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Wood door",1),new Pair("",0),new Pair("Secret door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
-			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Reinforced door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Secret door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Curtain",1)},
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Secret door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Reinforced door",2),new Pair("Curtain",1)},
 			
 			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Fire door",3),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Metal door",2),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
 			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Metal door",2),new Pair("",0),new Pair("Openning",1),new Pair("",0),new Pair("",0)},
 			
-			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Hole",1),new Pair("",0),new Pair("Fire door",3),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
-			
 			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
-		
+			
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Hole",1),new Pair("",0),new Pair("Fire door",3),new Pair("",0),new Pair("",0),new Pair("Reinforced door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			
 			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)}
 	
 		};
@@ -57,6 +58,7 @@ public class Game extends Thread {
         this.scanner = new Scanner(System.in);
         this.player = new Player("Player");
         this.gamemap = this.setUpMap();
+        this.objective = new Objective(this.gamemap.get(0), this.gamemap.get(this.gamemap.size()-1));
         this.place = (Room) this.gamemap.get(0);
     }
     
@@ -74,7 +76,7 @@ public class Game extends Thread {
         Couch couch_room = new Couch("Bed",new ArrayList<Item>());
         // ----------Lounge--------------
         Vase vase_lounge = new Vase("Chinese vase", new ArrayList<Item>());
-        	//TODO : Put key for Corridor in vase
+        	//TODO : Put key for Corridor in vase 
         	// TODO : put key for metal door
         // ----------Library--------------
         Book library_book =new Book("you can find a key in the Game Room ...","Java");
@@ -618,6 +620,13 @@ public class Game extends Thread {
 
     public Room getPlace() {
         return place;
+    }
+    
+    public static void main(String[] args) {
+    	Game game = new Game();
+    	game.init();
+    
+    	
     }
 
 }
