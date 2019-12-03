@@ -12,7 +12,7 @@ public class Player {
     private List<Portable> objects ;
     private int hopless;
     private final int MAX_OBJ =5 ;
-    
+
     public Player (String nameP)
     {
         this.nameP=nameP ;
@@ -41,7 +41,7 @@ public class Player {
 
     public void addInventor(Portable obj)
    {
-       if((objects.size() < MAX_OBJ) && (!objects.contains(obj)) && (obj!=null))
+       if((objects.size() < MAX_OBJ) && (!contains(obj)) && (obj!=null))
        {
        objects.add(obj);
        }
@@ -58,7 +58,23 @@ public class Player {
            System.out.println(Message.playerAddSat);
            }
 
-       
+
+   }
+
+   private boolean contains(Portable obj){
+        boolean flag = false;
+
+       for (Portable object : objects) {
+
+           if (object instanceof Key){
+               if (((Key) object).getCode() == ((Key)obj).getCode()){
+                    flag = true;
+               }
+           }
+
+       }
+
+       return  flag;
    }
 
 

@@ -28,8 +28,9 @@ public class Room extends Place {
     
     
     public Exit select(String exit) throws ExitPlaceException
-    { 
-    	if (this.exits.containsKey(exit.toUpperCase())) 
+    {
+    	exit = exit.toUpperCase();
+    	if (this.exits.containsKey(exit))
     	{
     		return this.exits.get(exit);
     	}
