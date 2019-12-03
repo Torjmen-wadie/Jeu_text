@@ -388,6 +388,7 @@ public class Game extends Thread {
 
     }
 
+    //bug, look 2 time
     public void look(String commande) {
         String[] args = commande.split(" ", 2);
         if(args.length == 1){
