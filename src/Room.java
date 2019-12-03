@@ -65,16 +65,30 @@ public class Room extends Place {
     	this.contains.add(item);
     }
 
-    public void describeItem(String item){
+    public List<Item> describeItem(String item){
     	List<Item> items = this.contains.stream()
-								.filter(obj -> obj.toString().equals(item))
+								.filter(obj -> obj.toString().equalsIgnoreCase(item))
 								.collect(Collectors.toList());
-
+		List<Item> insideItems = null;
     	if(items.size() > 0){
+
+
 			items.forEach(Item::look);
+
+			for (Item item1 : items) {
+				item1.look();
+				if ( item1 instanceof Container){
+					List<Item> tmp = ((Container) item1).getItems();
+					if (tmp != null){
+						insideItems = new ArrayList<>(tmp);
+					}
+				}
+			}
 		}else{
 			System.out.println(Message.roomDescItem);
 		}
+
+		return insideItems;
 	}
     
     public String describePlace() {

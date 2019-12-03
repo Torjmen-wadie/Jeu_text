@@ -30,4 +30,9 @@ public class Book extends Item implements Portable, Openable{
 
     }
 
+    @Override
+    public boolean isopen() {
+        return false;
+    }
+
 }

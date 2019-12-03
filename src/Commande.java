@@ -6,5 +6,6 @@ public enum Commande {
     TAKE,
     USE,
     OPEN,
-    THROW
+    THROW,
+    SHOW
 }

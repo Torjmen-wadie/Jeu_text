@@ -30,6 +30,11 @@ public class Chest extends Container implements Openable {
         opened = false;
     }
 
+    @Override
+    public boolean isopen() {
+        return opened;
+    }
+
     public boolean isOpened(){
         return opened;
     }

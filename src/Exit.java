@@ -108,4 +108,9 @@ public class Exit implements Openable {
     		throw new PlaceException();
     	}
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

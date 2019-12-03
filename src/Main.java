@@ -10,6 +10,7 @@ public class Main {
 
         init.start();
 
+        /*
         Thread stop = new Thread(){
             @Override
             public void run() {
@@ -29,6 +30,6 @@ public class Main {
             e.printStackTrace();
         }
 
-        System.out.println(game.runGame);
+        System.out.println(game.runGame);*/
     }
 }

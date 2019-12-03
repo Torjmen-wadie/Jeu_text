@@ -256,6 +256,7 @@ public class Game extends Thread {
     }
 
     private void execCommande(String commande) {
+        commande = commande.trim();
         String[] parts = commande.split(" ");
         switch (Commande.valueOf(parts[0].toUpperCase())){
             case GO: go(commande);
@@ -279,6 +280,17 @@ public class Game extends Thread {
                 break;
             case THROW:eject(commande);
                 break;
+            case SHOW:show(commande);
+                break;
+        }
+    }
+
+    private void show(String commande) {
+        if (player.getObjects().size() > 0){
+            System.out.println("I have : ");
+            player.getObjects().forEach(System.out::println);
+        }else{
+            System.out.println("I don't have any object");
         }
     }
 
@@ -312,6 +324,13 @@ public class Game extends Thread {
             // if there's a object with the name args[1]. open it
             if (pos != -1){
                 tmp.get(pos).open();
+                if( tmp.get(pos).isopen() ) {
+                    // TODO : TMP POUR LE MOMENT
+                    System.out.println("OPENED");
+                }else{
+                    // TODO : TMP POUR LE MOMENT
+                    System.out.println("It's still closed");
+                }
             }else{
                 System.out.println(Message.gameErrorWait);
 
@@ -370,13 +389,22 @@ public class Game extends Thread {
     }
 
     public void look(String commande) {
-        String[] args = commande.split(" ");
+        String[] args = commande.split(" ", 2);
         if(args.length == 1){
             //Look at place
             System.out.println(place.describePlace());
+            System.out.println(place.describeExit());
         }else{
             //look at object in place
-            place.describeItem(args[1]);
+            //if look is at Container, we'll get all the objects inside
+            List<Item> insideItems = place.describeItem(args[1]);
+
+            if (insideItems != null){
+                //put all the objects inside place
+                for (Item insideItem : insideItems) {
+                    place.addItem(insideItem);
+                }
+            }
         }
     }
 
@@ -561,7 +589,7 @@ public class Game extends Thread {
     }
 
     private void go(String commande) {
-        String[] args = commande.split(" ");
+        String[] args = commande.split(" ", 2);
         try {
             Exit tmp = place.select(args[1]);
             place = (Room) tmp.nextPlace();
