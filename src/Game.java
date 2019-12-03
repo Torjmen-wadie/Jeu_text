@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public class Game extends Thread {
     private Player player;
     private Room place;
-    private List<Place> world;
+    private List<Place> gamemap;
     public static boolean runGame = true;
     Scanner scanner;
     
@@ -51,29 +51,18 @@ public class Game extends Thread {
 
     //    Thread t =new Thread();
     public static volatile boolean runinig;
-    public Game() {
-        scanner = new Scanner(System.in);
-
-
-        player = new Player("Player");
-        Key k =new Key("KEY", 0);
-        player.addInventor(k);
-        player.addInventor(new Key("" , 1));
-
-        // TODO: DELETE THE ITEMS CREATED BELOW
-        List<Item> items = new ArrayList<>();
-        items.add(new Chest("chest1", new ArrayList<Item>()));
-        items.add(new Chest("chest2", new ArrayList<Item>()));
-        items.add(new LockedChest("locked1", new ArrayList<Item>(),0));
-        items.add(new LockedChest("locked2", new ArrayList<Item>(),1));
-        items.add(new Letter("l1","letter1"));
-        items.add(new Letter("l2","letter2"));
-        items.add(new Letter("l3","letter3"));
-
-        place = new Room("", "", items);
-        place.addExit(new Exitwithkey(place, place, "exit", k ));
+    
+    public Game() 
+    {
+        this.scanner = new Scanner(System.in);
+        this.player = new Player("Player");
+        this.gamemap = this.setUpMap();
+        this.place = (Room) this.gamemap.get(0);
     }
-    public void intilisation()
+    
+    
+    
+    public List<Place> setUpMap()
     {
 
         List<Place> unlink_place = new ArrayList<>();
@@ -193,12 +182,12 @@ public class Game extends Thread {
         
         Mapgenerator map = new Mapgenerator(MAP, unlink_place);
         map.create();
-        this.world = map.getMap();
+        List<Place> world = map.getMap();
         
         
         //------------------Lounge : Move Key into vase-----------------------
         
-        Room lounge_select = (Room) this.world.get(1);
+        Room lounge_select = (Room) world.get(1);
         List<Key> loungekey = lounge_select.GetPortableItemRoom().stream()
         .filter(i -> i instanceof Key)
         .map(i -> (Key) i)
@@ -210,7 +199,7 @@ public class Game extends Thread {
         
       //------------------Game Room : Move Key into Pantry-----------------------
         
-        Room game_select = (Room) this.world.get(8);
+        Room game_select = (Room) world.get(8);
         List<Key> gamekey = game_select.GetPortableItemRoom().stream()
         .filter(i -> i instanceof Key)
         .map(i -> (Key) i)
@@ -218,11 +207,11 @@ public class Game extends Thread {
         
         gamekey.forEach(k -> game_select.deleteItem(k));
         
-        Room pantry_select = (Room) this.world.get(11);
+        Room pantry_select = (Room) world.get(11);
         gamekey.forEach(k -> pantry_select.addItem(k));
         
         //------------------------Kitchen : Move Key into Chest---------------------
-        Room kitchen_select = (Room) this.world.get(10);
+        Room kitchen_select = (Room) world.get(10);
         List<Key> kitchenkey = kitchen_select.GetPortableItemRoom().stream()
         .filter(i -> i instanceof Key)
         .map(i -> (Key) i)
@@ -231,7 +220,8 @@ public class Game extends Thread {
         kitchenkey.forEach(k -> kitchen_select.deleteItem(k));
         kitchenkey.forEach(k -> chest_kitchen.addItem(k));
         kitchen_select.addItem(chest_kitchen);
-
+        
+        return world;
     }
 
     //surcharger la méthode run() de classe thread
