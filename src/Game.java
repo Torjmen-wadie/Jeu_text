@@ -59,7 +59,7 @@ public class Game extends Thread {
         this.player = new Player("Player");
         this.gamemap = this.setUpMap();
         this.objective = new Objective(this.gamemap.get(0), this.gamemap.get(this.gamemap.size()-1));
-        this.place = (Room) this.gamemap.get(2);
+        this.place = (Room) this.gamemap.get(0);
     }
     
     
