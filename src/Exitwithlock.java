@@ -2,14 +2,15 @@ import exceptions.PlaceException;
 public class Exitwithlock extends Exit{
     private boolean lock;
     
-    public Exitwithlock(Place to , Place from, String name) {
+    public Exitwithlock(Place from , Place to, String name) {
         super(from, to, name);
         this.lock = true;
     }
     
     public void unlock()
-    {  
-      this.lock = false;
+    {
+        System.out.println("The door have been unlocked");
+        this.lock = false;
     }
     
     private void lock()
@@ -28,6 +29,8 @@ public class Exitwithlock extends Exit{
         if (!(this.islock()))
         {
             super.open();
+        }else{
+            System.out.println("It's locked");
         }
     }
     

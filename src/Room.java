@@ -29,7 +29,7 @@ public class Room extends Place {
     
     public Exit select(String exit) throws ExitPlaceException
     { 
-    	if (this.exits.containsKey(exit)) 
+    	if (this.exits.containsKey(exit.toUpperCase())) 
     	{
     		return this.exits.get(exit);
     	}
@@ -40,7 +40,7 @@ public class Room extends Place {
     
     public void addExit(Exit e) 
     {
-    	super.getMapExit().put(e.getName(), e);
+    	super.getMapExit().put(e.getName().toUpperCase(), e);
     }
     
     public List<Portable> GetPortableItemRoom()
@@ -59,31 +59,37 @@ public class Room extends Place {
     	.collect(Collectors.toList());
     }
     
+    
     public void addItem(Item item) 
     {
     	this.contains.add(item);
     }
 
-    public void describeItem(String item){
+    public List<Item> describeItem(String item){
     	List<Item> items = this.contains.stream()
-								.filter(obj -> obj.toString().equals(item))
+								.filter(obj -> obj.toString().equalsIgnoreCase(item))
 								.collect(Collectors.toList());
-
+		List<Item> insideItems = null;
     	if(items.size() > 0){
+
+
 			items.forEach(Item::look);
+
+			for (Item item1 : items) {
+				item1.look();
+				if ( item1 instanceof Container){
+					List<Item> tmp = ((Container) item1).getItems();
+					if (tmp != null){
+						insideItems = new ArrayList<>(tmp);
+					}
+				}
+			}
 		}else{
 			System.out.println(Message.roomDescItem);
 		}
+
+		return insideItems;
 	}
-    
-    public void removeItem(Item item)
-    {
-    	
-    }
-    
-   //TODO : Delete item in room
-    
-    
     
     public String describePlace() {
     	String str = "";
@@ -108,7 +114,17 @@ public class Room extends Place {
     }
 
 	public void deleteItem(Portable tmp) {
-		contains.remove(tmp);
+		Item i = (Item) tmp;
+		contains.remove(i);
+	}
+
+	public void putItem(Item tmp, Container contain)
+	{
+		contain.addItem(tmp);
+	}
+	
+	public List<Exit> getDoors(){
+		return new ArrayList<>(this.getMapExit().values());
 	}
 }
     

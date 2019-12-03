@@ -1,9 +1,9 @@
 public class Exitwithkey extends Exitwithlock{
     private final int KEY; 
     
-    public Exitwithkey(Place to, Place from, String name , Key k)
+    public Exitwithkey(Place from, Place to, String name , Key k)
     {
-        super(to, from, name);
+        super(from, to, name);
         this.KEY = k.getCode();
     }
     
@@ -12,7 +12,9 @@ public class Exitwithkey extends Exitwithlock{
     {
         if (check(k)) {
             super.unlock();
-        } 
+        }else{
+            System.out.println("It's not the right Key");
+        }
     }
     
     @Override
@@ -23,5 +25,9 @@ public class Exitwithkey extends Exitwithlock{
     	return this.KEY == k.getCode();
     }
     
+    public int getKEY()
+    {
+    	return KEY;
+    }
     
 }

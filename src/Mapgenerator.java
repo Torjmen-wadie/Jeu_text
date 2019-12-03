@@ -43,6 +43,7 @@ public class Mapgenerator {
 	private List<Place> nodes;
 	private List<Place> map;
 	private ArrayList<Integer> unique;
+	private int currentunique; 
 	
 	/**
 	 * <b>Constructor</b>
@@ -64,12 +65,12 @@ public class Mapgenerator {
 		this.nodes = node;
 		this.adjmatrix = matrix;
 		this.unique = new ArrayList<Integer>();
-		for (int id = 1000; id<=9999; id++) 
+		for (int id = 100; id<=999; id++) 
 		{
-			this.unique.add(id); //Generate a list of unique 5 numbers key
+			this.unique.add(id); //Generate a list of unique 3 numbers key
 		}
 		this.map  = node;
-		
+		this.newCurrentUnique();
 	}
 	/**
 	 * Converted matrix in relationship between Exit and Place. 
@@ -82,11 +83,29 @@ public class Mapgenerator {
 		 * Maybe if consider that a matrix is symmetrical, we can reduce time of execution
 		 */
 		int fixed_size = this.nodes.size();
+		
 		for (int i = 0; i < fixed_size; i++)
 		{
 			for (int j = 0; j < fixed_size; j++) 
 			{
-				this.map.set(i, initExit(nodes.get(i),nodes.get(j), this.adjmatrix[i][j]));
+				if (!(this.adjmatrix[i][j].getValue() == 0))
+				{	
+					if (this.adjmatrix[i][j].equals(this.adjmatrix[j][i])) 
+					{
+						this.map.set(i, initExit(this.nodes.get(i),this.nodes.get(j), this.adjmatrix[i][j]));
+						this.map.set(j, initExit(this.nodes.get(j),this.nodes.get(i), this.adjmatrix[i][j]));
+						if (this.adjmatrix[i][j].getValue() == 2)
+						{
+							this.newCurrentUnique();
+						}
+						this.adjmatrix[i][j] = new Pair("", 0);
+						this.adjmatrix[j][i] = new Pair("", 0);
+					}
+					else
+					{
+						this.map.set(i, initExit(this.nodes.get(i),this.nodes.get(j), this.adjmatrix[i][j]));
+					}
+				}
 			}
 		}
 	}
@@ -97,17 +116,27 @@ public class Mapgenerator {
 	 * 		Unique random id.
 	 */
 //-------------------------------------------------------------------------	
+	
+	
+
 	private int randomizeUnique() 
 	{
+		 //Get the unique randomize value for key (or code, or another things)
 		int rdmvalue = 0;
 		if (!(this.unique.isEmpty())) {
 			Collections.shuffle(this.unique);
-			rdmvalue = this.unique.get(0); //Get the unique randomize value for key (or code, or another things)
+			rdmvalue = this.unique.get(0);
 			this.unique.remove(0);
-			
 		}
 		return rdmvalue;
 	}
+	
+	private void newCurrentUnique() 
+	{
+		this.currentunique = randomizeUnique();
+	}
+	
+	
 	/**
 	 * Initialize a Exit and add this Exit to a Place.
 	 * 
@@ -135,10 +164,10 @@ public class Mapgenerator {
 			from.addExit(new Exit(from, to, link.getKey()));		
 			break;
 		case 2: // Add to a room a exit with lock, and put a key in a room
-			Key passkey = new Key("Key",this.randomizeUnique());
-			from.addExit(new Exitwithkey(from, to, link.getKey(),passkey));
+			Key passkey = new Key("Key",this.currentunique);
 			Room r = (Room) from;
 			r.addItem(passkey);
+			from.addExit(new Exitwithkey(from, to, link.getKey(),passkey));
 			break;
 		case 3: //Add to a room a fire wall, unlock with a Extinguisher
 			from.addExit(new Firewall(from, to));

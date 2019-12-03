@@ -2,9 +2,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
@@ -66,7 +63,7 @@ public class GameTest {
         game.take("TAKE");
         System.out.println("Now carrying " + game.getPlayer().getObjects().size());
         assertNotEquals(0, game.getPlayer().getObjects().size());
-        assertEquals(itemsPortablesInRoom, game.getPlayer().getObjects().size());
+        assertEquals(itemsPortablesInRoom + itemsPortablesFromPlayer, game.getPlayer().getObjects().size());
         assertNotEquals(itemsPortablesFromPlayer, game.getPlayer().getObjects().size());
     }
 
@@ -86,12 +83,17 @@ public class GameTest {
     }
 
     @Test
+    void openDoor(){
+        game.open("open exit");
+    }
+
+    @Test
     void takeUsableItemThatNotExist(){
         assertFalse(game.containsObject("jewerly_chest"));
     }
 
     @Test
-    void takeUsableItemThatExist(){
+    void existenceOfItem(){
         assertTrue(game.containsObject("letter1"));
     }
 
@@ -107,6 +109,21 @@ public class GameTest {
 
     @Test
     void useKey() {
-        game.useKey(game.getPlayer().getUsableObjects());
+        game.useChestWithKey(game.getPlayer().getUsableObjects());
+    }
+
+    @Test
+    void throwObject(){
+        int initSize = game.getPlayer().getObjects().size();
+        int initSize2 = game.getPlace().GetPortableItemRoom().size();
+
+        game.eject("THROW KEY");
+        assertNotEquals(initSize,game.getPlayer().getObjects().size() );
+        assertNotEquals(initSize2 , game.getPlace().GetPortableItemRoom().size());
+    }
+
+    @Test
+    void useKeyWithLockedDoor(){
+        game.useDoor(game.getPlayer().getUsableObjects());
     }
 }

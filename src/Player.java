@@ -124,10 +124,10 @@ public class Player {
    public Portable deleteUsableObject(String obj)
    {
        Portable tmp = null;
-       for(int i=0;i<objects.size()-1;i++) {
-           if (objects.get(i).equals(obj)) {
+       for(int i=0 ; i< objects.size();i++) {
+           if (objects.get(i).toString().equalsIgnoreCase(obj)) {
                tmp = objects.get(i);
-               objects.remove(obj);
+               objects.remove(tmp);
            }
        }
        return tmp;

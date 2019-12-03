@@ -31,4 +31,8 @@ public class LockedChest extends Chest {
 
         open();
     }
+
+    public boolean isUnlocked(){
+        return unlocked;
+    }
 }
