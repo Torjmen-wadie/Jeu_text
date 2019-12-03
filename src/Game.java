@@ -59,7 +59,7 @@ public class Game extends Thread {
         this.player = new Player("Player");
         this.gamemap = this.setUpMap();
         this.objective = new Objective(this.gamemap.get(0), this.gamemap.get(this.gamemap.size()-1));
-        this.place = (Room) this.gamemap.get(0);
+        this.place = (Room) this.gamemap.get(2);
     }
     
     
@@ -273,6 +273,7 @@ public class Game extends Thread {
                 break;
 
             case QUIT:quit(commande);
+                runGame = false;
                 break;
 
             case TAKE:take(commande);
@@ -297,11 +298,13 @@ public class Game extends Thread {
     }
 
     public void eject(String commande) {
-        String[] args = commande.split(" ");
+        String[] args = commande.split(" ",2);
 
         if (args.length > 1){
             Portable tmp = player.deleteUsableObject(args[1]);
-            place.addItem((Item) tmp);
+            if (tmp != null)
+                place.addItem((Item) tmp);
+
         }else {
             System.out.println("What am i supposed to throw?");
         }
@@ -313,12 +316,13 @@ public class Game extends Thread {
         if (args.length > 1 ){
             int pos = -1;
             List<Openable> tmp = place.GetOpenableItemRoom();
-
+            // added the items from user to open
+            tmp.addAll(player.getOpenableItems());
             //added the doors to open
             tmp.addAll(place.getDoors());
 
             for (int i = 0; i < tmp.size(); i++) {
-                if(tmp.get(i).toString().equals(args[1])){
+                if(tmp.get(i).toString().equalsIgnoreCase(args[1])){
                     pos = i;
                 }
             }
@@ -435,6 +439,10 @@ public class Game extends Thread {
                         break;
                     case "TELEPHONE":
                         break;
+
+                    default:
+                        System.out.println("what am i supposed to use?");
+                        break;
                 }
             }else{
                 System.out.println(Message.gameErrorHelp);
@@ -504,8 +512,6 @@ public class Game extends Thread {
                 "maybe something will work with it\n");
 
         Key tmp = null;
-        boolean flag = false;
-
         if(keys.size() > 0 && chests.size()>0){
             for (Usable key : keys) {
                 for (Openable chest : chests) {
@@ -517,8 +523,7 @@ public class Game extends Thread {
                         // if is a lockedChest, keep the key to delete after use
                         if (chest.getClass().getSimpleName().equalsIgnoreCase("LockedChest")){
                             if (((LockedChest)chest).isUnlocked()){
-                                tmp = (Key) key;
-                                flag = true;
+                                deleteRightKey((Key) key);
                             }
                         }
 
@@ -547,17 +552,12 @@ public class Game extends Thread {
         }
 
 
-        deleteRightKey(tmp, flag);
     }
 
     // Delete the rigth key from player's items
-    private void deleteRightKey(Key tmp, boolean wasUsed) {
-        if (tmp != null && wasUsed){
+    private void deleteRightKey(Key tmp) {
+        if (tmp != null){
             player.deleteUsableObject(tmp.toString());
-        }else{
-            if (wasUsed){
-                System.out.println(Message.gameErrorOpen);
-            }
         }
     }
 
@@ -574,28 +574,37 @@ public class Game extends Thread {
 
         System.out.println("I'm gonna try to open this thing with all my keys...");
         Key tmp = null;
-        boolean flag = false;
         for (Exitwithkey exit : exits) {
-            for (Key key : keys) {
+            for (int i = 0; i < keys.size(); i++) {
                 if (exit.islock()){
-                    exit.unlock( key);
+                    exit.unlock(keys.get(i));
                     if (!exit.islock()){
-                        tmp = key;
-                        flag = true;
+                        tmp = keys.get(i);
+                        keys.remove(tmp);
+                        deleteRightKey(tmp);
+                        break;
                     }
                 }
             }
         }
 
-        deleteRightKey(tmp, flag);
+        System.out.println("I finally managed to open");
+        for (Exitwithkey exit : exits) {
+            System.out.println(exit + " \t" + !exit.islock());
+        }
+
 
     }
 
     private void go(String commande) {
         String[] args = commande.split(" ", 2);
         try {
-            Exit tmp = place.select(args[1]);
-            place = (Room) tmp.nextPlace();
+            if (args.length > 1){
+                Exit tmp = place.select(args[1]);
+                place = (Room) tmp.nextPlace();
+            }else {
+                System.out.println("Where am i going?");
+            }
         } catch (ExitPlaceException | PlaceException e) {
             System.out.println(e.getMessage());
         }

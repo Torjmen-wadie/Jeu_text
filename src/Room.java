@@ -74,7 +74,6 @@ public class Room extends Place {
     	if(items.size() > 0){
 
 
-			items.forEach(Item::look);
 
 			for (Item item1 : items) {
 				item1.look();
