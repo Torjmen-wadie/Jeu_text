@@ -164,7 +164,9 @@ public class Mapgenerator {
 			from.addExit(new Exit(from, to, link.getKey()));		
 			break;
 		case 2: // Add to a room a exit with lock, and put a key in a room
+			//String chaine = "Key " + to.getName();
 			Key passkey = new Key("Key",this.currentunique);
+
 			Room r = (Room) from;
 			r.addItem(passkey);
 			from.addExit(new Exitwithkey(from, to, link.getKey(),passkey));
