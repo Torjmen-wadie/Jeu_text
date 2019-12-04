@@ -45,7 +45,7 @@ public class Game extends Thread {
 			
 			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Hole",1),new Pair("",0),new Pair("Arch",1),new Pair("",0),new Pair("",0),new Pair("Reinforced door",2),new Pair("Fire door",3),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
-			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)}
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Curtain",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)}
 	
 		};
 
@@ -61,7 +61,7 @@ public class Game extends Thread {
         this.player = new Player("Player");
         this.gamemap = this.setUpMap();
         this.objective = new Objective(this.gamemap.get(0), this.gamemap.get(this.gamemap.size()-1));
-        this.place = (Room) this.gamemap.get(0);
+        this.place = (Room) this.gamemap.get(9);
 
         //add the telephone to user's inventory
         telephone = new Telephone("It seems to have not much battery","telephone");
@@ -695,7 +695,9 @@ public class Game extends Thread {
                 Exit tmp = place.select(args[1]);
                 place = (Room) tmp.nextPlace();
                 System.out.println(place.getDescription());
+                place.describePlace();
                 this.objective.isAccomplished(place);
+                System.out.println(this.objective.toString());
             }
             else 
             {
