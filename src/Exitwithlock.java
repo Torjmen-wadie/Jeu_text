@@ -2,7 +2,8 @@ import exceptions.PlaceException;
 public class Exitwithlock extends Exit{
     private boolean lock;
     
-    public Exitwithlock(Place from , Place to, String name, boolean swap) {
+    public Exitwithlock(Place from , Place to, String name, boolean swap) 
+    {
         super(from, to, name, swap);
         this.lock = true;
     }

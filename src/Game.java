@@ -438,7 +438,7 @@ public class Game extends Thread {
             //look at object in place
             //if look is at Container, we'll get all the objects inside
         	
-            List<Item> insideItems = place.describeItem(args[1]); // Item in place, contener
+            List<Item> insideItems = place.describeItem(args[1]);
         	
             
             
