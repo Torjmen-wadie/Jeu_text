@@ -92,7 +92,7 @@ public class Mapgenerator {
 				{	
 					if (this.adjmatrix[i][j].equals(this.adjmatrix[j][i])) 
 					{
-						System.out.println(this.nodes.get(i).getName() + " <-> " + this.nodes.get(j).getName());
+						//System.out.println(this.nodes.get(i).getName() + " <-> " + this.nodes.get(j).getName());
 						Place init = initExit(i,j, this.adjmatrix[i][j],true);
 						this.map.set(i, init);	
 						this.adjmatrix[j][i].setZero();

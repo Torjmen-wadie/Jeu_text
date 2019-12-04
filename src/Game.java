@@ -64,15 +64,11 @@ public class Game extends Thread {
         this.player = new Player("Player");
         this.gamemap = this.setUpMap();
         this.objective = new Objective(this.gamemap.get(0), this.gamemap.get(this.gamemap.size()-1));
-        this.place = (Room) this.gamemap.get(2);
+        this.place = (Room) this.gamemap.get(0);
 
         //add the telephone to user's inventory
         telephone = new Telephone("It seems to have not much battery","telephone");
         player.addInventor(telephone);
-        player.addInventor(new Key("aadss", 2));
-        player.addInventor(new Key("adss", 3));
-        player.addInventor(new Key("dss", 4));
-        player.addInventor(new Key("ss", 5));
     }
 
     public void menu(){
