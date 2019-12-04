@@ -67,33 +67,39 @@ public class Objective
 	}
 	
 	
-	public void isAccomplished(Place p)
+	public boolean isAccomplished(Place p)
 	{
+		boolean status = false;
 		if (isObjective(p)) 
 		{
 			for (Task t : this.todo) 
 			{
 				if (t.condition.equals(p)) {
+					status = true;
 					addfulfill(t);
-					break;
+					
 				}
 			}
 		}
+		return status;
 	}
 	
 	
-	public void trigger(Item item, List <Place> gamemap)
+	public boolean trigger(Item item, List <Place> gamemap)
 	{
 		switch (item.toString()) 
     	{
     	case "Java Book":
-    		this.addAnotherPlaceObjective("Go to Game room to find key", gamemap.get(8)); //this.gamemap.get(8)
+    		this.addAnotherPlaceObjective("Go to Game room", gamemap.get(8)); //this.gamemap.get(8)
     		break;
     		
     	case "HELP ME":
     		this.addAnotherPlaceObjective("Look in vase and use key", gamemap.get(1)); //this.gamemap.get(1)
     		break;
+    	default:
+    		return false;
     	}
+		return true;
 		
 	}
 	
@@ -110,7 +116,8 @@ public class Objective
 	@Override
 	public String toString() 
 	{
-		String str = "\n------------Objective-------------\n\n";
+		
+		String str = "\nYou received the following message : \n------------Objective-------------\n\n";
 		if (isWin()) 
 		{
 			str += "\tYOU HAVE WON !!! \n";

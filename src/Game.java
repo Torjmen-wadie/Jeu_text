@@ -61,7 +61,7 @@ public class Game extends Thread {
         this.player = new Player("Player");
         this.gamemap = this.setUpMap();
         this.objective = new Objective(this.gamemap.get(0), this.gamemap.get(this.gamemap.size()-1));
-        this.place = (Room) this.gamemap.get(9);
+        this.place = (Room) this.gamemap.get(2);
 
         //add the telephone to user's inventory
         telephone = new Telephone("It seems to have not much battery","telephone");
@@ -243,6 +243,18 @@ public class Game extends Thread {
         kitchenkey.forEach(k -> kitchen_select.deleteItem(k));
         kitchenkey.forEach(k -> chest_kitchen.addItem(k));
         kitchen_select.addItem(chest_kitchen);
+        
+        //---------------------- Bar : Move Key into Ballroom-----------------------
+        Room bar_select = (Room) world.get(9);
+        List<Key> barkey = bar_select.GetPortableItemRoom().stream()
+        .filter(i -> i instanceof Key)
+        .map(i -> (Key) i)
+        .collect(Collectors.toList());
+        barkey.forEach(k -> bar_select.deleteItem(k));
+        
+        Room ballroom_select = (Room) world.get(13);
+        barkey.forEach(k -> ballroom_select.addItem(k));
+        
         
         return world;
     }
@@ -476,7 +488,11 @@ public class Game extends Thread {
     private void confirmCompletedObjectif(Item item) {
         // ajout la confirmation ici...
         // change this message with the confirmation you need
-        System.out.println(item);
+    	if(this.objective.trigger(item, this.gamemap))
+    	{
+    		System.out.println("Your telephone vibrates");
+    	}
+        
     }
 
     //insideItems is the items that are in a container,
@@ -696,8 +712,11 @@ public class Game extends Thread {
                 place = (Room) tmp.nextPlace();
                 System.out.println(place.getDescription());
                 place.describePlace();
-                this.objective.isAccomplished(place);
-                System.out.println(this.objective.toString());
+                if (this.objective.isAccomplished(place))
+                {
+                	System.out.println("Your telephone vibrates");
+                }
+                
             }
             else 
             {
