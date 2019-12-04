@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
 
-
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +22,7 @@ class ExitTest {
 	Item extinct;
 	
 	
-    @BeforeEach
+    @Before
     public void setUp() {
     	// Initialization of objects for start
     	start = new Room("Room", "Dark, where the urge to flee is becoming oppressive",null);

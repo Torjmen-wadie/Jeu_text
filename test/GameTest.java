@@ -92,10 +92,7 @@ public class GameTest {
         assertFalse(game.containsObject("jewerly_chest"));
     }
 
-    @Test
-    void existenceOfItem(){
-        assertTrue(game.containsObject("letter1"));
-    }
+
 
     @Test
     void takeSpecificItemInPlace(){
