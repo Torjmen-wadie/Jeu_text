@@ -12,7 +12,7 @@ public class Message {
     public static final String gameErrorWait = "I don't know what i'm doing... \n Maybe I'll try with another action";
     public static final String gameErrorOpen = "I think is not the right key";
     public static final String gameTake = "Taking all the objects";
-    public static final String gameTakeAll = "All the objects have been taken";
+    public static final String gameTakeAll = "All the possible objects have been taken";
     public static final String gameErrorTake = "There aren't more objects that I can take";
     public static final String gameTakeNul = "There's no such item to take";
     public static final String gameHelp = "Available commands :";
@@ -67,6 +67,7 @@ public class Message {
 
     public static final String loungeRoom = "This room is totally different.\n" +
             "it's all organized, there's only one table with a vase.\n" +
+            "It's like a lounge room...\n" +
             "I see that on the walls there are many pictures with the word \"room\"... no idea what they refer to.";
 
 
@@ -75,7 +76,7 @@ public class Message {
             "and my eyes are too dark as if I had been on drugs for the last 4 months...";
 
     public static final String drain = "this room looks like a rat trap...\n" +
-            "there's too much dirt and it smells horrible,\n" +
+            "it's a drain, there's too much dirt and it smells horrible,\n" +
             "I only see a giant hole in the wall and I don't think there's another way out...";
 
     public static final String boilerRoom = "and this climate change?\n" +

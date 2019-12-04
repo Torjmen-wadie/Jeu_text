@@ -40,11 +40,12 @@ public class Player {
         return this.objects;
     }
 
-    public void addInventor(Portable obj)
+    public boolean addInventor(Portable obj)
    {
        if((objects.size() < MAX_OBJ) && (!contains(obj)) && (obj!=null))
        {
-       objects.add(obj);
+            objects.add(obj);
+            return true;
        }
        else if (objects.contains(obj))
        {
@@ -56,9 +57,10 @@ public class Player {
        }
        else
            {
-           System.out.println(Message.playerAddSat);
+           System.out.println("problem with " + obj.toString() + " \t\t"  +Message.playerAddSat);
            }
 
+       return false;
 
    }
 

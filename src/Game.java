@@ -61,11 +61,15 @@ public class Game extends Thread {
         this.player = new Player("Player");
         this.gamemap = this.setUpMap();
         this.objective = new Objective(this.gamemap.get(0), this.gamemap.get(this.gamemap.size()-1));
-        this.place = (Room) this.gamemap.get(0);
+        this.place = (Room) this.gamemap.get(9);
 
         //add the telephone to user's inventory
         telephone = new Telephone("It seems to have not much battery","telephone");
         player.addInventor(telephone);
+        player.addInventor(new Key("aadss", 2));
+        player.addInventor(new Key("adss", 3));
+        player.addInventor(new Key("dss", 4));
+        player.addInventor(new Key("ss", 5));
     }
 
     public void menu(){
@@ -398,11 +402,13 @@ public class Game extends Thread {
             //Take all the items at place
             if (place.GetPortableItemRoom().size() > 0){
                 System.out.println(Message.gameTake);
-                while (!place.GetPortableItemRoom().isEmpty()){
+                for (int i = 0; i < place.GetPortableItemRoom().size(); i++) {
                     Portable tmp = place.GetPortableItemRoom().get(0);
-                    place.deleteItem(tmp);
-                    player.addInventor(tmp);
+                    if( player.addInventor(tmp) ) {
+                        place.deleteItem(tmp);
+                    }
                 }
+
                 System.out.println(Message.gameTakeAll);
             }else{
                 System.out.println(Message.gameErrorTake);
