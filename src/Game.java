@@ -748,6 +748,7 @@ public class Game extends Thread {
             {
                 Exit tmp = place.select(args[1]);
                 place = (Room) tmp.nextPlace();
+                place.checkDirection();
                 System.out.println(place.getDescription());
                 place.describePlace();
                 if (this.objective.isAccomplished(place))

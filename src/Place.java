@@ -91,11 +91,15 @@ public abstract class Place {
 	{
 		return this.MapExit;
 	}
-	/*
-	public Map<String, Exit> checkDirection()
+	public void checkDirection()
 	{
-		//for (String k :this.MapExit.keySet()) {
+		for (Exit e :this.MapExit.values()) 
+		{
+			if (!(e.getFrom().equals(this)))
+			{
+				e.swap();
+			}
+		}
 	}
-	*/
     
 }
