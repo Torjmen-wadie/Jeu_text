@@ -41,10 +41,10 @@ class ExitTest {
     	
     
     	// Initialization of exit
-        exit = new Exit(start, reach, "Door");
-        lockexit = new Exitwithlock(start, reach, "Wooden door");
-        keyexit = new Exitwithkey(start, reach, "Iron Grid", k);
-        objectexit = new Exitwithobject(start, reach, "Wall of fire", Default);
+        exit = new Exit(start, reach, "Door",true);
+        lockexit = new Exitwithlock(start, reach, "Wooden door",true);
+        keyexit = new Exitwithkey(start, reach, "Iron Grid", true,k);
+        objectexit = new Exitwithobject(start, reach, "Wall of fire", true,Default);
         
         
         

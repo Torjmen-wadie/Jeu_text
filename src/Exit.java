@@ -19,6 +19,7 @@ import exceptions.PlaceException;
 public class Exit implements Openable {
 	
     private boolean open;
+    private boolean swapping;
     
     private String name;
     private Place from;
@@ -39,13 +40,16 @@ public class Exit implements Openable {
      * @see Openable
      */
 //-------------------------------------------------------------------------	
-    public Exit(Place from, Place to, String name) 
+    public Exit(Place from, Place to, String name, boolean swap) 
     {
         this.open = false;
         this.name = name;
         this.from = from;
         this.to = to;  
+        this.swapping = swap;
     }
+    
+    
     /**
      * A Exit is visited (Exit is open)
      */
@@ -89,7 +93,16 @@ public class Exit implements Openable {
     public Place nextPlace() throws PlaceException
     {
     	this.open();
-    	return this.to;	
+    	if (swapping)
+    	{
+    		this.swap();
+    		return this.from;
+    	}
+    	else
+    	{
+    		this.open();
+        	return this.to;	
+    	}
     }
     /**
      * Return from where we come from.
@@ -101,12 +114,28 @@ public class Exit implements Openable {
     {
     	if (isopen()) 
     	{
-    		return this.from;
+    		if (swapping)
+    		{
+    			this.swap();
+    			return this.to;
+    		}
+    		else
+    		{
+    			return this.from;
+    		}
+    		
     	}
     	else
     	{
     		throw new PlaceException();
     	}
+    }
+    
+    public void swap()
+    {
+    	Place tmp = this.to;
+    	this.to = this.from;
+    	this.from = tmp;
     }
 
     @Override

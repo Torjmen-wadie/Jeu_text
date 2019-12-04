@@ -92,21 +92,15 @@ public class Mapgenerator {
 				{	
 					if (this.adjmatrix[i][j].equals(this.adjmatrix[j][i])) 
 					{
-						this.map.set(i, initExit(this.nodes.get(i),this.nodes.get(j), this.adjmatrix[i][j]));
-						this.map.set(j, initExit(this.nodes.get(j),this.nodes.get(i), this.adjmatrix[i][j]));
-						if (this.adjmatrix[i][j].getValue() == 2)
-						{
-							Room r = (Room) this.map.get(j);
-							r.deleteAllItem();
-							this.newCurrentUnique();
-							
-						}
-						this.adjmatrix[i][j] = new Pair("", 0);
-						this.adjmatrix[j][i] = new Pair("", 0);
+						System.out.println(this.nodes.get(i).getName() + " <-> " + this.nodes.get(j).getName());
+						Place init = initExit(i,j, this.adjmatrix[i][j],true);
+						this.map.set(i, init);	
+						this.adjmatrix[j][i].setZero();
 					}
 					else
 					{
-						this.map.set(i, initExit(this.nodes.get(i),this.nodes.get(j), this.adjmatrix[i][j]));
+						
+						this.map.set(i, initExit(i,j, this.adjmatrix[i][j],false));
 					}
 				}
 			}
@@ -159,24 +153,37 @@ public class Mapgenerator {
 	 * 		The Place, initialized with Exit
 	 */
 //-------------------------------------------------------------------------	
-	private Place initExit(Place from, Place to , Pair link) 
+	private Place initExit(int i, int j , Pair link, boolean swap) 
 	{
+		Exit exit = null;
+		Place from = this.nodes.get(i);
+		Place to = this.nodes.get(j);
+		
 		switch (link.getValue()) 
 		{
 		case 1: // Add to a room a simple exit
-			from.addExit(new Exit(from, to, link.getKey()));		
+			exit = new Exit(from, to, link.getKey(), swap);		
 			break;
 		case 2: // Add to a room a exit with lock, and put a key in a room
 			//String chaine = "Key " + to.getName();
+			this.newCurrentUnique();
 			Key passkey = new Key("Key#" + this.currentunique,this.currentunique);
-
+			//System.out.println(passkey.getCode());
+			exit = new Exitwithkey(from, to, link.getKey(), swap, passkey);
 			Room r = (Room) from;
 			r.addItem(passkey);
-			from.addExit(new Exitwithkey(from, to, link.getKey(),passkey));
 			break;
 		case 3: //Add to a room a fire wall, unlock with a Extinguisher
-			from.addExit(new Firewall(from, to));
+			exit = new Firewall(from, to, swap);
 			break;
+		}
+		if (!(exit == null))
+		{
+			from.addExit(exit);
+			if (swap)
+			{
+				this.nodes.get(j).addExit(exit);
+			}
 		}
 		return from;
 	}

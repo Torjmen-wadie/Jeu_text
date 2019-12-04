@@ -109,9 +109,9 @@ public class PlaceTest {
     @Test
     public void testSelectExit() throws ExitPlaceException, PlaceException 
     {
-    	Exit selected = this.map.get(0).select("Door");
+    	Exit selected = this.map.get(0).select("Door"); 
     	assertEquals(selected.nextPlace(),nextroom);
-    	assertEquals(selected.previousPlace(),start);
+    	assertEquals(selected.nextPlace(),start);
     	assertEquals(selected.getName(), "Door");
     	assertThrows(ExitPlaceException.class, () -> {
     		this.map.get(0).select("Grid");

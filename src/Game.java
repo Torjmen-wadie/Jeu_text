@@ -12,38 +12,37 @@ public class Game extends Thread {
     private Objective objective;
     private List<Place> gamemap;
     public static boolean runGame = true;
-    boolean won = false;
     Scanner scanner;
     
     private Pair [][] MAP = 
 		{
-			{new Pair("",0),new Pair("Door",1),new Pair("",0),new Pair("Wood Door",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			{new Pair("",0),new Pair("Door",1),new Pair("",0),new Pair("Wood door",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
-			{new Pair("Door",1), new Pair("",0), new Pair("Swing Door",2), new Pair("",0), new Pair("",0),new Pair("",0), new Pair("",0), new Pair("Metal Door",2), new Pair("",0), new Pair("",0),new Pair("",0), new Pair("",0) , new Pair("",0) , new Pair("",0) , new Pair("",0)},
+			{new Pair("Door",1), new Pair("",0), new Pair("Swing door",2), new Pair("",0), new Pair("",0),new Pair("",0), new Pair("",0), new Pair("Metal door",2), new Pair("",0), new Pair("",0),new Pair("",0), new Pair("",0) , new Pair("",0) , new Pair("",0) , new Pair("",0)},
 			
-			{new Pair("",0),new Pair("Swing Door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Threshold",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			{new Pair("",0),new Pair("Swing door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Threshold",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
-			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Trap Door",1),new Pair("",0),new Pair("",0),new Pair("Window Door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Trap door",1),new Pair("",0),new Pair("",0),new Pair("Window door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
 			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Hole",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
-			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Hole",1),new Pair("",0),new Pair("Fire Door",3),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Hole",1),new Pair("",0),new Pair("Fire door",3),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
-			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Fire Door",3),new Pair("",0),new Pair("Double Door",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Fire door",3),new Pair("",0),new Pair("Double door",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Arch",1),new Pair("",0)},
 			
-			{new Pair("",0),new Pair("Metal Door",2),new Pair("",0),new Pair("Window door",2),new Pair("",0),new Pair("",0),new Pair("Double door",1),new Pair("",0),new Pair("Wood door",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			{new Pair("",0),new Pair("Metal door",2),new Pair("",0),new Pair("Window door",2),new Pair("",0),new Pair("",0),new Pair("Double door",1),new Pair("",0),new Pair("Wood door",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
 			{new Pair("",0),new Pair("",0),new Pair("Threshold",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Wood door",1),new Pair("",0),new Pair("Secret door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
-			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Secret door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Reinforced door",2),new Pair("Curtain",1)},
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Secret door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Reinforced door",2),new Pair("Curtain",1)},
 			
-			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Fire door",3),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Metal door",2),new Pair("",0),new Pair("",0),new Pair("",0)},
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Fire door",3),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Metal door",2),new Pair("",0),new Pair("Fire door",3),new Pair("",0)},
 			
 			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Metal door",2),new Pair("",0),new Pair("Openning",1),new Pair("",0),new Pair("",0)},
 			
 			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
-			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Hole",1),new Pair("",0),new Pair("Fire door",3),new Pair("",0),new Pair("",0),new Pair("Reinforced door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Hole",1),new Pair("",0),new Pair("Arch",1),new Pair("",0),new Pair("",0),new Pair("Reinforced door",2),new Pair("Fire door",3),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
 			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)}
 	
@@ -66,7 +65,7 @@ public class Game extends Thread {
 
     public void menu(){
         System.out.println(Message.logo);
-        System.out.println("\n\n\t\t\t\t\t\t\t\tPress enter to continue...");
+        System.out.println("\n\n\tPress enter to continue...");
         //wait until enter is pressed
         try {
             System.in.read();
@@ -125,13 +124,8 @@ public class Game extends Thread {
         
         // ---------- 1 Lounge Room --------------
         List<Item> lounge_contain = new ArrayList<Item>();
-<<<<<<< HEAD
         lounge_contain.add(letter_lounge);
-        Room lounge=new Room("Lounge Room","you have two key here ... ",lounge_contain);
-=======
-        	
         Room lounge=new Room("Lounge Room", Message.loungeRoom,lounge_contain);
->>>>>>> branch 'master' of git@github.com:Torjmen-wadie/Jeu_text.git
         unlink_place.add(lounge);
         
         // ---------- 2 Library --------------
@@ -262,27 +256,21 @@ public class Game extends Thread {
 
 
     public void init(){
-<<<<<<< HEAD
-        while (runGame || !(this.objective.isWin())){
-=======
-        while (runGame){
+
+        while (runGame || !(this.objective.isWin()))
+        {
             System.out.println("\n");
->>>>>>> branch 'master' of git@github.com:Torjmen-wadie/Jeu_text.git
             waitingForCommands();
         }
-<<<<<<< HEAD
+
+
         if (this.objective.isWin())
         {
-        	System.out.println("YOU WIN !!!");
-        	System.out.println("You leave this hotel for a better future !");
-        	
-=======
-
-        if (won){
             System.out.println(Message.won);
-        }else{
+        }
+        else
+        {
             System.out.println(Message.loser);
->>>>>>> branch 'master' of git@github.com:Torjmen-wadie/Jeu_text.git
         }
     }
 
@@ -407,11 +395,15 @@ public class Game extends Thread {
             }
         }else{
             //Take a specific item at place
-            if(containsObject(args[1])){
+            if(containsObject(args[1]))
+            {
                 Portable tmp = place.GetPortableItemRoom().stream().filter( x-> x.toString().equals(args[1])).collect(Collectors.toList()).get(0);
                 place.deleteItem(tmp);
                 player.addInventor(tmp);
-            }else{
+            }
+            
+            else
+            {
                 System.out.println(Message.gameTakeNul);
             }
 
@@ -469,13 +461,13 @@ public class Game extends Thread {
     private void use(String commande) {
         String args[] = commande.split(" ");
 
-        if (args.length > 1){
-
-
+        if (args.length > 1)
+        {
             List<Usable> usableObjects = player.getUsableObjects();
-
-            if (usableObjects.size() > 0){
-                switch (args[1].toUpperCase()){
+            if (usableObjects.size() > 0)
+            {
+                switch (args[1].toUpperCase())
+                {
                     case "KEY" :
                         useChestWithKey(usableObjects);
                         useDoor(usableObjects);
@@ -484,20 +476,20 @@ public class Game extends Thread {
                         useExtinguiser(usableObjects);
                         break;
                     case "TELEPHONE":
+                    	System.out.println(this.objective.toString());
                         break;
-<<<<<<< HEAD
-                    	
-=======
-
                     default:
                         System.out.println("what am i supposed to use?");
                         break;
->>>>>>> branch 'master' of git@github.com:Torjmen-wadie/Jeu_text.git
                 }
-            }else{
+            }
+            else
+            {
                 System.out.println(Message.gameErrorHelp);
             }
-        }else{
+        }
+        else
+        {
             System.out.println(Message.gameUseError);
         }
     }
@@ -561,7 +553,6 @@ public class Game extends Thread {
         System.out.println("I'm gonna use each key that i have with everything...\n" +
                 "maybe something will work with it\n");
 
-        Key tmp = null;
         if(keys.size() > 0 && chests.size()>0){
             for (Usable key : keys) {
                 for (Openable chest : chests) {
@@ -624,11 +615,15 @@ public class Game extends Thread {
 
         System.out.println("I'm gonna try to open this thing with all my keys...");
         Key tmp = null;
-        for (Exitwithkey exit : exits) {
-            for (int i = 0; i < keys.size(); i++) {
-                if (exit.islock()){
+        for (Exitwithkey exit : exits) 
+        {
+            for (int i = 0; i < keys.size(); i++) 
+            {
+                if (exit.islock())
+                {
                     exit.unlock(keys.get(i));
-                    if (!exit.islock()){
+                    if (!exit.islock())
+                    {
                         tmp = keys.get(i);
                         keys.remove(tmp);
                         deleteRightKey(tmp);
@@ -646,23 +641,25 @@ public class Game extends Thread {
 
     }
 
-    private void go(String commande) {
+    private void go(String commande) 
+    {
         String[] args = commande.split(" ", 2);
-        try {
-<<<<<<< HEAD
-            Exit tmp = place.select(args[1]);
-            place = (Room) tmp.nextPlace();
-            this.objective.isAccomplished(place);
-=======
-            if (args.length > 1){
+        try 
+        {
+            if (args.length > 1)
+            {
                 Exit tmp = place.select(args[1]);
                 place = (Room) tmp.nextPlace();
                 System.out.println(place.getDescription());
-            }else {
+                this.objective.isAccomplished(place);
+            }
+            else 
+            {
                 System.out.println("Where am i going?");
             }
->>>>>>> branch 'master' of git@github.com:Torjmen-wadie/Jeu_text.git
-        } catch (ExitPlaceException | PlaceException e) {
+        } 
+        catch (ExitPlaceException | PlaceException e) 
+        {
             System.out.println(e.getMessage());
         }
     }
@@ -690,9 +687,7 @@ public class Game extends Thread {
     
     public static void main(String[] args) {
     	Game game = new Game();
-    	game.init();
-    
-    	
+    	game.menu();
     }
 
 }

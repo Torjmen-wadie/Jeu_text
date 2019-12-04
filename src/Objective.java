@@ -133,7 +133,7 @@ public class Objective
 		Objective o = new Objective(start,end);
 		Place error = new Room("Error", "Not a objective");
 		Place next = new Room("Next", "__");
-		Exit test = new Exit(next, end,"Door");
+		Exit test = new Exit(next, end,"Door",true);
 		test.open();
 		next.addExit(test);
 		o.addAnotherPlaceObjective("Go into this place", next);

@@ -17,6 +17,10 @@ public class Pair {
 	{
 		return this.value;
 	}
+	public void setZero()
+	{
+		this.value = 0;
+	}
 	
 	@Override
 	public boolean equals(Object o) {
