@@ -13,22 +13,24 @@ public class Player {
     private List<Portable> objects ;
     private int hopless;
     private final int MAX_OBJ =5 ;
-
+  //-----------------------------------------------------------------------------------------------
     public Player (String nameP)
     {
         this.nameP=nameP ;
         objects =new ArrayList<>();
       
     }
+  //-----------------------------------------------------------------------------------------------
     public String statut ()
     {
         return this.nameP;
     }
-   
+  //-----------------------------------------------------------------------------------------------
     public int getHopless()
     {
         return this.hopless;
     }
+  //-----------------------------------------------------------------------------------------------
      @Override
     public String toString() {
         return "Player{" +
@@ -36,10 +38,13 @@ public class Player {
                 '}';
     }
 
+   //-----------------------------------------------------------------------------------------------
     public List<Portable> getObjects(){
         return this.objects;
     }
-
+  //-----------------------------------------------------------------------------------------------
+    /* ajouter des objets portable a la liste des objets */
+  
     public boolean addInventor(Portable obj)
    {
        if((objects.size() < MAX_OBJ) && (!contains(obj)) && (obj!=null))
@@ -63,7 +68,8 @@ public class Player {
        return false;
 
    }
-
+  //-----------------------------------------------------------------------------------------------
+    
    private boolean contains(Portable obj){
         boolean flag = false;
 
@@ -80,7 +86,8 @@ public class Player {
        return  flag;
    }
 
-
+ //-----------------------------------------------------------------------------------------------
+   
    public List<Usable> getUsableObjects(){
         List<Usable> usables = new ArrayList<>();
 
@@ -92,15 +99,19 @@ public class Player {
 
         return usables;
    }
-
-   public void useObject(String obj, Place place){
+//-----------------------------------------------------------------------------------------------
+  // public void useObject(String obj, Place place){
         /*objects.stream().
                 filter(portable -> portable.getClass().getSimpleName().equalsIgnoreCase(obj)).
                 forEach( portable -> ((Usable) portable).use() );*/
-   }
+   //}
 /*get(i).getClass().toString()equalsIgnoreCase("Key")  ||
                    objects.get(i).getClass().toString().equalsIgnoreCase("Extinguisher") ||
                    objects.get(i).getClass().toString().equalsIgnoreCase("Telephone"))*/
+ //-----------------------------------------------------------------------------------------------
+   
+   /* test si il contient des objets sont utilisables ou non */
+   
    public boolean hasUsableObject()
    {
        boolean flag = false;
@@ -114,6 +125,10 @@ public class Player {
        return flag;
        
    }
+   //------------------------------------------------------------------------------------------------
+   
+   //creer une liste des objets qui sont utilisables
+   
    public List<Usable> listUsableObject()
    {
         List<Usable>listObject = new ArrayList<Usable>();
@@ -124,22 +139,27 @@ public class Player {
            }
        return listObject ;
    }
+   //-----------------------------------------------------------------------------------------------
+  // afficher la liste des objets qui sont utilisables
    public void displayListeUsableObject()
    {
        List <Usable> displayList=listUsableObject();
        for(int i=0 ; i<=displayList.size()-1 ; i++)
        System.out.println(displayList.get(i));
    }
+   //----------------------------------------------------------------------------------------------------
 
    public List<Portable> getObject()
    {
        return objects;
    }
-
+//------------------------------------------------------------------------------------------------------
    public void use(Usable obj)
    {
        //obj.use();
    }
+ //----------------------------------------------------------------------------------------------------
+   //effacer un objets de la liste des objets
    public Portable deleteUsableObject(String obj)
    {
        Portable tmp = null;
@@ -153,12 +173,14 @@ public class Player {
 
    }
 
-    
+   //-------------------------------------------------------------------------------------------------- 
     public void look()  {
       System.out.println(objects);
     }
 
-
+//-----------------------------------------------------------------------------------------------------
+    //retouner la liste des objets qui sont openables
+    
     public List<Openable> getOpenableItems() {
         return this.objects.stream().filter( i -> i instanceof Openable)
                                     .map( i -> (Openable) i)
