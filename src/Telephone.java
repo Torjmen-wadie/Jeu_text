@@ -13,12 +13,6 @@ public class Telephone extends Item  implements Portable, Usable{
         System.out.println(statut);
     }
 
-    @Override
-    public String toString() {
-        return "Telephone{" +
-                "statut='" + statut + '\'' +
-                '}';
-    }
 
     @Override
     public void addToInventory() {
@@ -28,5 +22,6 @@ public class Telephone extends Item  implements Portable, Usable{
     @Override
     public void use(Object obj) throws NotRightKey {
         //maybe use a system to tell the user what to do each time he uses the phone?
+        System.out.println(obj.toString());
     }
 }

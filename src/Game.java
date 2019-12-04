@@ -10,6 +10,7 @@ public class Game extends Thread {
     private Player player;
     private Room place;
     private Objective objective;
+    private Telephone telephone;
     private List<Place> gamemap;
     public static boolean runGame = true;
     Scanner scanner;
@@ -61,6 +62,10 @@ public class Game extends Thread {
         this.gamemap = this.setUpMap();
         this.objective = new Objective(this.gamemap.get(0), this.gamemap.get(this.gamemap.size()-1));
         this.place = (Room) this.gamemap.get(0);
+
+        //add the telephone to user's inventory
+        telephone = new Telephone("It seems to have not much battery","telephone");
+        player.addInventor(telephone);
     }
 
     public void menu(){
@@ -244,15 +249,16 @@ public class Game extends Thread {
 
     //surcharger la méthode run() de classe thread
     public  void  startGame()
-   {
-       this.runinig=true;
-       while (runinig)
-       System.out.println("the Game is started");
-   }
-        public void stopGame(){
-            this.runinig =false;
-            System.out.println("the Game is end");
-        }
+    {
+        this.runinig=true;
+        while (runinig)
+            System.out.println("the Game is started");
+    }
+
+    public void stopGame(){
+        this.runinig =false;
+        System.out.println("the Game is end");
+    }
 
 
     public void init(){
@@ -330,9 +336,17 @@ public class Game extends Thread {
         String[] args = commande.split(" ",2);
 
         if (args.length > 1){
-            Portable tmp = player.deleteUsableObject(args[1]);
-            if (tmp != null)
-                place.addItem((Item) tmp);
+
+            // if it's a phone, avoid throw
+            if (args[1].equalsIgnoreCase("telephone"))
+            {
+                System.out.println("I should keep my phone with me...");
+            }else
+            {
+                Portable tmp = player.deleteUsableObject(args[1]);
+                if (tmp != null)
+                    place.addItem((Item) tmp);
+            }
 
         }else {
             System.out.println("What am i supposed to throw?");
@@ -437,19 +451,44 @@ public class Game extends Thread {
         }else{
             //look at object in place
             //if look is at Container, we'll get all the objects inside
-        	
-            List<Item> insideItems = place.describeItem(args[1]);
-        	
-            
-            
-            if (insideItems != null){
-                //put all the objects inside place
-                for (Item insideItem : insideItems) {
-                    place.addItem(insideItem);
-           
-                }
+
+            //insideItems is the items that are in a container,
+            // if args[1] doesn't match with a container, insideItems = null
+            // is only use to put the items from a container to a place
+            putInsideItemsInPlace(place.describeItem(args[1]));
+
+
+            /*
+            * get instance of item with name args[1] to confirm is objectif is completed
+            * only get the first position because all the items are called differently
+            * */
+            List<Item> tmp = place.getContains().stream()
+                                          .filter(i -> i.toString().equalsIgnoreCase(args[1]))
+                                          .collect(Collectors.toList());
+            //confirm that there's at least one item in the room called like args[1]
+            if (tmp.size() > 0){
+                confirmCompletedObjectif(tmp.get(0));
             }
-            
+
+        }
+    }
+
+    private void confirmCompletedObjectif(Item item) {
+        // ajout la confirmation ici...
+        // change this message with the confirmation you need
+        System.out.println(item);
+    }
+
+    //insideItems is the items that are in a container,
+    // null if there aren't items inside
+    private void putInsideItemsInPlace(List<Item> describeItem) {
+        List<Item> insideItems = describeItem;
+        if (insideItems != null){
+            //put all the objects inside place
+            for (Item insideItem : insideItems) {
+                place.addItem(insideItem);
+
+            }
         }
     }
 
@@ -476,7 +515,12 @@ public class Game extends Thread {
                         useExtinguiser(usableObjects);
                         break;
                     case "TELEPHONE":
-                    	System.out.println(this.objective.toString());
+                        //there's no possible way to throw the exception NotRightKey in here...
+                        // so ignored
+                        try {
+                            telephone.use(this.objective);
+                        } catch (NotRightKey ignored) {}
+
                         break;
                     default:
                         System.out.println("what am i supposed to use?");
