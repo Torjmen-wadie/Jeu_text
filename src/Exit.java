@@ -131,6 +131,11 @@ public class Exit implements Openable {
     	}
     }
     
+    public Place getFrom()
+    {
+    	return this.from;
+    }
+    
     public void swap()
     {
     	Place tmp = this.to;

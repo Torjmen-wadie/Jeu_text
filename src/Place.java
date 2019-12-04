@@ -91,5 +91,11 @@ public abstract class Place {
 	{
 		return this.MapExit;
 	}
+	/*
+	public Map<String, Exit> checkDirection()
+	{
+		//for (String k :this.MapExit.keySet()) {
+	}
+	*/
     
 }
