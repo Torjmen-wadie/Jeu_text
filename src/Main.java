@@ -1,35 +1,26 @@
 public class Main {
     public static void main(String[] args) {
         Game game = new Game();
-        Thread init = new Thread(){
-            @Override
-            public void run() {
-                game.init();
-            }
-        };
+        Thread initGame = new Thread(() -> game.menu());
 
-        //init.start();
-        game.menu();
-        /*
-        Thread stop = new Thread(){
-            @Override
-            public void run() {
-                try {
-                    sleep(1000);
-                    Game.runGame = false;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        Thread stopGame = new Thread(() -> {
+            try {
+                initGame.start();
+                //wait until game starts...
+                while (!game.runGame){
+                    Thread.sleep(5000);
                 }
+
+                //starts countdown
+                Thread.sleep(10000);
+                game.stopGame();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        };
+        });
+        stopGame.start();
 
-        stop.start();
-        try {
-            stop.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        System.out.println(game.runGame);*/
+
     }
 }

@@ -12,7 +12,7 @@ public class Game extends Thread {
     private Objective objective;
     private Telephone telephone;
     private List<Place> gamemap;
-    public static boolean runGame = true;
+    public volatile  boolean runGame = false;
     Scanner scanner;
     
     private Pair [][] MAP = 
@@ -83,6 +83,7 @@ public class Game extends Thread {
         }
 
         System.out.println(Message.introduction);
+        startGame();
         init();
     }
     
@@ -255,19 +256,16 @@ public class Game extends Thread {
     public  void  startGame()
     {
         this.runinig=true;
-        while (runinig)
-            System.out.println("the Game is started");
     }
 
     public void stopGame(){
         this.runinig =false;
-        System.out.println("the Game is end");
     }
 
 
     public void init(){
 
-        while (runGame || !(this.objective.isWin()))
+        while (runGame && !(this.objective.isWin()))
         {
             System.out.println("\n");
             waitingForCommands();
@@ -733,11 +731,6 @@ public class Game extends Thread {
 
     public Room getPlace() {
         return place;
-    }
-    
-    public static void main(String[] args) {
-    	Game game = new Game();
-    	game.menu();
     }
 
 }
