@@ -6,6 +6,7 @@
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Player {
     private String nameP ;
@@ -66,7 +67,7 @@ public class Player {
 
        for (Portable object : objects) {
 
-           if (object instanceof Key){
+           if (object instanceof Key && obj instanceof  Key){
                if (((Key) object).getCode() == ((Key)obj).getCode()){
                     flag = true;
                }
@@ -155,7 +156,10 @@ public class Player {
       System.out.println(objects);
     }
 
- 
-    
-    
+
+    public List<Openable> getOpenableItems() {
+        return this.objects.stream().filter( i -> i instanceof Openable)
+                                    .map( i -> (Openable) i)
+                                    .collect(Collectors.toList());
+    }
 }

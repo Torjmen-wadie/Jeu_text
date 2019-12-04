@@ -80,7 +80,6 @@ public class Room extends Place {
     	if(items.size() > 0){
 
 
-			items.forEach(Item::look);
 
 			for (Item item1 : items) {
 				item1.look();
@@ -112,7 +111,7 @@ public class Room extends Place {
     public String describeExit() {
     	String str = "";
     	if (!(this.exits.isEmpty())) {
-    		str  = "This place have \n";
+    		str  = "This place has the following exits :\n";
     		for (String k :this.exits.keySet()) {
     			str += " - " + k +  "\n";
     		}

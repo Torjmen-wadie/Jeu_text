@@ -168,7 +168,7 @@ public class Mapgenerator {
 			break;
 		case 2: // Add to a room a exit with lock, and put a key in a room
 			//String chaine = "Key " + to.getName();
-			Key passkey = new Key("Key",this.currentunique);
+			Key passkey = new Key("Key#" + this.currentunique,this.currentunique);
 
 			Room r = (Room) from;
 			r.addItem(passkey);

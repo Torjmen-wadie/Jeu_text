@@ -8,8 +8,8 @@ public class Main {
             }
         };
 
-        init.start();
-
+        //init.start();
+        game.menu();
         /*
         Thread stop = new Thread(){
             @Override

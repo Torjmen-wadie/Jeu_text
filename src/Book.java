@@ -1,7 +1,7 @@
 import exceptions.ContainerCarryException;
 
-public class Book extends Item implements Portable, Openable{
-    private String text ; 
+public class Book extends Item implements Portable{
+    private String text ;
     
     public Book(String text,String name)
     {
@@ -18,21 +18,6 @@ public class Book extends Item implements Portable, Openable{
     @Override
     public void addToInventory() {
 
-    }
-
-    @Override
-    public void open() {
-
-    }
-
-    @Override
-    public void close() {
-
-    }
-
-    @Override
-    public boolean isopen() {
-        return false;
     }
 
 }
