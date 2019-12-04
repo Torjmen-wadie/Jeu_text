@@ -9,17 +9,21 @@ public class Chest extends Container implements Openable {
     }
 
     @Override
-    public void look() {
-        if (opened){
+    public void look()
+    {
+        if (opened)
+        {
             super.look();
-        }else{
-
+        }
+        else
+        {
             System.out.println(Message.descChestLook);
         }
     }
 
     @Override
-    public void open() {
+    public void open()
+    {
         System.out.println(Message.descChestOpen);
         opened = true;
         super.look();

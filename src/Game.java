@@ -409,7 +409,7 @@ public class Game extends Thread {
 
     //---------------------------------------------------------------------------------------------
     public void open(String commande) {
-        String[] args = commande.split(" ");
+        String[] args = commande.split(" ", 2);
 
         //if the command has 2 arguments
         if (args.length > 1 )
@@ -875,7 +875,7 @@ public class Game extends Thread {
             }
             else 
             {
-                System.out.println("Where am i going?");
+                System.out.println(Message.go);
             }
         } 
         catch (ExitPlaceException | PlaceException e) 

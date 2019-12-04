@@ -17,7 +17,6 @@ public class Container extends Item {
         throw new ContainerCarryException();
     }
 
-    //TODO : mirar como es que hago para mostrar los elementos del interior
     @Override
     public void look() {
         if (items != null && items.size() > 0){
