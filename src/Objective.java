@@ -14,7 +14,8 @@ public class Objective
 		private String description;
 		private Place condition;
 		
-		public Task(String s, Place c) {
+		public Task(String s, Place c) 
+		{
 			this.description = s;
 			this.condition = c;
 		}	

@@ -65,7 +65,7 @@ public class Game extends Thread {
         this.player = new Player("Player");
         this.gamemap = this.setUpMap();
         this.objective = new Objective(this.gamemap.get(0), this.gamemap.get(this.gamemap.size()-1));
-        this.place = (Room) this.gamemap.get(2);
+        this.place = (Room) this.gamemap.get(0);
 
         //add the telephone to user's inventory
         telephone = new Telephone("It seems to have not much battery","telephone");
@@ -752,7 +752,6 @@ public class Game extends Thread {
 
         System.out.println("I'm gonna use each key that i have with everything...\n" +
                 "maybe something will work with it\n");
-
         if(keys.size() > 0 && chests.size()>0)
         {
             for (Usable key : keys)
@@ -778,8 +777,9 @@ public class Game extends Thread {
                         {
                             break;
                         }
-
-                    } catch (NotRightKey notRightKey) {
+                    } 
+                    catch (NotRightKey notRightKey) 
+                    {
                         System.out.println("\t" + notRightKey.getMessage());
                     }
 
@@ -799,10 +799,7 @@ public class Game extends Thread {
             {
                 System.out.println(Message.gameChestKey);
             }
-
         }
-
-
     }
 
     // Delete the rigth key from player's items
@@ -867,6 +864,7 @@ public class Game extends Thread {
             {
                 Exit tmp = place.select(args[1]);
                 place = (Room) tmp.nextPlace();
+                place.checkDirection();
                 System.out.println(place.getDescription());
                 place.describePlace();
                 if (this.objective.isAccomplished(place))

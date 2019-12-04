@@ -91,5 +91,15 @@ public abstract class Place {
 	{
 		return this.MapExit;
 	}
+	public void checkDirection()
+	{
+		for (Exit e :this.MapExit.values()) 
+		{
+			if (!(e.getFrom().equals(this)))
+			{
+				e.swap();
+			}
+		}
+	}
     
 }
