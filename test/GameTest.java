@@ -64,22 +64,11 @@ public class GameTest {
         System.out.println("Now carrying " + game.getPlayer().getObjects().size());
         assertNotEquals(0, game.getPlayer().getObjects().size());
         assertEquals(itemsPortablesInRoom + itemsPortablesFromPlayer, game.getPlayer().getObjects().size());
-        assertNotEquals(itemsPortablesFromPlayer, game.getPlayer().getObjects().size());
     }
 
     @Test
     void lookAtItem(){
         game.look("look letter1");
-    }
-
-    @Test
-    void openChest(){
-        game.look("look chest1");
-        game.open("open chest1");
-        game.look("look chest1");
-        System.out.println("\n\n");
-        game.open("open locked1");
-        game.look("look locked1");
     }
 
     @Test
@@ -111,10 +100,10 @@ public class GameTest {
 
     @Test
     void throwObject(){
+        game.getPlayer().addInventor(new Key("key", 0));
         int initSize = game.getPlayer().getObjects().size();
         int initSize2 = game.getPlace().GetPortableItemRoom().size();
-
-        game.eject("THROW KEY");
+        game.eject("throw key");
         assertNotEquals(initSize,game.getPlayer().getObjects().size() );
         assertNotEquals(initSize2 , game.getPlace().GetPortableItemRoom().size());
     }
