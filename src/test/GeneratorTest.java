@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 class GeneratorTest {
 	
-	Pair [][] mapMatrix = 
+	private  Pair [][] mapMatrix = 
 		{
 			{new Pair("",0), new Pair("Door",1), new Pair("Grid",2)},
 			{new Pair("Door",1), new Pair("",0), new Pair("",0)},
@@ -44,6 +44,8 @@ class GeneratorTest {
 		System.out.println(m.getMap().get(0).getName() + " : " +  m.getMap().get(0).describeExit());
 		System.out.println(m.getMap().get(1).getName() + " : " + m.getMap().get(1).describeExit());
 		System.out.println(m.getMap().get(2).getName() + " : " +  m.getMap().get(2).describeExit());
+		Room r = (Room) m.getMap().get(2);
+		System.out.println(r.GetPortableItemRoom());
 	}
 	
 	@Test
@@ -52,8 +54,8 @@ class GeneratorTest {
 		Mapgenerator m = new Mapgenerator(this.mapMatrix, this.room);
 		m.create();
 		Set<String> resofkey = new HashSet<String>();
-		resofkey.add("Door");
-		resofkey.add("Grid");
+		resofkey.add("DOOR");
+		resofkey.add("GRID");
 		assertEquals(m.getMap().get(0).getMapExit().keySet(),resofkey);
 	}
 }

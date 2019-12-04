@@ -81,6 +81,22 @@ public class Objective
 		}
 	}
 	
+	
+	public void trigger(Item item, List <Place> gamemap)
+	{
+		switch (item.toString()) 
+    	{
+    	case "Java Book":
+    		this.addAnotherPlaceObjective("Go to Game room to find key", gamemap.get(8)); //this.gamemap.get(8)
+    		break;
+    		
+    	case "HELP ME":
+    		this.addAnotherPlaceObjective("Look in vase and use key", gamemap.get(1)); //this.gamemap.get(1)
+    		break;
+    	}
+		
+	}
+	
 	public boolean isWin()
 	{
 		return this.todo.isEmpty() || !(this.todo.contains(this.main));

@@ -13,13 +13,13 @@ public class Game extends Thread {
     public static boolean runGame = true;
     Scanner scanner;
     
-    private final static Pair [][] MAP = 
+    private Pair [][] MAP = 
 		{
 			{new Pair("",0),new Pair("Door",1),new Pair("",0),new Pair("Wood Door",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
 			{new Pair("Door",1), new Pair("",0), new Pair("Swing Door",2), new Pair("",0), new Pair("",0),new Pair("",0), new Pair("",0), new Pair("Metal Door",2), new Pair("",0), new Pair("",0),new Pair("",0), new Pair("",0) , new Pair("",0) , new Pair("",0) , new Pair("",0)},
 			
-			{new Pair("",0),new Pair("Swing Door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Threshold",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
+			{new Pair("",0),new Pair("Swing Door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Threshold",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
 			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Trap Door",1),new Pair("",0),new Pair("",0),new Pair("Window Door",2),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
@@ -76,10 +76,11 @@ public class Game extends Thread {
         Couch couch_room = new Couch("Bed",new ArrayList<Item>());
         // ----------Lounge--------------
         Vase vase_lounge = new Vase("Chinese vase", new ArrayList<Item>());
+        Letter letter_lounge = new Letter("I lose my keys in a vase !", "HELP ME");
         	//TODO : Put key for Corridor in vase 
         	// TODO : put key for metal door
         // ----------Library--------------
-        Book library_book =new Book("you can find a key in the Game Room ...","Java");
+        Book library_book =new Book("you can find a key in the Game Room ...","Java Book");
         List<Item> desk_contain = new ArrayList<Item>();
         desk_contain.add(library_book);
         Desk desk_library = new Desk("Bookcase",desk_contain);
@@ -108,7 +109,7 @@ public class Game extends Thread {
         
         // ---------- 1 Lounge Room --------------
         List<Item> lounge_contain = new ArrayList<Item>();
-        	
+        lounge_contain.add(letter_lounge);
         Room lounge=new Room("Lounge Room","you have two key here ... ",lounge_contain);
         unlink_place.add(lounge);
         
@@ -182,7 +183,7 @@ public class Game extends Thread {
         unlink_place.add(rece);
         
         
-        Mapgenerator map = new Mapgenerator(MAP, unlink_place);
+        Mapgenerator map = new Mapgenerator(this.MAP, unlink_place);
         map.create();
         List<Place> world = map.getMap();
         
@@ -240,8 +241,14 @@ public class Game extends Thread {
 
 
     public void init(){
-        while (runGame){
+        while (runGame || !(this.objective.isWin())){
             waitingForCommands();
+        }
+        if (this.objective.isWin())
+        {
+        	System.out.println("YOU WIN !!!");
+        	System.out.println("You leave this hotel for a better future !");
+        	
         }
     }
 
@@ -400,14 +407,19 @@ public class Game extends Thread {
         }else{
             //look at object in place
             //if look is at Container, we'll get all the objects inside
-            List<Item> insideItems = place.describeItem(args[1]);
-
+        	
+            List<Item> insideItems = place.describeItem(args[1]); // Item in place, contener
+        	
+            
+            
             if (insideItems != null){
                 //put all the objects inside place
                 for (Item insideItem : insideItems) {
                     place.addItem(insideItem);
+           
                 }
             }
+            
         }
     }
 
@@ -435,6 +447,7 @@ public class Game extends Thread {
                         break;
                     case "TELEPHONE":
                         break;
+                    	
                 }
             }else{
                 System.out.println(Message.gameErrorHelp);
@@ -596,6 +609,7 @@ public class Game extends Thread {
         try {
             Exit tmp = place.select(args[1]);
             place = (Room) tmp.nextPlace();
+            this.objective.isAccomplished(place);
         } catch (ExitPlaceException | PlaceException e) {
             System.out.println(e.getMessage());
         }

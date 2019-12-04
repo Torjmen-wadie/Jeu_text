@@ -96,7 +96,10 @@ public class Mapgenerator {
 						this.map.set(j, initExit(this.nodes.get(j),this.nodes.get(i), this.adjmatrix[i][j]));
 						if (this.adjmatrix[i][j].getValue() == 2)
 						{
+							Room r = (Room) this.map.get(j);
+							r.deleteAllItem();
 							this.newCurrentUnique();
+							
 						}
 						this.adjmatrix[i][j] = new Pair("", 0);
 						this.adjmatrix[j][i] = new Pair("", 0);
@@ -110,7 +113,7 @@ public class Mapgenerator {
 		}
 	}
 	/**
-	 * Out a unique random id between 10000 and 99999.
+	 * Out a unique random id between 100 and 999.
 	 * 
 	 * @return
 	 * 		Unique random id.

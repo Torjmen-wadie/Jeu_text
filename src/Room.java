@@ -8,7 +8,13 @@ import exceptions.ExitPlaceException;
 
 public class Room extends Place {
     private List<Item> contains;
-    private Map<String, Exit> exits;
+    
+    
+    public List<Item> getContains() {
+		return contains;
+	}
+
+	private Map<String, Exit> exits;
     
    
     public Room(String name, String description, List<Item> contains) 
@@ -117,6 +123,11 @@ public class Room extends Place {
 	public void deleteItem(Portable tmp) {
 		Item i = (Item) tmp;
 		contains.remove(i);
+	}
+	
+	public void deleteAllItem() 
+	{
+		this.contains = new ArrayList<Item>();
 	}
 
 	public void putItem(Item tmp, Container contain)
