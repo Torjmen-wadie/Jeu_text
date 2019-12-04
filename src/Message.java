@@ -105,12 +105,15 @@ public class Message {
             "I have no idea what I'm drinking, but the idea is to get drunk, no matter what alcohol it is.... \n" +
             "\n" +
             "so at least I pass a little bit the bad taste of not knowing where I am";
-    public static final String kitchen = "";
-    public static final String pantry = "";
-    public static final String coldRoom = "";
-    public static final String ballroom = "";
-    public static final String library = "";
-    public static final String reception = "";
+    public static final String kitchen = "A place with strong smell of burnt, I'm so hungry \n"+  
+            "I don't find anything to eat\n";
+    
+    public static final String pantry = "Everything is out-of-date here. Maybe in the cold room ...\n";
+    public static final String coldRoom = "The door has been closed\n" + 
+    "I'm blocked here, I will die freeze !\n";
+    public static final String ballroom = "This place has been someday sumptuous, but today is just covered in dust\n";
+    public static final String library = "A place of knowledge, maybe some indications about the exit are here\n";
+    public static final String reception = "Finally I see a light after this horrible journey\n";
 
     public static final String won = "I see you won...\n" +
             "but that doesn't mean it's all over here...\n" +

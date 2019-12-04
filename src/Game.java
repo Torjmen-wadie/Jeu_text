@@ -653,44 +653,47 @@ public class Game extends Thread {
 
         if(keys.size() > 0 && chests.size()>0){
             for (Usable key : keys) {
-                for (Openable chest : chests) {
-
-                    try {
+                for (Openable chest : chests) 
+                {
+                    try 
+                    {
                         System.out.println("I'm trying to open this " + chest.toString());
                         key.use(chest);
 
                         // if is a lockedChest, keep the key to delete after use
-                        if (chest.getClass().getSimpleName().equalsIgnoreCase("LockedChest")){
-                            if (((LockedChest)chest).isUnlocked()){
+                        if (chest.getClass().getSimpleName().equalsIgnoreCase("LockedChest"))
+                        {
+                            if (((LockedChest)chest).isUnlocked())
+                            {
                                 deleteRightKey((Key) key);
                             }
                         }
 
                         //if chest is open, don't try the other keys
-                        if(((Chest) chest).isOpened()){
+                        if(((Chest) chest).isOpened())
+                        {
                             break;
                         }
-
-                    } catch (NotRightKey notRightKey) {
+                    } 
+                    catch (NotRightKey notRightKey) 
+                    {
                         System.out.println("\t" + notRightKey.getMessage());
                     }
 
                 }
             }
-        }else{
-
-            if (keys.size() == 0){
+        }
+        else
+        {
+            if (keys.size() == 0) 
+            {
                 System.out.println(Message.gameNoKey);
             }
-
-
-            if (chests.size() == 0){
+            if (chests.size() == 0)
+            {
                 System.out.println(Message.gameChestKey);
             }
-
         }
-
-
     }
 
     // Delete the rigth key from player's items
