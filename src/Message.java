@@ -117,10 +117,12 @@ public class Message {
             "Well, that's not true, congratulations! \n" +
             "you finished the game";
 
-    public static final String loser = "Relax...\n" +
-            "So... maybe time is up or \n" +
-            "maybe you just accidentally write 'quit' and then... the game is over, anyway..." +
+    public static final String loser = "\n\n======================== GAME OVER ======================" +
+            "\nRelax...\n" +
+            "Maybe time is up or \n" +
+            "Maybe you just accidentally write 'quit' and then... the game is over, anyway..." +
             "Not everyone is a winner\n" +
             "It's normal to lose, maybe the next time you' re lucky...";
 
+    public static final String telephoneVibrates = "\n================ Your telephone vibrates ================";
 }

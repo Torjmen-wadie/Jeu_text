@@ -12,8 +12,11 @@ public class Game extends Thread {
     private Objective objective;
     private Telephone telephone;
     private List<Place> gamemap;
-    public volatile  boolean runGame = false;
+    private volatile boolean runGame = true;
     Scanner scanner;
+
+    // time to play? 5 minutes
+    private int TIME = 300000;
     
     private Pair [][] MAP = 
 		{
@@ -45,7 +48,7 @@ public class Game extends Thread {
 			
 			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Hole",1),new Pair("",0),new Pair("Arch",1),new Pair("",0),new Pair("",0),new Pair("Reinforced door",2),new Pair("Fire door",3),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)},
 			
-			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)}
+			{new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("Curtain",1),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0),new Pair("",0)}
 	
 		};
 
@@ -61,7 +64,7 @@ public class Game extends Thread {
         this.player = new Player("Player");
         this.gamemap = this.setUpMap();
         this.objective = new Objective(this.gamemap.get(0), this.gamemap.get(this.gamemap.size()-1));
-        this.place = (Room) this.gamemap.get(9);
+        this.place = (Room) this.gamemap.get(2);
 
         //add the telephone to user's inventory
         telephone = new Telephone("It seems to have not much battery","telephone");
@@ -249,6 +252,18 @@ public class Game extends Thread {
         kitchenkey.forEach(k -> chest_kitchen.addItem(k));
         kitchen_select.addItem(chest_kitchen);
         
+        //---------------------- Bar : Move Key into Ballroom-----------------------
+        Room bar_select = (Room) world.get(9);
+        List<Key> barkey = bar_select.GetPortableItemRoom().stream()
+        .filter(i -> i instanceof Key)
+        .map(i -> (Key) i)
+        .collect(Collectors.toList());
+        barkey.forEach(k -> bar_select.deleteItem(k));
+        
+        Room ballroom_select = (Room) world.get(13);
+        barkey.forEach(k -> ballroom_select.addItem(k));
+        
+        
         return world;
     }
 
@@ -256,6 +271,17 @@ public class Game extends Thread {
     public  void  startGame()
     {
         this.runinig=true;
+        //the game starts, countdown starts...
+        Thread stop = new Thread(() -> {
+            try {
+                //starts countdown
+                sleep(TIME);
+                runGame = false;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        stop.start();
     }
 
     public void stopGame(){
@@ -346,8 +372,11 @@ public class Game extends Thread {
             }else
             {
                 Portable tmp = player.deleteUsableObject(args[1]);
-                if (tmp != null)
+                if (tmp != null){
                     place.addItem((Item) tmp);
+                }else{
+                    System.out.println("what am i supposed to throw??");
+                }
             }
 
         }else {
@@ -395,7 +424,7 @@ public class Game extends Thread {
 
     public void take(String commande) {
 
-        String[] args = commande.split(" ");
+        String[] args = commande.split(" ",2);
         if(args.length == 1){
             //Take all the items at place
             if (place.GetPortableItemRoom().size() > 0){
@@ -415,9 +444,13 @@ public class Game extends Thread {
             //Take a specific item at place
             if(containsObject(args[1]))
             {
-                Portable tmp = place.GetPortableItemRoom().stream().filter( x-> x.toString().equals(args[1])).collect(Collectors.toList()).get(0);
-                place.deleteItem(tmp);
-                player.addInventor(tmp);
+                Portable tmp = place.GetPortableItemRoom().stream().filter( x-> x.toString().equalsIgnoreCase(args[1])).collect(Collectors.toList()).get(0);
+                //if we can add the item in the inventory, delete from the place
+                if (player.addInventor(tmp))
+                {
+                    place.deleteItem(tmp);
+                }
+
             }
             
             else
@@ -433,9 +466,10 @@ public class Game extends Thread {
         boolean flag = false;
 
         for (Portable p : place.GetPortableItemRoom()){
-            if(p.toString().equals(arg)) {
+            if(p.toString().equalsIgnoreCase(arg)) {
                 flag = true;
             }
+
         }
 
         return flag;
@@ -453,25 +487,37 @@ public class Game extends Thread {
             System.out.println(place.describePlace());
             System.out.println(place.describeExit());
         }else{
-            //look at object in place
-            //if look is at Container, we'll get all the objects inside
+            //try to look at objects in player's inventory
+            List<Item> itemInPlayerInventory = player.getObjects().stream()
+                                                .filter(i -> i.toString().equalsIgnoreCase(args[1]))
+                                                .map( i -> (Item) i)
+                                                .collect(Collectors.toList());
+            if (itemInPlayerInventory.size() > 0){
+                for (Item item : itemInPlayerInventory) {
+                    item.look();
+                    confirmCompletedObjectif(itemInPlayerInventory.get(0));
+                }
+            }else{
+                //look at object in place
+                //if look is at Container, we'll get all the objects inside
 
-            //insideItems is the items that are in a container,
-            // if args[1] doesn't match with a container, insideItems = null
-            // is only use to put the items from a container to a place
-            putInsideItemsInPlace(place.describeItem(args[1]));
+                //insideItems is the items that are in a container,
+                // if args[1] doesn't match with a container, insideItems = null
+                // is only use to put the items from a container to a place
+                putInsideItemsInPlace(place.describeItem(args[1]));
 
 
-            /*
-            * get instance of item with name args[1] to confirm is objectif is completed
-            * only get the first position because all the items are called differently
-            * */
-            List<Item> tmp = place.getContains().stream()
-                                          .filter(i -> i.toString().equalsIgnoreCase(args[1]))
-                                          .collect(Collectors.toList());
-            //confirm that there's at least one item in the room called like args[1]
-            if (tmp.size() > 0){
-                confirmCompletedObjectif(tmp.get(0));
+                /*
+                 * get instance of item with name args[1] to confirm is objectif is completed
+                 * only get the first position because all the items are called differently
+                 * */
+                List<Item> tmp = place.getContains().stream()
+                        .filter(i -> i.toString().equalsIgnoreCase(args[1]))
+                        .collect(Collectors.toList());
+                //confirm that there's at least one item in the room called like args[1]
+                if (tmp.size() > 0){
+                    confirmCompletedObjectif(tmp.get(0));
+                }
             }
 
         }
@@ -480,7 +526,11 @@ public class Game extends Thread {
     private void confirmCompletedObjectif(Item item) {
         // ajout la confirmation ici...
         // change this message with the confirmation you need
-        System.out.println(item);
+    	if(this.objective.trigger(item, this.gamemap))
+    	{
+    		System.out.println(Message.telephoneVibrates);
+    	}
+        
     }
 
     //insideItems is the items that are in a container,
@@ -699,7 +749,12 @@ public class Game extends Thread {
                 Exit tmp = place.select(args[1]);
                 place = (Room) tmp.nextPlace();
                 System.out.println(place.getDescription());
-                this.objective.isAccomplished(place);
+                place.describePlace();
+                if (this.objective.isAccomplished(place))
+                {
+                	System.out.println(Message.telephoneVibrates);
+                }
+                
             }
             else 
             {
