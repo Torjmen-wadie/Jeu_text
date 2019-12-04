@@ -105,7 +105,7 @@ public class Room extends Place {
     public String describeExit() {
     	String str = "";
     	if (!(this.exits.isEmpty())) {
-    		str  = "This place have \n";
+    		str  = "This place has the following exits :\n";
     		for (String k :this.exits.keySet()) {
     			str += " - " + k +  "\n";
     		}

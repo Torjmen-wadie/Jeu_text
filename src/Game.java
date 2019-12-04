@@ -2,6 +2,7 @@ import exceptions.ExitPlaceException;
 import exceptions.NotRightKey;
 import exceptions.PlaceException;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ public class Game extends Thread {
     private Objective objective;
     private List<Place> gamemap;
     public static boolean runGame = true;
+    boolean won = false;
     Scanner scanner;
     
     private final static Pair [][] MAP = 
@@ -61,6 +63,20 @@ public class Game extends Thread {
         this.objective = new Objective(this.gamemap.get(0), this.gamemap.get(this.gamemap.size()-1));
         this.place = (Room) this.gamemap.get(0);
     }
+
+    public void menu(){
+        System.out.println(Message.logo);
+        System.out.println("\n\n\t\t\t\t\t\t\t\tPress enter to continue...");
+        //wait until enter is pressed
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(Message.introduction);
+        init();
+    }
     
     
     
@@ -103,82 +119,82 @@ public class Game extends Thread {
         // ---------- 0 Room --------------
         List<Item> room_contain = new ArrayList<Item>();
         room_contain.add(couch_room);
-        Room room =new Room("Room","This is your room which contain a couch",room_contain);
+        Room room =new Room("Room",Message.room,room_contain);
         unlink_place.add(room);
         
         // ---------- 1 Lounge Room --------------
         List<Item> lounge_contain = new ArrayList<Item>();
         	
-        Room lounge=new Room("Lounge Room","you have two key here ... ",lounge_contain);
+        Room lounge=new Room("Lounge Room", Message.loungeRoom,lounge_contain);
         unlink_place.add(lounge);
         
         // ---------- 2 Library --------------
         List<Item> libr_contain = new ArrayList<Item>();
         libr_contain.add(desk_library);
-        Room libr =new Room("Library","you must find the key in the desk...",libr_contain);
+        Room libr =new Room("Library",Message.library,libr_contain);
         unlink_place.add(libr);     
         
         // ---------- 3 Bathroom --------------
         List<Item> bath_contain = new ArrayList<Item>();
-        Room bath=new Room("Bathroom","This is the bathroom which contain a key...",bath_contain);
+        Room bath=new Room("Bathroom", Message.bathroom,bath_contain);
         unlink_place.add(bath);
         
         // ---------- 4 Drain --------------
         List<Item> drain_contain = new ArrayList<Item>();
-        Room drain =new Room("Drain","In the Drain you must find the Extinghuisher...",drain_contain);
+        Room drain =new Room("Drain",Message.drain,drain_contain);
         unlink_place.add(drain);
         
         // ---------- 5 Boiler Room --------------
         List<Item> boiler_contain = new ArrayList<Item>();
         boiler_contain.add(extinct_boileroom);
         boiler_contain.add(letter);
-        Room boiler= new Room("Boiler Room","the Baler Room contain an Extinguisher",boiler_contain);
+        Room boiler= new Room("Boiler Room",Message.boilerRoom ,boiler_contain);
         unlink_place.add(boiler);
         
 	    // ---------- 6 Restaurant --------------
         List<Item> resto_contain = new ArrayList<Item>();
-        Room resto=new Room("Restaurant","there is nothing here you must go out",resto_contain);
+        Room resto=new Room("Restaurant",Message.restaurant ,resto_contain);
         unlink_place.add(resto);
         
         // ---------- 7 Corridor --------------
         List<Item> cori_contain = new ArrayList<Item>();
         cori_contain.add(extinct_corridor);
-        Room cori=new Room("Corridor","here you have a key and an extinguisher ...",cori_contain);
+        Room cori=new Room("Corridor",Message.corridor ,cori_contain);
         unlink_place.add(cori);
         
         // ---------- 8 Game Room --------------
         List<Item> game_contain = new ArrayList<Item>();
-        Room game=new Room("Game Room","you must find the key in this place...",game_contain);
+        Room game=new Room("Game Room",Message.gameRoom,game_contain);
         unlink_place.add(game);
         
         // ---------- 9 Bar --------------
         List<Item> bar_contain = new ArrayList<Item>();
-        Room bar =new Room("Bar","go out ...",bar_contain);
+        Room bar =new Room("Bar",Message.bar,bar_contain);
         unlink_place.add(bar);
         
         // ---------- 10 Kitchen --------------
         List<Item> kit_contain = new ArrayList<Item>();
-        Room kit=new Room("Kitchen","there is key in some where here",kit_contain);
+        Room kit=new Room("Kitchen",Message.kitchen ,kit_contain);
         unlink_place.add(kit);
         
         // ---------- 11 Pantry --------------
         List<Item> pan_contain = new ArrayList<Item>();
-        Room pan=new Room("Pantry","there is key",pan_contain);
+        Room pan=new Room("Pantry",Message.pantry ,pan_contain);
         unlink_place.add(pan);
         
         // ---------- 12 Cold Room --------------
         List<Item> cold_contain = new ArrayList<Item>();
-        Room cold= new Room("Cold Room","there is nothing",cold_contain);
+        Room cold= new Room("Cold Room",Message.coldRoom,cold_contain);
         unlink_place.add(cold);
         
         // ---------- 13 Ballroom --------------
         List<Item> bal_contain = new ArrayList<Item>();
-        Room bal=new Room("Ballroom","there is a key here",bal_contain);
+        Room bal=new Room("Ballroom",Message.ballroom,bal_contain);
         unlink_place.add(bal);
         
         // ---------- 14 Reception --------------
         List<Item> rece_contain = new ArrayList<Item>();
-        Room rece=new Room("Reception","you must go out right now",rece_contain);
+        Room rece=new Room("Reception",Message.reception ,rece_contain);
         unlink_place.add(rece);
         
         
@@ -241,7 +257,14 @@ public class Game extends Thread {
 
     public void init(){
         while (runGame){
+            System.out.println("\n");
             waitingForCommands();
+        }
+
+        if (won){
+            System.out.println(Message.won);
+        }else{
+            System.out.println(Message.loser);
         }
     }
 
@@ -602,6 +625,7 @@ public class Game extends Thread {
             if (args.length > 1){
                 Exit tmp = place.select(args[1]);
                 place = (Room) tmp.nextPlace();
+                System.out.println(place.getDescription());
             }else {
                 System.out.println("Where am i going?");
             }
