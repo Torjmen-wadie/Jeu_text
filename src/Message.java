@@ -128,4 +128,10 @@ public class Message {
             "It's normal to lose, maybe the next time you' re lucky...";
 
     public static final String telephoneVibrates = "\n================ Your telephone vibrates ================";
+
+    public static final String go = "Where am i going?"+
+            "=====================HINT===================== \n" +
+            "Maybe you want to try with :\n" +
+            "- go door\n" +
+            "- go wood door";
 }

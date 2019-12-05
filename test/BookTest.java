@@ -7,7 +7,7 @@ class BookTest {
 Book fisrtBook;
     @BeforeEach
     void setUp() {
-     fisrtBook=new Book("you must finde the key","javaDoc");
+     fisrtBook=new Book("you must find the key","javaDoc");
     }
 
     @Test

@@ -15,8 +15,8 @@ public class Game extends Thread {
     private volatile boolean runGame = true;
     Scanner scanner;
 
-    // time to play? 5 minutes
-    private int TIME = 300000;
+    // time to play? 10 minutes
+    private int TIME = 600000;
     
     private Pair [][] MAP = 
 		{
@@ -57,7 +57,8 @@ public class Game extends Thread {
 
     //    Thread t =new Thread();
     public static volatile boolean runinig;
-    
+
+    //---------------------------------------------------------------------------------------------
     public Game() 
     {
         this.scanner = new Scanner(System.in);
@@ -71,11 +72,13 @@ public class Game extends Thread {
         player.addInventor(telephone);
     }
 
+    // Game menu, wait until enter is pressed
+    //---------------------------------------------------------------------------------------------
     public void menu(){
         System.out.println(Message.logo);
         System.out.println("\n\n\tPress enter to continue...");
-        //wait until enter is pressed
         try {
+            //wait until enter is pressed
             System.in.read();
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,9 +88,9 @@ public class Game extends Thread {
         startGame();
         init();
     }
-    
-    
-    
+
+
+    //---------------------------------------------------------------------------------------------
     public List<Place> setUpMap()
     {
 
@@ -263,9 +266,10 @@ public class Game extends Thread {
         return world;
     }
 
-    //surcharger la méthode run() de classe thread
+    //---------------------------------------------------------------------------------------------
     public  void  startGame()
     {
+        //start running the game
         this.runinig=true;
         //the game starts, countdown starts...
         Thread stop = new Thread(() -> {
@@ -273,18 +277,17 @@ public class Game extends Thread {
                 //starts countdown
                 sleep(TIME);
                 runGame = false;
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e)
+            {
                 e.printStackTrace();
             }
         });
         stop.start();
     }
 
-    public void stopGame(){
-        this.runinig =false;
-    }
-
-
+    // main method to init the game and wait for commands
+    //---------------------------------------------------------------------------------------------
     public void init(){
 
         while (runGame && !(this.objective.isWin()))
@@ -293,7 +296,7 @@ public class Game extends Thread {
             waitingForCommands();
         }
 
-
+        //if all the objectifs were completed
         if (this.objective.isWin())
         {
             System.out.println(Message.won);
@@ -304,22 +307,31 @@ public class Game extends Thread {
         }
     }
 
+    //---------------------------------------------------------------------------------------------
     public void waitingForCommands(){
 
         String commande = scanner.nextLine();
         String[] parts = commande.split(" ");
 
-        if (confirmCommande(parts[0])){
+        // if is a good command => execCommand
+        if (confirmCommande(parts[0]))
+        {
             execCommande(commande);
-        }else{
+        }
+        else
+        {
             System.out.println(Message.gameErrorWait);
         }
     }
 
+    //---------------------------------------------------------------------------------------------
     private void execCommande(String commande) {
+        //delete unnecessary spaces from command
         commande = commande.trim();
         String[] parts = commande.split(" ");
-        switch (Commande.valueOf(parts[0].toUpperCase())){
+
+        switch (Commande.valueOf(parts[0].toUpperCase()))
+        {
             case GO: go(commande);
                 break;
             case USE: use(commande);
@@ -331,8 +343,7 @@ public class Game extends Thread {
             case LOOK:look(commande);
                 break;
 
-            case QUIT:quit(commande);
-                runGame = false;
+            case QUIT: runGame = false;
                 break;
 
             case TAKE:take(commande);
@@ -347,43 +358,63 @@ public class Game extends Thread {
         }
     }
 
+
+    //show items in user's inventory
+    //---------------------------------------------------------------------------------------------
     private void show(String commande) {
-        if (player.getObjects().size() > 0){
+        //whether there are items to show, print a message
+        if (player.getObjects().size() > 0)
+        {
             System.out.println("I have : ");
             player.getObjects().forEach(System.out::println);
-        }else{
+        }
+        else
+        {
             System.out.println("I don't have any object");
         }
     }
 
+
+    //throw a item from the inventory
+    //---------------------------------------------------------------------------------------------
     public void eject(String commande) {
         String[] args = commande.split(" ",2);
 
-        if (args.length > 1){
+        //if the name of the item is in the command
+        if (args.length > 1)
+        {
 
-            // if it's a phone, avoid throw
+            // if it's a telephone, avoid throw
             if (args[1].equalsIgnoreCase("telephone"))
             {
                 System.out.println("I should keep my phone with me...");
             }else
             {
+                //delete the item from the inventory
                 Portable tmp = player.deleteUsableObject(args[1]);
                 if (tmp != null){
                     place.addItem((Item) tmp);
                 }else{
-                    System.out.println("what am i supposed to throw??");
+                    System.out.println("what am i supposed to throw?");
                 }
             }
 
-        }else {
+        }
+        else
+        {   //error message
             System.out.println("What am i supposed to throw?");
         }
     }
 
-    public void open(String commande) {
-        String[] args = commande.split(" ");
 
-        if (args.length > 1 ){
+    //---------------------------------------------------------------------------------------------
+    public void open(String commande) {
+        String[] args = commande.split(" ", 2);
+
+        //if the command has 2 arguments
+        if (args.length > 1 )
+        {
+            //variable pos will have the position in the list for the object we're seeking
             int pos = -1;
             List<Openable> tmp = place.GetOpenableItemRoom();
             // added the items from user to open
@@ -391,56 +422,93 @@ public class Game extends Thread {
             //added the doors to open
             tmp.addAll(place.getDoors());
 
-            for (int i = 0; i < tmp.size(); i++) {
-                if(tmp.get(i).toString().equalsIgnoreCase(args[1])){
+            for (int i = 0; i < tmp.size(); i++)
+            {
+                //if found a item called like args[1], save its position
+                if(tmp.get(i).toString().equalsIgnoreCase(args[1]))
+                {
                     pos = i;
                 }
             }
 
-            // if there's a object with the name args[1]. open it
-            if (pos != -1){
+            // variable pos is different if there's a object called like args[1] in the list
+            if (pos != -1)
+            {
+                //try to open it
                 tmp.get(pos).open();
-                if( tmp.get(pos).isopen() ) {
-                    // TODO : TMP POUR LE MOMENT
+
+                if( tmp.get(pos).isopen() )
+                {
+                    //success to open
                     System.out.println("OPENED");
-                }else{
-                    // TODO : TMP POUR LE MOMENT
+                }
+                else
+                {
+                    //error to open
                     System.out.println("It's still closed");
                 }
-            }else{
+            }
+            else
+            {
+                //there's no object called like args[1] in the list
                 System.out.println(Message.gameErrorWait);
-
-
             }
 
-        }else {
+        }
+        else
+        {
+            //bad number of arguments in command
             System.out.println(Message.gameErrorWait);
         }
     }
 
+
+    //---------------------------------------------------------------------------------------------
     public void take(String commande) {
 
         String[] args = commande.split(" ",2);
-        if(args.length == 1){
+
+        /*
+        * if args.length == 1, take all the objects at place
+        * else take a specific object at place
+        * */
+        if(args.length == 1)
+        {
             //Take all the items at place
-            if (place.GetPortableItemRoom().size() > 0){
+            if (place.GetPortableItemRoom().size() > 0)
+            {
                 System.out.println(Message.gameTake);
-                for (int i = 0; i < place.GetPortableItemRoom().size(); i++) {
+                for (int i = 0; i < place.GetPortableItemRoom().size(); i++)
+                {
+                    // for each object, try to insert in inventory
                     Portable tmp = place.GetPortableItemRoom().get(0);
-                    if( player.addInventor(tmp) ) {
+                    if( player.addInventor(tmp) )
+                    {
+                        //if item inserted in inventory, delete from place
                         place.deleteItem(tmp);
                     }
                 }
 
                 System.out.println(Message.gameTakeAll);
-            }else{
+            }
+            else
+            {
+                //there aren't items in this place to take
                 System.out.println(Message.gameErrorTake);
             }
-        }else{
+        }
+        else
+        {
             //Take a specific item at place
+
+            //confirmation the object is in the place
             if(containsObject(args[1]))
             {
-                Portable tmp = place.GetPortableItemRoom().stream().filter( x-> x.toString().equalsIgnoreCase(args[1])).collect(Collectors.toList()).get(0);
+                Portable tmp = place.GetPortableItemRoom()
+                                            .stream()
+                                            .filter( x-> x.toString().equalsIgnoreCase(args[1]))
+                                            .collect(Collectors.toList())
+                                            .get(0);
                 //if we can add the item in the inventory, delete from the place
                 if (player.addInventor(tmp))
                 {
@@ -448,9 +516,9 @@ public class Game extends Thread {
                 }
 
             }
-            
             else
             {
+                //error, object isn't in the place
                 System.out.println(Message.gameTakeNul);
             }
 
@@ -458,11 +526,16 @@ public class Game extends Thread {
         }
     }
 
+
+    //---------------------------------------------------------------------------------------------
     public boolean containsObject(String arg) {
         boolean flag = false;
 
-        for (Portable p : place.GetPortableItemRoom()){
-            if(p.toString().equalsIgnoreCase(arg)) {
+        for (Portable p : place.GetPortableItemRoom())
+        {
+            //if item is found
+            if(p.toString().equalsIgnoreCase(arg))
+            {
                 flag = true;
             }
 
@@ -471,30 +544,40 @@ public class Game extends Thread {
         return flag;
     }
 
-    private void quit(String commande) {
 
-    }
-
-    //bug, look 2 time
+    //---------------------------------------------------------------------------------------------
     public void look(String commande) {
         String[] args = commande.split(" ", 2);
-        if(args.length == 1){
+        if(args.length == 1)
+        {
             //Look at place
             System.out.println(place.describePlace());
             System.out.println(place.describeExit());
         }else{
+            /*
+            * when looking at object, there are 3 possibles ways...
+            * the item is inside the player's inventory
+            * the item is inside the place
+            * the item doesn't exists
+            * */
+
             //try to look at objects in player's inventory
             List<Item> itemInPlayerInventory = player.getObjects().stream()
                                                 .filter(i -> i.toString().equalsIgnoreCase(args[1]))
                                                 .map( i -> (Item) i)
                                                 .collect(Collectors.toList());
-            if (itemInPlayerInventory.size() > 0){
-                for (Item item : itemInPlayerInventory) {
+
+            //if item is in the player's inventory
+            if (itemInPlayerInventory.size() > 0)
+            {
+                for (Item item : itemInPlayerInventory)
+                {
                     item.look();
+                    //see if the player have succed a objectif
                     confirmCompletedObjectif(itemInPlayerInventory.get(0));
                 }
             }else{
-                //look at object in place
+                //the item may be in the place...
                 //if look is at Container, we'll get all the objects inside
 
                 //insideItems is the items that are in a container,
@@ -511,7 +594,8 @@ public class Game extends Thread {
                         .filter(i -> i.toString().equalsIgnoreCase(args[1]))
                         .collect(Collectors.toList());
                 //confirm that there's at least one item in the room called like args[1]
-                if (tmp.size() > 0){
+                if (tmp.size() > 0)
+                {
                     confirmCompletedObjectif(tmp.get(0));
                 }
             }
@@ -519,10 +603,10 @@ public class Game extends Thread {
         }
     }
 
+    //---------------------------------------------------------------------------------------------
     private void confirmCompletedObjectif(Item item) {
-        // ajout la confirmation ici...
-        // change this message with the confirmation you need
-    	if(this.objective.trigger(item, this.gamemap))
+
+        if(this.objective.trigger(item, this.gamemap))
     	{
     		System.out.println(Message.telephoneVibrates);
     	}
@@ -531,27 +615,37 @@ public class Game extends Thread {
 
     //insideItems is the items that are in a container,
     // null if there aren't items inside
+    //---------------------------------------------------------------------------------------------
     private void putInsideItemsInPlace(List<Item> describeItem) {
         List<Item> insideItems = describeItem;
-        if (insideItems != null){
+        if (insideItems != null)
+        {
             //put all the objects inside place
-            for (Item insideItem : insideItems) {
+            for (Item insideItem : insideItems)
+            {
                 place.addItem(insideItem);
 
             }
         }
     }
 
+
+    // show all the possible commands
+    //---------------------------------------------------------------------------------------------
     public void help() {
         System.out.println(Message.gameHelp);
         Arrays.asList(Commande.values()).forEach(System.out::println);
     }
 
-    private void use(String commande) {
-        String args[] = commande.split(" ");
 
+    //---------------------------------------------------------------------------------------------
+    private void use(String commande) {
+        String[] args = commande.split(" ");
+
+        //if a item was declared in a commande
         if (args.length > 1)
         {
+            //see if there's a usable object that the player has
             List<Usable> usableObjects = player.getUsableObjects();
             if (usableObjects.size() > 0)
             {
@@ -579,16 +673,19 @@ public class Game extends Thread {
             }
             else
             {
+                //the player don't have a usable object
                 System.out.println(Message.gameErrorHelp);
             }
         }
         else
         {
+            //command doesn't have a item to use
             System.out.println(Message.gameUseError);
         }
     }
 
-    // TODO : CHECK THIS METHOD
+
+    //---------------------------------------------------------------------------------------------
     public void useExtinguiser(List<Usable> usableObjects) {
         List<Usable> extinguisers = usableObjects.stream()
                                                     .filter(i -> i instanceof Extinguisher)
@@ -598,9 +695,12 @@ public class Game extends Thread {
                                                                 .map(i -> (Firewall) i)
                                                                 .collect(Collectors.toList());
 
-        if (firewalls.size() > 0 && extinguisers.size() > 0){
-            for (Firewall firewall : firewalls) {
-                for (Usable extinguiser : extinguisers) {
+        if (firewalls.size() > 0 && extinguisers.size() > 0)
+        {
+            for (Firewall firewall : firewalls)
+            {
+                for (Usable extinguiser : extinguisers)
+                {
                     firewall.unlock((Item) extinguiser);
                     try {
                         extinguiser.use(null);
@@ -610,10 +710,14 @@ public class Game extends Thread {
                 }
             }
 
-        }else{
-            if (extinguisers.size() > 0){
+        }
+        else
+        {
+            if (extinguisers.size() > 0)
+            {
 
-                for (Usable extinguiser : extinguisers) {
+                for (Usable extinguiser : extinguisers)
+                {
                     try {
                         extinguiser.use(null);
                     } catch (NotRightKey ignored) {
@@ -624,14 +728,16 @@ public class Game extends Thread {
                 System.out.println("I'm just wasting the extinguisher...");
             }
 
-            if (firewalls.size() > 0){
+            if (firewalls.size() > 0)
+            {
                 System.out.println("I don't have a extinguisher to use...");
             }
         }
 
     }
 
-    // TODO : implements the use of doors with a key
+
+    //---------------------------------------------------------------------------------------------
     public void useChestWithKey(List<Usable> usableObjects) {
 
 
@@ -646,13 +752,14 @@ public class Game extends Thread {
 
         System.out.println("I'm gonna use each key that i have with everything...\n" +
                 "maybe something will work with it\n");
-
-        if(keys.size() > 0 && chests.size()>0){
-            for (Usable key : keys) {
-                for (Openable chest : chests) 
+        if(keys.size() > 0 && chests.size()>0)
+        {
+            for (Usable key : keys)
+            {
+                for (Openable chest : chests)
                 {
-                    try 
-                    {
+
+                    try {
                         System.out.println("I'm trying to open this " + chest.toString());
                         key.use(chest);
 
@@ -681,10 +788,13 @@ public class Game extends Thread {
         }
         else
         {
-            if (keys.size() == 0) 
+
+            if (keys.size() == 0)
             {
                 System.out.println(Message.gameNoKey);
             }
+
+
             if (chests.size() == 0)
             {
                 System.out.println(Message.gameChestKey);
@@ -693,12 +803,16 @@ public class Game extends Thread {
     }
 
     // Delete the rigth key from player's items
+    //---------------------------------------------------------------------------------------------
     private void deleteRightKey(Key tmp) {
-        if (tmp != null){
+        if (tmp != null)
+        {
             player.deleteUsableObject(tmp.toString());
         }
     }
 
+
+    //---------------------------------------------------------------------------------------------
     public void useDoor(List<Usable> usableObjects) {
         List<Key> keys = usableObjects.stream()
                 .filter(usable -> usable instanceof Key)
@@ -731,13 +845,16 @@ public class Game extends Thread {
         }
 
         System.out.println("I finally managed to open");
-        for (Exitwithkey exit : exits) {
+        for (Exitwithkey exit : exits)
+        {
             System.out.println(exit + " \t" + !exit.islock());
         }
 
 
     }
 
+
+    //---------------------------------------------------------------------------------------------
     private void go(String commande) 
     {
         String[] args = commande.split(" ", 2);
@@ -758,7 +875,7 @@ public class Game extends Thread {
             }
             else 
             {
-                System.out.println("Where am i going?");
+                System.out.println(Message.go);
             }
         } 
         catch (ExitPlaceException | PlaceException e) 
@@ -767,12 +884,16 @@ public class Game extends Thread {
         }
     }
 
+    //confirm is a valid commande
+    //---------------------------------------------------------------------------------------------
     public boolean confirmCommande(String commande){
 
         boolean flag = false;
-        for (Commande c : Commande.values()){
+        for (Commande c : Commande.values())
+        {
 
-            if (c.toString().equalsIgnoreCase(commande.trim())){
+            if (c.toString().equalsIgnoreCase(commande.trim()))
+            {
                 flag = true;
             }
 
@@ -780,11 +901,16 @@ public class Game extends Thread {
         return flag;
     }
 
+
+    // GETTERS
+    //---------------------------------------------------------------------------------------------
     public Player getPlayer() {
         return player;
     }
 
-    public Room getPlace() {
+
+    //---------------------------------------------------------------------------------------------
+     public Room getPlace() {
         return place;
     }
 
