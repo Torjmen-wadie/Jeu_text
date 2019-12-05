@@ -1,11 +1,16 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import exceptions.PlaceException;
+
+/* 
+ * Testing 
+ * Testing with Junit Jupiter Test Library (See import org.junit.jupiter.api)
+ * Runs 11/11 	Errors : 0 		Failures : 0 
+ * This class Testing some behavior of Exit.
+*/
 
 class ExitTest {
 
@@ -23,7 +28,7 @@ class ExitTest {
 	
 	
     @BeforeEach
-    void setUp() {
+    public void setUp() {
     	// Initialization of objects for start
     	start = new Room("Room", "Dark, where the urge to flee is becoming oppressive",null);
     	
@@ -35,30 +40,29 @@ class ExitTest {
     	falsek = new Key("Key",54321);
 
 
-    	// TODO : Change the lvlWater from the Extinguisher, i put 0 but i don't know it it's the good way
     	extinct = new Extinguisher("Extinct", 0);
     	Item Default = new Extinguisher("Toto", 0);
     	
     
     	// Initialization of exit
-        exit = new Exit(start, reach, "Door");
-        lockexit = new Exitwithlock(start, reach, "Wooden door");
-        keyexit = new Exitwithkey(start, reach, "Iron Grid", k);
-        objectexit = new Exitwithobject(start, reach, "Wall of fire", Default);
+        exit = new Exit(start, reach, "Door",true);
+        lockexit = new Exitwithlock(start, reach, "Wooden door",true);
+        keyexit = new Exitwithkey(start, reach, "Iron Grid", true,k);
+        objectexit = new Exitwithobject(start, reach, "Wall of fire", true,Default);
         
         
         
     }
 
     @Test
-    void testchangePlace() throws PlaceException 
+    public void testchangePlace() throws PlaceException 
     {
     	exit.open();
     	assertEquals(exit.nextPlace(), reach);	
     }
 
     @Test
-    void testopenExit() {
+    public void testopenExit() {
     	assertFalse(exit.isopen());
     	exit.close();
     	assertFalse(exit.isopen());
@@ -67,7 +71,7 @@ class ExitTest {
     }
 
     @Test
-    void testunlockAndOpen() 
+    public void testunlockAndOpen() 
     {
     	lockexit.unlock();
     	lockexit.open();
@@ -76,14 +80,14 @@ class ExitTest {
     }
     
     @Test
-    void testdefaultValueExitwithlock() 
+    public void testdefaultValueExitwithlock() 
     {
     	assertFalse(lockexit.isopen());
     	assertTrue(lockexit.islock());
     }
     
     @Test
-    void testpenetratingWhenLock() 
+    public void testpenetratingWhenLock() 
     {
     	lockexit.close();
     	assertTrue(lockexit.islock());
@@ -93,7 +97,7 @@ class ExitTest {
     }
     
     @Test
-    void testgoingThroughWhenLock()
+    public void testgoingThroughWhenLock()
     {
     	assertThrows(PlaceException.class, () -> {
     		lockexit.nextPlace();
@@ -101,7 +105,7 @@ class ExitTest {
     }
     
     @Test
-    void testunlockButNotOpen()
+    public void testunlockButNotOpen()
     {
     	lockexit.unlock();
     	assertFalse(lockexit.isopen());
@@ -110,7 +114,7 @@ class ExitTest {
     
     
     @Test
-    void testopenWithGoodKey() 
+    public void testopenWithGoodKey() 
     {
     	keyexit.unlock(k);
     	assertFalse(keyexit.islock());
@@ -120,7 +124,7 @@ class ExitTest {
     }
     
     @Test
-    void testopenWithFalseKey() 
+    public void testopenWithFalseKey() 
     {
     	keyexit.unlock(falsek);
     	keyexit.open();
@@ -128,7 +132,7 @@ class ExitTest {
     }
     
     @Test
-    void testtryToUnlockWithoutKey()
+    public void testtryToUnlockWithoutKey()
     {
     	keyexit.unlock();
     	keyexit.open();
@@ -137,7 +141,7 @@ class ExitTest {
     }
     
     @Test
-    void testOpenWithItem()
+    public void testOpenWithItem()
     {
     	objectexit.unlock(k);
     	keyexit.open();
@@ -149,6 +153,4 @@ class ExitTest {
     	assertTrue(objectexit.isopen());
 
     }
-    
- 
 }
